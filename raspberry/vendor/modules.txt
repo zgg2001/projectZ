@@ -1,0 +1,15 @@
+# github.com/eclipse/paho.mqtt.golang v1.4.2
+## explicit
+github.com/eclipse/paho.mqtt.golang
+github.com/eclipse/paho.mqtt.golang/packets
+# github.com/gorilla/websocket v1.4.2
+github.com/gorilla/websocket
+# github.com/rogpeppe/godef v1.1.2
+## explicit
+# golang.org/x/net v0.3.0
+## explicit
+golang.org/x/net/internal/socks
+golang.org/x/net/proxy
+# golang.org/x/sync v0.1.0
+## explicit
+golang.org/x/sync/semaphore
