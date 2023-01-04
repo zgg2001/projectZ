@@ -1,32 +1,65 @@
+#include <string.h>
 #include <SimpleDHT.h>
+#include <WiFi.h>
+#include "WiFiClient.h"
+#include "Adafruit_MQTT.h"
+#include "Adafruit_MQTT_Client.h"
 
-#define LED 4 //灯
-#define LDR 13 //光敏
-#define TH 12 //温湿度
-#define FLAME 14 //火焰
-#define GAS 27 //可燃气体
-#define SRTRIG 18 //超声波发出
-#define SRECHO 5 //超声波接收
+#define WLAN_SSID "123"
+#define WLAN_PASS "12345678"
+
+#define MQTT_SERVER "192.168.53.133"
+#define MQTT_SERVERPORT 1883
+
+#define MQTT_USERNAME "test1"
+#define MQTT_PASSWORD "a123456"
+
+#define LED 4      //灯
+#define LDR 27     //光敏
+#define TH 25      //温湿度
+#define FLAME 14   //火焰
+#define GAS 13     //可燃气体
+#define SRTRIG 18  //超声波发出
+#define SRECHO 5   //超声波接收
 
 SemaphoreHandle_t mutexHandle;
+WiFiClient client;
+Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_SERVERPORT, MQTT_USERNAME, MQTT_PASSWORD);
+Adafruit_MQTT_Publish pub = Adafruit_MQTT_Publish(&mqtt, "my/mqtt/topic");
 SimpleDHT11 dht11(TH);
 
-int Intensity = 0; //光照度数值
-int Temperature = 0; //温度
-int Humidity = 0; //湿度
-int IsFlame = 0; //火焰
-int IsFlammable = 0; //可燃气体
-unsigned long Distance = 0; //超声波距离
+int IsDark = 0;              //光照 - LED 0灭1亮
+int Temperature = 0;         //温度
+int Humidity = 0;            //湿度
+int IsFlame = 1;             //火焰 - 0报警
+int IsFlammable = 1;         //可燃气体 - 0报警
+unsigned long Distance = 0;  //超声波距离
 
+//MQTT connect
+void MQTT_connect();
 //超声波探距
 unsigned long sr_ping();
 
-void setup() {  
+void setup() {
   pinMode(LED, OUTPUT);
-  pinMode(SRTRIG, OUTPUT); 
+  pinMode(SRTRIG, OUTPUT);
   mutexHandle = xSemaphoreCreateMutex();
   Serial.begin(115200);
+
+  WiFi.begin(WLAN_SSID, WLAN_PASS);
   vTaskDelay(pdMS_TO_TICKS(1000));
+  Serial.print("Connecting to ");
+  Serial.println(WLAN_SSID);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  vTaskDelay(pdMS_TO_TICKS(1000));
+
   xTaskCreate(
     task1,   /* Task function. */
     "Task1", /* String with name of task. */
@@ -49,8 +82,8 @@ void loop() {
   ret = xSemaphoreTake(mutexHandle, 1000);
   if (ret == pdPASS) {
     //光敏数据
-    Intensity = analogRead(LDR);  //读取GPIO的值，存入Intensity变量
-    if(Intensity < 3000) {
+    IsDark = digitalRead(LDR);  //读取GPIO的值，存入Intensity变量
+    if (IsDark == 0) {
       digitalWrite(LED, LOW);
     } else {
       digitalWrite(LED, HIGH);
@@ -61,14 +94,14 @@ void loop() {
     int err = SimpleDHTErrSuccess;
     if ((err = dht11.read(&temperature, &humidity, NULL)) == SimpleDHTErrSuccess) {
       Temperature = (int)temperature - 1;
-      Humidity = (int)humidity + 8; 
+      Humidity = (int)humidity + 8;
     }
     //火焰数据
-    IsFlame = analogRead(FLAME);
+    IsFlame = digitalRead(FLAME);
     //可燃气体数据
-    IsFlammable = analogRead(GAS);
+    IsFlammable = digitalRead(GAS);
     //超声波数据
-    Distance = sr_ping()/58;
+    Distance = sr_ping() / 58;
     xSemaphoreGive(mutexHandle);
     vTaskDelay(pdMS_TO_TICKS(1000));
   } else {
@@ -77,29 +110,34 @@ void loop() {
 }
 
 void task1(void *parameter) {
-  BaseType_t ret;  
-  vTaskDelay(pdMS_TO_TICKS(1000));
+  BaseType_t ret;
+  char buf[15];  //xx-xxx-xxx-x-x\0
+  vTaskDelay(pdMS_TO_TICKS(5000));
   while (1) {
     ret = xSemaphoreTake(mutexHandle, 1000);
     if (ret == pdPASS) {
-      Serial.println();      
+      Serial.println();
       //光照
-      Serial.print("Intensity = ");  
-      Serial.println(Intensity);
+      Serial.print("IsDark = ");
+      Serial.println(IsDark);
       //温湿度
-      Serial.print("Temperature(°C) = "); 
-      Serial.println(Temperature); 
-      Serial.print("Humidity(H) = "); 
-      Serial.println(Humidity);  
+      Serial.print("Temperature(°C) = ");
+      Serial.println(Temperature);
+      Serial.print("Humidity(H) = ");
+      Serial.println(Humidity);
       //火焰
-      Serial.print("IsFlame = ");  
+      Serial.print("IsFlame = ");
       Serial.println(IsFlame);
       //可燃气体
-      Serial.print("IsFlammable = ");  
+      Serial.print("IsFlammable = ");
       Serial.println(IsFlammable);
       //超声波
       Serial.print("Distance(cm) = ");
       Serial.println(Distance);
+      snprintf(buf, 15, "%02d:%03d:%03d:%01d:%01d", 1, Temperature, Humidity, IsFlame, IsFlammable);
+      //MQTT connect and send
+      MQTT_connect();
+      pub.publish(buf);
       xSemaphoreGive(mutexHandle);
       vTaskDelay(pdMS_TO_TICKS(5000));
     } else {
@@ -115,7 +153,18 @@ void task2(void *parameter) {
   vTaskDelete(NULL);
 }
 
-unsigned long sr_ping() { 
+void MQTT_connect() {
+  int8_t ret;
+  if (mqtt.connected()) {
+    return;
+  }
+  while ((ret = mqtt.connect()) != 0) {
+    mqtt.disconnect();
+    delay(5000);
+  }
+}
+
+unsigned long sr_ping() {
   digitalWrite(SRTRIG, HIGH);
   vTaskDelay(pdMS_TO_TICKS(10));
   digitalWrite(SRTRIG, LOW);
