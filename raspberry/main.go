@@ -34,14 +34,13 @@ func main() {
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
+	defer client.Disconnect(250)
 
 	sub(client)
 
 	for {
 
 	}
-
-	client.Disconnect(250)
 }
 
 //订阅
