@@ -21,6 +21,8 @@
 #define GAS 13     //可燃气体
 #define SRTRIG 18  //超声波发出
 #define SRECHO 5   //超声波接收
+#define BUZZER 19  //蜂鸣器
+#define SERVO 32   //舵机A
 
 SemaphoreHandle_t mutexHandle;
 WiFiClient client;
@@ -34,15 +36,22 @@ int Humidity = 0;            //湿度
 int IsFlame = 1;             //火焰 - 0报警
 int IsFlammable = 1;         //可燃气体 - 0报警
 unsigned long Distance = 0;  //超声波距离
+int IsWarn = 0;              //是否蜂鸣警告中
 
 //MQTT connect
 void MQTT_connect();
 //超声波探距
 unsigned long sr_ping();
+//舵机上锁模式
+void servo_lock();
+//舵机下锁模式
+void servo_lock_down();
 
 void setup() {
   pinMode(LED, OUTPUT);
   pinMode(SRTRIG, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+  pinMode(SERVO, OUTPUT);
   mutexHandle = xSemaphoreCreateMutex();
   Serial.begin(115200);
 
@@ -59,7 +68,6 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   vTaskDelay(pdMS_TO_TICKS(1000));
-
   xTaskCreate(
     task1,   /* Task function. */
     "Task1", /* String with name of task. */
@@ -100,6 +108,16 @@ void loop() {
     IsFlame = digitalRead(FLAME);
     //可燃气体数据
     IsFlammable = digitalRead(GAS);
+    //报警
+    if (IsFlame == 0 || IsFlammable == 0) {
+      if (IsWarn == 0) {
+        tone(BUZZER, 330);
+        IsWarn = 1;
+      }
+    } else if (IsWarn == 1) {
+      noTone(BUZZER);
+      IsWarn = 0;
+    }
     //超声波数据
     Distance = sr_ping() / 58;
     xSemaphoreGive(mutexHandle);
@@ -169,4 +187,24 @@ unsigned long sr_ping() {
   vTaskDelay(pdMS_TO_TICKS(10));
   digitalWrite(SRTRIG, LOW);
   return pulseIn(SRECHO, HIGH);
+}
+
+void servo_lock() {
+  for(int i = 0; i<100; i++)
+  {
+    digitalWrite(SERVO,HIGH);
+    delayMicroseconds(500);//1.5ms
+    digitalWrite(SERVO,LOW);
+    delayMicroseconds(19500);//18.5ms
+  }
+}
+
+void servo_lock_down() {
+  for(int i = 0; i<100; i++)
+  {
+    digitalWrite(SERVO,HIGH);
+    delayMicroseconds(1500);//1.5ms
+    digitalWrite(SERVO,LOW);
+    delayMicroseconds(18500);//18.5ms
+  }
 }
