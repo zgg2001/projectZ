@@ -19,9 +19,9 @@
 #define TH 25      //温湿度
 #define FLAME 14   //火焰
 #define GAS 13     //可燃气体
-#define SRTRIG 18  //超声波发出
-#define SRECHO 5   //超声波接收
-#define BUZZER 19  //蜂鸣器
+#define SRTRIG 5   //超声波发出
+#define SRECHO 18  //超声波接收
+#define BUZZER 26  //蜂鸣器
 #define SERVO 32   //舵机A
 
 SemaphoreHandle_t mutexHandle;
