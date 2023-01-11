@@ -77,24 +77,28 @@ if __name__ == '__main__':
         last_time = time.time()
         while True:
             ret, frame = cap.read()
-            distance1 = checkdist(Trig_Pin1, Echo_Pin1)
-            if servo_status == 0 and time.time() - last_time > detection_interval and distance1 < 30:
-                # 拍照
-                cv2.imwrite('./tmp/tmp.jpg', frame) 
-                # 分析
-                image = cv2.imread('./tmp/tmp.jpg')
-                res = HyperLPR_plate_recognition(image)
-                if len(res):
-                    plate = res[0][0]
-                    msg = plate.encode() + bytes('\n', 'utf-8')
-                    os.write(wf, msg)
-                    servo_status = 1
-                last_time = time.time()
+            if servo_status == 0 and time.time() - last_time > detection_interval:
+                distance1 = checkdist(Trig_Pin1, Echo_Pin1)
+                # print(distance1)
+                if distance1 < 30:
+                    # 拍照
+                    cv2.imwrite('./tmp/tmp.jpg', frame) 
+                    # 分析
+                    image = cv2.imread('./tmp/tmp.jpg')
+                    res = HyperLPR_plate_recognition(image)
+                    if len(res):
+                        plate = res[0][0]
+                        msg = plate.encode() + bytes('\n', 'utf-8')
+                        os.write(wf, msg)
+                        servo_status = 1
+                    last_time = time.time()
+                else:
+                    time.sleep(1)
             elif servo_status == 1:
                 # 验证逻辑
-                print(plate)
+                # print(plate)
                 ret = os.read(rf, 10).decode()
-                print(ret)
+                # print(ret)
                 if ret == "pass":
                     servo_status = 2
                 else:
@@ -107,7 +111,7 @@ if __name__ == '__main__':
                 servo_status = 3
             elif servo_status == 3 and time.time() - last_time > rise_time:
                 distance2 = checkdist(Trig_Pin2, Echo_Pin2)
-                print(distance2)
+                # print(distance2)
                 if distance2 > 10:
                     # 落杆
                     # print("down")
@@ -115,8 +119,6 @@ if __name__ == '__main__':
                     servo_status = 0
                 else:
                     time.sleep(1)
-            else:
-                time.sleep(1)
     except BaseException:
         GPIO.cleanup()
         cap.release()
