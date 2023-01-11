@@ -42,6 +42,12 @@ dirs = './tmp'
 if not os.path.exists(dirs):
     os.makedirs(dirs)
 
+# 管道
+pipe_read  = "./tmp/pipe.2"
+pipe_write = "./tmp/pipe.1"
+rf = os.open(pipe_read, os.O_RDONLY | os.O_NONBLOCK)
+wf = os.open(pipe_write, os.O_SYNC | os.O_CREAT | os.O_RDWR)
+
 time.sleep(1)
 
 # get distance
@@ -72,7 +78,7 @@ if __name__ == '__main__':
         while True:
             ret, frame = cap.read()
             distance1 = checkdist(Trig_Pin1, Echo_Pin1)
-            if servo_status == 0 and distance1 < 25 and time.time() - last_time > detection_interval:
+            if servo_status == 0 and time.time() - last_time > detection_interval and distance1 < 30:
                 # 拍照
                 cv2.imwrite('./tmp/tmp.jpg', frame) 
                 # 分析
@@ -80,18 +86,22 @@ if __name__ == '__main__':
                 res = HyperLPR_plate_recognition(image)
                 if len(res):
                     plate = res[0][0]
+                    msg = plate.encode() + bytes('\n', 'utf-8')
+                    os.write(wf, msg)
                     servo_status = 1
                 last_time = time.time()
             elif servo_status == 1:
                 # 验证逻辑
                 print(plate)
-                if plate == "沪AZ0001":
+                ret = os.read(rf, 10).decode()
+                print(ret)
+                if ret == "pass":
                     servo_status = 2
                 else:
                     servo_status = 0
             elif servo_status == 2:
                 # 抬杆
-                print("lift")
+                # print("lift")
                 last_time = time.time()
                 setServoAngle(servo_pin, servo_lift)
                 servo_status = 3
@@ -100,12 +110,13 @@ if __name__ == '__main__':
                 print(distance2)
                 if distance2 > 10:
                     # 落杆
-                    print("down")
+                    # print("down")
                     setServoAngle(servo_pin, servo_down)
                     servo_status = 0
                 else:
                     time.sleep(1)
-    except KeyboardInterrupt:
+            else:
+                time.sleep(1)
+    except BaseException:
         GPIO.cleanup()
         cap.release()
-        cv2.destroyAllWindows()
