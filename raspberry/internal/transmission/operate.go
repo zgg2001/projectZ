@@ -1,0 +1,50 @@
+package transmission
+
+import (
+	"fmt"
+	"log"
+
+	mqtt "github.com/eclipse/paho.mqtt.golang"
+)
+
+var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
+	log.Println("Mqtt Connected")
+}
+
+var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err error) {
+	log.Printf("Mqtt Connect lost: %v", err)
+}
+
+func MqttNewClient() mqtt.Client {
+	// mqtt服务架设
+	opts := mqtt.NewClientOptions()
+	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", MQTT_SERVER_IP, MQTT_SERVER_PORT))
+	opts.SetClientID("go_mqtt_client")
+	opts.SetUsername(MQTT_READ_USERNAME)
+	opts.SetPassword(MQTT_READ_PASSWORD)
+	opts.SetDefaultPublishHandler(messagePubHandler)
+	opts.OnConnect = connectHandler
+	opts.OnConnectionLost = connectLostHandler
+	client := mqtt.NewClient(opts)
+	if token := client.Connect(); token.Wait() && token.Error() != nil {
+		log.Panic("Error connect client", token.Error())
+	}
+	return client
+}
+
+func MqttDeleteClient(client mqtt.Client) {
+	client.Disconnect(222)
+}
+
+// 订阅
+func MqttSub(client mqtt.Client) {
+	topic := "my/mqtt/topic"
+	token := client.Subscribe(topic, 1, nil)
+	token.Wait()
+	log.Printf("Mqtt subscribed to topic %s\n", topic)
+}
+
+// 订阅消息处理
+var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
+	log.Printf("Received message: %s from topic: %s\n", msg.Payload(), msg.Topic())
+}

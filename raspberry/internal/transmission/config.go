@@ -1,0 +1,8 @@
+package transmission
+
+const (
+	MQTT_SERVER_IP     = "192.168.160.133"
+	MQTT_SERVER_PORT   = 1883
+	MQTT_READ_USERNAME = "test2"
+	MQTT_READ_PASSWORD = "b123456"
+)

@@ -119,6 +119,8 @@ if __name__ == '__main__':
                     servo_status = 0
                 else:
                     time.sleep(1)
+            else:
+                time.sleep(0.1)
     except BaseException:
         GPIO.cleanup()
         cap.release()
