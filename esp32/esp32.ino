@@ -5,29 +5,34 @@
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 
+#define ESP32_ID 1
+
 #define WLAN_SSID "123"
 #define WLAN_PASS "12345678"
 
-#define MQTT_SERVER "192.168.53.133"
+#define MQTT_SERVER "192.168.6.133"
 #define MQTT_SERVERPORT 1883
 
 #define MQTT_USERNAME "test1"
 #define MQTT_PASSWORD "a123456"
+#define MQTT_DATA_TOPIC "pi/esp32/data"
+#define MQTT_CMD_TOPIC "pi/esp32/cmd"
 
 #define LED 4      //灯
 #define LDR 27     //光敏
 #define TH 25      //温湿度
 #define FLAME 14   //火焰
 #define GAS 13     //可燃气体
-#define SRTRIG 5   //超声波发出
-#define SRECHO 18  //超声波接收
+#define SRTRIG 5  //超声波发出
+#define SRECHO 18   //超声波接收
 #define BUZZER 26  //蜂鸣器
 #define SERVO 32   //舵机A
 
 SemaphoreHandle_t mutexHandle;
 WiFiClient client;
 Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_SERVERPORT, MQTT_USERNAME, MQTT_PASSWORD);
-Adafruit_MQTT_Publish pub = Adafruit_MQTT_Publish(&mqtt, "my/mqtt/topic");
+Adafruit_MQTT_Publish pub = Adafruit_MQTT_Publish(&mqtt, MQTT_DATA_TOPIC);
+Adafruit_MQTT_Subscribe sub = Adafruit_MQTT_Subscribe(&mqtt, MQTT_CMD_TOPIC);
 SimpleDHT11 dht11(TH);
 
 int IsDark = 0;              //光照 - LED 0灭1亮
@@ -67,7 +72,12 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
+  mqtt.subscribe(&sub);  
+
+  servo_lock();
   vTaskDelay(pdMS_TO_TICKS(1000));
+  servo_lock_down();
+  
   xTaskCreate(
     task1,   /* Task function. */
     "Task1", /* String with name of task. */
@@ -152,10 +162,10 @@ void task1(void *parameter) {
       //超声波
       Serial.print("Distance(cm) = ");
       Serial.println(Distance);
-      snprintf(buf, 15, "%02d:%03d:%03d:%01d:%01d", 1, Temperature, Humidity, IsFlame, IsFlammable);
+      snprintf(buf, 15, "%02d:%03d:%03d:%01d:%01d", ESP32_ID, Temperature, Humidity, IsFlame, IsFlammable);
       //MQTT connect and send
-      MQTT_connect();
-      pub.publish(buf);
+      //MQTT_connect();
+      //pub.publish(buf);
       xSemaphoreGive(mutexHandle);
       vTaskDelay(pdMS_TO_TICKS(5000));
     } else {
@@ -167,7 +177,17 @@ void task1(void *parameter) {
 }
 
 void task2(void *parameter) {
-  //Serial.println("Ending task 2");
+  while (1) {
+    MQTT_connect();
+    Adafruit_MQTT_Subscribe *subscription;
+    while((subscription = mqtt.readSubscription(1000))) {
+      if(subscription == &sub) {
+        Serial.print("Got: ");
+        Serial.println((char*)sub.lastread);
+      }
+    }
+  }
+  Serial.println("Ending task 2");
   vTaskDelete(NULL);
 }
 
