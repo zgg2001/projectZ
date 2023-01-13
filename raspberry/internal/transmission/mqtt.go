@@ -45,7 +45,7 @@ func MqttPub(client mqtt.Client, msg string) {
 
 // 订阅
 func MqttSub(client mqtt.Client) {
-	topic := MqttWriteCmdTopic
+	topic := MqttReadDataTopic
 	token := client.Subscribe(topic, 1, nil)
 	token.Wait()
 	log.Printf("Mqtt subscribed to topic %s\n", topic)
