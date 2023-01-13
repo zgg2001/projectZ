@@ -31,7 +31,6 @@ void mqtt_client::mqtt_connect() {
     _mqtt->disconnect();
     vTaskDelay(pdMS_TO_TICKS(5000));
   }
-  Serial.println("mqtt connect");
 }
 
 void mqtt_client::mqtt_pub(string msg) {
