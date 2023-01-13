@@ -1,38 +1,32 @@
 #include <string.h>
 #include <SimpleDHT.h>
 #include <WiFi.h>
-#include "WiFiClient.h"
-#include "Adafruit_MQTT.h"
-#include "Adafruit_MQTT_Client.h"
+#include "my_mqtt.h"
 
 #define ESP32_ID 1
 
 #define WLAN_SSID "123"
 #define WLAN_PASS "12345678"
 
-#define MQTT_SERVER "192.168.6.133"
-#define MQTT_SERVERPORT 1883
-
-#define MQTT_USERNAME "test1"
-#define MQTT_PASSWORD "a123456"
-#define MQTT_DATA_TOPIC "pi/esp32/data"
-#define MQTT_CMD_TOPIC "pi/esp32/cmd"
+constexpr char MQTT_SERVER[] = "192.168.6.133";
+constexpr uint16_t MQTT_SERVERPORT = 1883;
+constexpr char MQTT_USERNAME[] = "test1";
+constexpr char MQTT_PASSWORD[] = "a123456";
+constexpr char MQTT_DATA_TOPIC[] = "pi/esp32/data";
+constexpr char MQTT_CMD_TOPIC[] = "pi/esp32/cmd";
 
 #define LED 4      //灯
 #define LDR 27     //光敏
 #define TH 25      //温湿度
 #define FLAME 14   //火焰
 #define GAS 13     //可燃气体
-#define SRTRIG 5  //超声波发出
-#define SRECHO 18   //超声波接收
+#define SRTRIG 5   //超声波发出
+#define SRECHO 18  //超声波接收
 #define BUZZER 26  //蜂鸣器
 #define SERVO 32   //舵机A
 
 SemaphoreHandle_t mutexHandle;
-WiFiClient client;
-Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_SERVERPORT, MQTT_USERNAME, MQTT_PASSWORD);
-Adafruit_MQTT_Publish pub = Adafruit_MQTT_Publish(&mqtt, MQTT_DATA_TOPIC);
-Adafruit_MQTT_Subscribe sub = Adafruit_MQTT_Subscribe(&mqtt, MQTT_CMD_TOPIC);
+mqtt_client *mymqtt;
 SimpleDHT11 dht11(TH);
 
 int IsDark = 0;              //光照 - LED 0灭1亮
@@ -43,8 +37,6 @@ int IsFlammable = 1;         //可燃气体 - 0报警
 unsigned long Distance = 0;  //超声波距离
 int IsWarn = 0;              //是否蜂鸣警告中
 
-//MQTT connect
-void MQTT_connect();
 //超声波探距
 unsigned long sr_ping();
 //舵机上锁模式
@@ -72,12 +64,10 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
-  mqtt.subscribe(&sub);  
+  //mqtt
+  mymqtt = new mqtt_client(MQTT_SERVER, MQTT_SERVERPORT, MQTT_USERNAME, MQTT_PASSWORD, MQTT_DATA_TOPIC, MQTT_CMD_TOPIC);
+  mymqtt->init();
 
-  servo_lock();
-  vTaskDelay(pdMS_TO_TICKS(1000));
-  servo_lock_down();
-  
   xTaskCreate(
     task1,   /* Task function. */
     "Task1", /* String with name of task. */
@@ -164,8 +154,6 @@ void task1(void *parameter) {
       Serial.println(Distance);
       snprintf(buf, 15, "%02d:%03d:%03d:%01d:%01d", ESP32_ID, Temperature, Humidity, IsFlame, IsFlammable);
       //MQTT connect and send
-      //MQTT_connect();
-      //pub.publish(buf);
       xSemaphoreGive(mutexHandle);
       vTaskDelay(pdMS_TO_TICKS(5000));
     } else {
@@ -178,28 +166,10 @@ void task1(void *parameter) {
 
 void task2(void *parameter) {
   while (1) {
-    MQTT_connect();
-    Adafruit_MQTT_Subscribe *subscription;
-    while((subscription = mqtt.readSubscription(1000))) {
-      if(subscription == &sub) {
-        Serial.print("Got: ");
-        Serial.println((char*)sub.lastread);
-      }
-    }
+    mymqtt->mqtt_sub(1000);
   }
   Serial.println("Ending task 2");
   vTaskDelete(NULL);
-}
-
-void MQTT_connect() {
-  int8_t ret;
-  if (mqtt.connected()) {
-    return;
-  }
-  while ((ret = mqtt.connect()) != 0) {
-    mqtt.disconnect();
-    delay(5000);
-  }
 }
 
 unsigned long sr_ping() {
@@ -210,21 +180,19 @@ unsigned long sr_ping() {
 }
 
 void servo_lock() {
-  for(int i = 0; i<100; i++)
-  {
-    digitalWrite(SERVO,HIGH);
-    delayMicroseconds(500);//1.5ms
-    digitalWrite(SERVO,LOW);
-    delayMicroseconds(19500);//18.5ms
+  for (int i = 0; i < 100; i++) {
+    digitalWrite(SERVO, HIGH);
+    delayMicroseconds(500);  //1.5ms
+    digitalWrite(SERVO, LOW);
+    delayMicroseconds(19500);  //18.5ms
   }
 }
 
 void servo_lock_down() {
-  for(int i = 0; i<100; i++)
-  {
-    digitalWrite(SERVO,HIGH);
-    delayMicroseconds(1500);//1.5ms
-    digitalWrite(SERVO,LOW);
-    delayMicroseconds(18500);//18.5ms
+  for (int i = 0; i < 100; i++) {
+    digitalWrite(SERVO, HIGH);
+    delayMicroseconds(1500);  //1.5ms
+    digitalWrite(SERVO, LOW);
+    delayMicroseconds(18500);  //18.5ms
   }
 }
