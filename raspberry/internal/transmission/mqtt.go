@@ -16,7 +16,6 @@ var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err
 }
 
 func MqttNewClient() mqtt.Client {
-	// mqtt服务架设
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", MqttServerIp, MqttServerPort))
 	opts.SetClientID("go_mqtt_client")
@@ -36,9 +35,17 @@ func MqttDeleteClient(client mqtt.Client) {
 	client.Disconnect(222)
 }
 
+// 发布
+func MqttPub(client mqtt.Client, msg string) {
+	topic := MqttWriteCmdTopic
+	token := client.Publish(topic, 0, false, msg)
+	token.Wait()
+	log.Printf("Mqtt published msg to topic %s\n", topic)
+}
+
 // 订阅
 func MqttSub(client mqtt.Client) {
-	topic := "my/mqtt/topic"
+	topic := MqttWriteCmdTopic
 	token := client.Subscribe(topic, 1, nil)
 	token.Wait()
 	log.Printf("Mqtt subscribed to topic %s\n", topic)
