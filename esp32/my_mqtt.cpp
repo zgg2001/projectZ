@@ -1,7 +1,8 @@
 #include "my_mqtt.h"
 
-mqtt_client::mqtt_client(const char* ip, uint16_t port, const char* name, const char* passwd, const char* pub, const char* sub)
-  : _server_ip(ip),
+mqtt_client::mqtt_client(int id, const char* ip, uint16_t port, const char* name, const char* passwd, const char* pub, const char* sub)
+  : _esp32_id(id),
+    _server_ip(ip),
     _server_port(port),
     _username(name),
     _password(passwd),
@@ -33,18 +34,36 @@ void mqtt_client::mqtt_connect() {
   }
 }
 
-void mqtt_client::mqtt_pub(string msg) {
+void mqtt_client::mqtt_pub(const string& msg) {
   mqtt_connect();
   _pub->publish(msg.c_str());
 }
 
-void mqtt_client::mqtt_sub(int millisecond) {
+int mqtt_client::mqtt_sub(int millisecond, string& msg) {
   mqtt_connect();
   Adafruit_MQTT_Subscribe* subscription;
   while ((subscription = _mqtt->readSubscription(millisecond))) {
     if (subscription == _sub) {
-      Serial.print("Got: ");
-      Serial.println((char*)_sub->lastread);
+      msg = (char*)_sub->lastread;
+      return HAVE_NEW_MSG;
     }
   }
+  return NO_NEW_MSG;
+}
+
+int mqtt_client::parse_cmd(const string& msg) {
+  size_t pos = msg.find(":");
+  string id_str = msg.substr(0, pos);
+  string cmd_str = msg.substr(pos + 1, msg.size());
+  int id, cmd;
+  try {
+    id = stoi(id_str);
+    cmd = stoi(cmd_str);
+  } catch (...) {
+    return INVALID_CMD;
+  }
+  if (id != _esp32_id) {
+    return INVALID_CMD;
+  }
+  return cmd;
 }

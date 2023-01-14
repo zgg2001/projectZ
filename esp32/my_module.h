@@ -19,6 +19,9 @@ public:
   static constexpr int PIN_BUZZER = 26;  //蜂鸣器
   static constexpr int PIN_SERVO = 32;   //舵机A
 
+  static constexpr int SERVO_UP = 0;    //舵机上升
+  static constexpr int SERVO_DOWN = 1;  //舵机下降
+
 public:
   static my_module& get_instance() {
     static my_module ins;
@@ -32,6 +35,13 @@ public:
   void module_run_once();
   string generate_data_msg();
 
+  inline void set_servo_up() {
+    _Servo_status_desired = SERVO_UP;
+  }
+  inline void set_servo_down() {
+    _Servo_status_desired = SERVO_DOWN;
+  }
+
 private:
   my_module();
   virtual ~my_module();
@@ -39,13 +49,15 @@ private:
   my_module& operator=(const my_module&);
 
 private:
-  int _IsDark = 0;              //光照 - LED 0灭1亮
-  int _Temperature = 0;         //温度
-  int _Humidity = 0;            //湿度
-  int _IsFlame = 1;             //火焰 - 0报警
-  int _IsFlammable = 1;         //可燃气体 - 0报警
-  unsigned long _Distance = 0;  //超声波距离
-  int _IsWarn = 0;              //是否蜂鸣警告中
+  int _Is_Dark = 0;                        //光照 - LED 0灭1亮
+  int _Temperature = 0;                    //温度
+  int _Humidity = 0;                       //湿度
+  int _Is_Flame = 1;                       //火焰 - 0报警
+  int _Is_Flammable = 1;                   //可燃气体 - 0报警
+  unsigned long _Distance = 0;             //超声波距离
+  int _Is_Warn = 0;                        //是否蜂鸣警告中
+  int _Servo_status_desired = SERVO_UP;    //期望舵机状态
+  int _Servo_status_current = SERVO_DOWN;  //当前舵机状态
 
   SimpleDHT11* _dht11;
 };

@@ -25,25 +25,25 @@ unsigned long my_module::sr_ping() {
 void my_module::servo_lock() {
   for (int i = 0; i < 100; i++) {
     digitalWrite(PIN_SERVO, HIGH);
-    vTaskDelay(pdMS_TO_TICKS(500));  //0.5ms
+    vTaskDelay(pdMS_TO_TICKS(0.5));  //0.5ms
     digitalWrite(PIN_SERVO, LOW);
-    vTaskDelay(pdMS_TO_TICKS(19500));  //19.5ms
+    vTaskDelay(pdMS_TO_TICKS(19.5));  //19.5ms
   }
 }
 
 void my_module::servo_lock_down() {
   for (int i = 0; i < 100; i++) {
     digitalWrite(PIN_SERVO, HIGH);
-    vTaskDelay(pdMS_TO_TICKS(1500));  //1.5ms
+    vTaskDelay(pdMS_TO_TICKS(1.5));  //1.5ms
     digitalWrite(PIN_SERVO, LOW);
-    vTaskDelay(pdMS_TO_TICKS(18500));  //18.5ms
+    vTaskDelay(pdMS_TO_TICKS(18.5));  //18.5ms
   }
 }
 
 void my_module::module_run_once() {
   //光敏数据
-  _IsDark = digitalRead(PIN_LDR);
-  if (_IsDark == 0) {
+  _Is_Dark = digitalRead(PIN_LDR);
+  if (_Is_Dark == 0) {
     digitalWrite(PIN_LED, LOW);
   } else {
     digitalWrite(PIN_LED, HIGH);
@@ -57,21 +57,34 @@ void my_module::module_run_once() {
     _Humidity = (int)humidity + 8;
   }
   //火焰数据
-  _IsFlame = digitalRead(PIN_FLAME);
+  _Is_Flame = digitalRead(PIN_FLAME);
   //可燃气体数据
-  _IsFlammable = digitalRead(PIN_GAS);
+  _Is_Flammable = digitalRead(PIN_GAS);
   //报警
-  if (_IsFlame == 0 || _IsFlammable == 0) {
-    if (_IsWarn == 0) {
+  if (_Is_Flame == 0 || _Is_Flammable == 0) {
+    if (_Is_Warn == 0) {
       tone(PIN_BUZZER, 330);
-      _IsWarn = 1;
+      _Is_Warn = 1;
     }
-  } else if (_IsWarn == 1) {
+  } else if (_Is_Warn == 1) {
     noTone(PIN_BUZZER);
-    _IsWarn = 0;
+    _Is_Warn = 0;
   }
   //超声波数据
   _Distance = sr_ping() / 58;
+  //舵机
+  if (_Servo_status_current != _Servo_status_desired) {
+    Serial.println(_Servo_status_desired);
+    if (_Servo_status_desired == SERVO_UP) {
+      if (_Distance > 50) {
+        servo_lock();
+        _Servo_status_current = SERVO_UP;
+      }
+    } else if (_Servo_status_desired == SERVO_DOWN) {
+      servo_lock_down();
+      _Servo_status_current = SERVO_DOWN;
+    }
+  }
 }
 
 string my_module::generate_data_msg() {
@@ -79,7 +92,7 @@ string my_module::generate_data_msg() {
   buffer << ESP32_ID << ":"
          << _Temperature << ":"
          << _Humidity << ":"
-         << _IsFlame << ":"
-         << _IsFlammable;
+         << _Is_Flame << ":"
+         << _Is_Flammable;
   return buffer.str();
 }

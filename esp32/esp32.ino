@@ -7,7 +7,7 @@
 #define WLAN_PASS "12345678"
 #define INS my_module::get_instance()
 
-constexpr char MQTT_SERVER[] = "192.168.6.133";
+constexpr char MQTT_SERVER[] = "192.168.9.133";
 constexpr uint16_t MQTT_SERVERPORT = 1883;
 constexpr char MQTT_USERNAME[] = "test1";
 constexpr char MQTT_PASSWORD[] = "a123456";
@@ -33,7 +33,7 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   //mqtt
-  mymqtt = new mqtt_client(MQTT_SERVER, MQTT_SERVERPORT, MQTT_USERNAME, MQTT_PASSWORD, MQTT_DATA_TOPIC, MQTT_CMD_TOPIC);
+  mymqtt = new mqtt_client(my_module::ESP32_ID, MQTT_SERVER, MQTT_SERVERPORT, MQTT_USERNAME, MQTT_PASSWORD, MQTT_DATA_TOPIC, MQTT_CMD_TOPIC);
   mymqtt->init();
 
   //mod
@@ -76,7 +76,8 @@ void task1(void *parameter) {
     ret = xSemaphoreTake(mutexHandle, 1000);
     if (ret == pdPASS) {
       msg = INS.generate_data_msg();
-      Serial.println(msg.c_str());
+      mymqtt->mqtt_pub(msg);
+      //Serial.println(msg.c_str());
       xSemaphoreGive(mutexHandle);
       vTaskDelay(pdMS_TO_TICKS(5000));
     } else {
@@ -88,9 +89,39 @@ void task1(void *parameter) {
 }
 
 void task2(void *parameter) {
+  int take_ret, sub_ret, cmd;
+  string msg;
   while (1) {
-    mymqtt->mqtt_sub(1000);
+    sub_ret = mymqtt->mqtt_sub(1000, msg);
+    if (sub_ret == mqtt_client::HAVE_NEW_MSG) {
+      cmd = mymqtt->parse_cmd(msg);
+      if (cmd != mqtt_client::INVALID_CMD) {
+        while (1) {
+          take_ret = xSemaphoreTake(mutexHandle, 1000);
+          if (take_ret == pdPASS) {
+            run_cmd(cmd);
+            xSemaphoreGive(mutexHandle);
+            break;
+          } else {
+            vTaskDelay(pdMS_TO_TICKS(1000));
+          }
+        }
+      }
+    }
   }
   Serial.println("Ending task 2");
   vTaskDelete(NULL);
+}
+
+void run_cmd(int cmd) {
+  switch (cmd) {
+    case mqtt_client::SERVO_UP_CMD:
+      INS.set_servo_up();
+      break;
+    case mqtt_client::SERVO_DOWN_CMD:
+      INS.set_servo_down();
+      break;
+    default:
+      return;
+  }
 }
