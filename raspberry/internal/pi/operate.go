@@ -10,6 +10,7 @@ import (
 )
 
 func PipeInit() {
+
 	if _, err := os.Stat(WordDir); err != nil {
 		err := os.MkdirAll(WordDir, 0711)
 		if err != nil {
@@ -17,6 +18,7 @@ func PipeInit() {
 			return
 		}
 	}
+
 	os.Remove(PipeRead)
 	os.Remove(PipeWrite)
 	err := syscall.Mkfifo(PipeRead, 0666)
@@ -27,6 +29,7 @@ func PipeInit() {
 	if err != nil {
 		log.Panic("Error make write fifo", err)
 	}
+
 	log.Println("Pipeline init complete")
 }
 
@@ -54,6 +57,7 @@ func PythonCancel(cmd *exec.Cmd) {
 
 // 树莓派硬件数据交互
 func PythonRunTask() {
+
 	rPipe, err := os.OpenFile(PipeRead, os.O_RDWR, os.ModeNamedPipe)
 	if err != nil {
 		log.Panic("Error open file: ", err)
