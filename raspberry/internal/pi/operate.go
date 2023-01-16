@@ -79,6 +79,7 @@ func PythonRunTask() {
 		// 检测逻辑部分
 		if plate_str == "沪AZ0001" {
 			wPipe.WriteString("pass")
+			
 		} else {
 			wPipe.WriteString("reject")
 		}

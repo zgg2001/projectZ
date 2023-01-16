@@ -16,6 +16,7 @@ var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err
 }
 
 func MqttNewClient() mqtt.Client {
+
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", MqttServerIp, MqttServerPort))
 	opts.SetClientID("go_mqtt_client")
@@ -24,6 +25,7 @@ func MqttNewClient() mqtt.Client {
 	opts.SetDefaultPublishHandler(messagePubHandler)
 	opts.OnConnect = connectHandler
 	opts.OnConnectionLost = connectLostHandler
+
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		log.Panic("Error connect client", token.Error())

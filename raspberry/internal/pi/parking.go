@@ -1,17 +1,19 @@
 package pi
 
-type status = int
+import (
+	"fmt"
+	"raspberry/internal/transmission"
 
-var (
-	EmptyParkingSpace    int = 0
-	NonEmptyParkingSpace int = 1
+	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
+
+type status = int
 
 type ParkingOperation interface {
 	Reset(id int)
 	GetStatus() status
-	DriveInto(license string)
-	DriveOut()
+	DriveInto(license string, cli *mqtt.Client)
+	DriveOut(cli *mqtt.Client)
 }
 
 type Parking struct {
@@ -33,12 +35,14 @@ func (p *Parking) Reset(id int) {
 	p.License = ""
 }
 
-func (p *Parking) DriveInto(license string) {
+func (p *Parking) DriveInto(license string, cli *mqtt.Client) {
+	transmission.MqttPub(*cli, fmt.Sprintf("%d:%d", p.Id, transmission.CmdServoUp))
 	p.IsUsing = true
 	p.License = license
 }
 
-func (p *Parking) DriveOut() {
+func (p *Parking) DriveOut(cli *mqtt.Client) {
+	transmission.MqttPub(*cli, fmt.Sprintf("%d:%d", p.Id, transmission.CmdServoDown))
 	p.IsUsing = false
 	p.License = ""
 }

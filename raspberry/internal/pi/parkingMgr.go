@@ -1,14 +1,7 @@
 package pi
 
 import (
-	"errors"
-)
-
-var (
-	NoErr                   error = nil
-	ErrNoParkingSpace       error = errors.New("no parking space")
-	ErrLicenseAlreadyExists error = errors.New("the license plate already exists")
-	ErrLicenseNotExists     error = errors.New("the license plate does not exist")
+	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 type ParkingMgrOperation interface {
@@ -22,14 +15,16 @@ type ParkingMgr struct {
 	SpaceMap      map[string]*Parking
 	Count         int
 	LastSubscript int
+	Client        *mqtt.Client
 }
 
-func (mgr *ParkingMgr) Init(count int) {
+func (mgr *ParkingMgr) Init(count int, cli *mqtt.Client) {
 	mgr.Count = count
 	mgr.LastSubscript = 0
 	for id := 1; id <= count; id++ {
 		mgr.Spaces = append(mgr.Spaces, Parking{Id: id, IsUsing: false, License: ""})
 	}
+	mgr.Client = cli
 }
 
 func (mgr *ParkingMgr) DriveIntoCar(license string) error {
@@ -45,7 +40,7 @@ func (mgr *ParkingMgr) DriveIntoCar(license string) error {
 		parking := &mgr.Spaces[tempSubscript]
 		if parking.GetStatus() == EmptyParkingSpace {
 			mgr.SpaceMap[license] = parking
-			parking.DriveInto(license)
+			parking.DriveInto(license, mgr.Client)
 			mgr.LastSubscript = tempSubscript
 			return NoErr
 		}
@@ -63,7 +58,7 @@ func (mgr *ParkingMgr) DriveOutCar(license string) error {
 	}
 
 	delete(mgr.SpaceMap, license)
-	parking.DriveOut()
+	parking.DriveOut(mgr.Client)
 
 	return NoErr
 }
