@@ -7,6 +7,8 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
+var MqttDataChan chan string
+
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
 	log.Println("Mqtt Connected")
 }
@@ -15,7 +17,9 @@ var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err
 	log.Printf("Mqtt Connect lost: %v", err)
 }
 
-func MqttNewClient() mqtt.Client {
+func MqttNewClient(spaceNum int) mqtt.Client {
+
+	MqttDataChan = make(chan string, spaceNum)
 
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", MqttServerIp, MqttServerPort))
@@ -35,6 +39,7 @@ func MqttNewClient() mqtt.Client {
 
 func MqttDeleteClient(client mqtt.Client) {
 	client.Disconnect(222)
+	close(MqttDataChan)
 }
 
 // 发布
@@ -55,5 +60,6 @@ func MqttSub(client mqtt.Client) {
 
 // 订阅消息处理
 var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
-	log.Printf("Received message: %s from topic: %s\n", msg.Payload(), msg.Topic())
+	// log.Printf("Received message: %s from topic: %s\n", msg.Payload(), msg.Topic())
+	MqttDataChan <- string(msg.Payload())
 }

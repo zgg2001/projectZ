@@ -26,7 +26,8 @@ var (
 
 // operate
 var (
-	ErrProtocol error = errors.New("protocol error")
+	ErrProtocol         error = errors.New("protocol error")
+	ErrArrayOutOfBounds error = errors.New("array out of bounds")
 
 	FrontCamera int = 0
 	RearCamera  int = 1

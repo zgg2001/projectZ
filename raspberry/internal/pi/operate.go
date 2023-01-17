@@ -8,8 +8,6 @@ import (
 	"strconv"
 	"strings"
 	"syscall"
-
-	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 func PipeInit() {
@@ -44,7 +42,6 @@ func PipeRemove() {
 
 // 硬件脚本
 func PythonStartUp() *exec.Cmd {
-	// 硬件逻辑
 	cmd := exec.Command(PythonPath, ScriptPath)
 	err := cmd.Start()
 	if err != nil {
@@ -59,10 +56,9 @@ func PythonCancel(cmd *exec.Cmd) {
 }
 
 // 树莓派硬件数据交互
-func PythonRunTask(cli *mqtt.Client, count int) {
+func RunPythonTask(mgr *ParkingMgr) {
 
-	var mgr ParkingMgr
-	mgr.Init(count, cli)
+	log.Println("Run python task ... ")
 
 	rPipe, err := os.OpenFile(PipeRead, os.O_RDWR, os.ModeNamedPipe)
 	if err != nil {
@@ -83,10 +79,12 @@ func PythonRunTask(cli *mqtt.Client, count int) {
 		strArr := strings.Split(string(line), ":")
 		if len(strArr) < 2 {
 			log.Printf("Error split str: %s\n", ErrProtocol)
+			continue
 		}
 		cameraMode, err := strconv.Atoi(strArr[0])
 		if err != nil {
-			log.Printf("Error split str: %s\n", ErrProtocol)
+			log.Printf("Error atoi str: %s\n", err)
+			continue
 		}
 		plateStr := strings.TrimRight(strArr[1], "\n")
 		log.Println(cameraMode, plateStr)
@@ -104,6 +102,42 @@ func PythonRunTask(cli *mqtt.Client, count int) {
 			}
 		} else {
 			wPipe.WriteString("reject")
+		}
+	}
+}
+
+// esp32数据收集
+func RunDataTask(dataChan chan string, mgr *ParkingMgr) {
+
+	log.Println("Run data task ... ")
+
+	for {
+
+		dataStr, ok := <-dataChan
+		if !ok {
+			break
+		}
+
+		strArr := strings.Split(dataStr, ":")
+		if len(strArr) < 5 {
+			log.Printf("Error split data str: %s\n", ErrProtocol)
+			continue
+		}
+		id, err := strconv.Atoi(strArr[0])
+		if err != nil {
+			log.Printf("Error atoi data id: %s\n", err)
+			continue
+		}
+
+		// update
+		if len(mgr.Spaces) >= id {
+			err = mgr.Spaces[id-1].UpdataData(strArr)
+			if err != nil {
+				log.Printf("Error atoi data str: %s\n", err)
+			}
+			// log.Println(mgr.Spaces[id-1])
+		} else {
+			log.Printf("Error update data: %s\n", ErrArrayOutOfBounds)
 		}
 	}
 }

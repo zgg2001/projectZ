@@ -6,20 +6,24 @@ import (
 	"time"
 )
 
+var parkingSpacesNum int = 2
+
 func main() {
 
-	// 管道初始化
 	pi.PipeInit()
 	defer pi.PipeRemove()
 
-	// mqtt client
-	mqttClient := transmission.MqttNewClient()
+	mqttClient := transmission.MqttNewClient(parkingSpacesNum)
 	defer transmission.MqttDeleteClient(mqttClient)
 
-	// 硬件脚本执行/交互
+	var mgr pi.ParkingMgr
+	mgr.Init(parkingSpacesNum, &mqttClient)
+
 	cmd := pi.PythonStartUp()
 	defer pi.PythonCancel(cmd)
-	go pi.PythonRunTask(&mqttClient, 2)
+
+	go pi.RunPythonTask(&mgr)
+	go pi.RunDataTask(transmission.MqttDataChan, &mgr)
 
 	// mqtt 订阅启动
 	transmission.MqttSub(mqttClient)
