@@ -5,8 +5,11 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"syscall"
+
+	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 func PipeInit() {
@@ -56,7 +59,10 @@ func PythonCancel(cmd *exec.Cmd) {
 }
 
 // 树莓派硬件数据交互
-func PythonRunTask() {
+func PythonRunTask(cli *mqtt.Client, count int) {
+
+	var mgr ParkingMgr
+	mgr.Init(count, cli)
 
 	rPipe, err := os.OpenFile(PipeRead, os.O_RDWR, os.ModeNamedPipe)
 	if err != nil {
@@ -69,17 +75,33 @@ func PythonRunTask() {
 
 	reader := bufio.NewReader(rPipe)
 	for {
+		// parse
 		line, err := reader.ReadBytes('\n')
 		if err != nil {
 			log.Panic("Error read bytes: ", err)
 		}
-		plate_str := strings.TrimRight(string(line), "\n")
-		log.Println(plate_str)
+		strArr := strings.Split(string(line), ":")
+		if len(strArr) < 2 {
+			log.Printf("Error split str: %s\n", ErrProtocol)
+		}
+		cameraMode, err := strconv.Atoi(strArr[0])
+		if err != nil {
+			log.Printf("Error split str: %s\n", ErrProtocol)
+		}
+		plateStr := strings.TrimRight(strArr[1], "\n")
+		log.Println(cameraMode, plateStr)
 
 		// 检测逻辑部分
-		if plate_str == "沪AZ0001" {
+		if plateStr == "沪AZ0001" {
 			wPipe.WriteString("pass")
-			
+			if cameraMode == FrontCamera {
+				err = mgr.DriveIntoCar(plateStr)
+			} else {
+				err = mgr.DriveOutCar(plateStr)
+			}
+			if err != nil {
+				log.Println("Error operator", err)
+			}
 		} else {
 			wPipe.WriteString("reject")
 		}

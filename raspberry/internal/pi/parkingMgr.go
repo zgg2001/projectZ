@@ -19,6 +19,7 @@ type ParkingMgr struct {
 }
 
 func (mgr *ParkingMgr) Init(count int, cli *mqtt.Client) {
+	mgr.SpaceMap = make(map[string]*Parking)
 	mgr.Count = count
 	mgr.LastSubscript = 0
 	for id := 1; id <= count; id++ {

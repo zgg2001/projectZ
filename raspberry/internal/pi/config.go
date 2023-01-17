@@ -10,16 +10,24 @@ const (
 	ScriptPath = "./script/raspberry.py"
 )
 
-//parking
+// parking
 var (
 	EmptyParkingSpace    int = 0
 	NonEmptyParkingSpace int = 1
 )
 
-//parkingMgr
+// parkingMgr
 var (
 	NoErr                   error = nil
 	ErrNoParkingSpace       error = errors.New("no parking space")
 	ErrLicenseAlreadyExists error = errors.New("the license plate already exists")
 	ErrLicenseNotExists     error = errors.New("the license plate does not exist")
+)
+
+// operate
+var (
+	ErrProtocol error = errors.New("protocol error")
+
+	FrontCamera int = 0
+	RearCamera  int = 1
 )

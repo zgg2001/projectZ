@@ -88,7 +88,9 @@ if __name__ == '__main__':
                     res = HyperLPR_plate_recognition(image)
                     if len(res):
                         plate = res[0][0]
-                        msg = plate.encode() + bytes('\n', 'utf-8')
+                        # FrontCamera = 0
+                        # RearCamera  = 1
+                        msg = bytes('0:', 'utf-8') + plate.encode() + bytes('\n', 'utf-8')
                         os.write(wf, msg)
                         servo_status = 1
                     last_time = time.time()
