@@ -1,8 +1,9 @@
 package main
 
 import (
-	"raspberry/internal/pi"
-	"raspberry/internal/transmission"
+	"github.com/zgg2001/projectZ/raspberry/internal/pi"
+	"github.com/zgg2001/projectZ/raspberry/internal/transmission"
+
 	"time"
 )
 
