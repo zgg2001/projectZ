@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "../pkg/rpc";
+
+message LPCheckRequest {
+    string license = 1;
+}
+
+message LPCheckResponse {
+    int32 result = 1;
+}
+ 
+service ProjectService {
+    rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
+}
