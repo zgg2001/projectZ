@@ -13,6 +13,6 @@ type checkService struct {
 }
 
 func (cs *checkService) LicencePlateCheck(context.Context, *rpc.LPCheckRequest) (*rpc.LPCheckResponse, error) {
-
+	// 验证
 	return &rpc.LPCheckResponse{Result: 1}, nil
 }
