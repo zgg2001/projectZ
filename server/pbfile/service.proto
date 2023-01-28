@@ -8,7 +8,8 @@ message LPCheckRequest {
     string license = 2;
 }
 message LPCheckResponse {
-    int32 result = 1;
+    bool result = 1;
+    float balance = 2;
 }
 
 // upload parking info
