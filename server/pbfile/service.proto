@@ -2,14 +2,36 @@ syntax = "proto3";
 
 option go_package = "../pkg/rpc";
 
+// license plate check
 message LPCheckRequest {
     string license = 1;
 }
-
 message LPCheckResponse {
+    int32 result = 1;
+}
+
+// upload parking info
+message ParkingInfo {
+    int32 id = 1;
+    int32 temperature = 2;
+    int32 humidity = 3;
+    string weather = 4;
+}
+message ParkingSpaceInfo {
+    int32 id = 1;
+    int32 temperature = 2;
+    int32 humidity = 3;
+    int32 alarm = 4;
+}
+message UploadInfoRequest {
+    ParkingInfo pInfo = 1;
+    repeated ParkingInfo infoArr = 2;
+}
+message UploadInfoResponse {
     int32 result = 1;
 }
  
 service ProjectService {
     rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
+    rpc UploadParkingInfo(UploadInfoRequest) returns (UploadInfoResponse);
 }
