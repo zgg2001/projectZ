@@ -1,19 +1,16 @@
 package transmission
 
 import (
-	"context"
 	"crypto/tls"
 	"crypto/x509"
 	"io/ioutil"
 	"log"
 
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
-
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
 
-func RPCNewClient() rpc.ProjectServiceClient {
+func RPCNewClient() *grpc.ClientConn {
 
 	cert, err := tls.LoadX509KeyPair(ClientPemPath, ClientKeyPath)
 	if err != nil {
@@ -35,19 +32,5 @@ func RPCNewClient() rpc.ProjectServiceClient {
 	if err != nil {
 		log.Fatal("Connect error", err)
 	}
-
-	defer conn.Close()
-
-	client := rpc.NewProjectServiceClient(conn)
-
-	request := &rpc.LPCheckRequest{
-		License: "123",
-	}
-	resp, err := client.LicencePlateCheck(context.Background(), request)
-	if err != nil {
-		log.Fatal("Get error", err)
-	}
-	log.Println("Get success", resp.Result)
-
-	return client
+	return conn
 }

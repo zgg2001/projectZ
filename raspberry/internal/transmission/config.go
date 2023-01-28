@@ -1,7 +1,7 @@
 package transmission
 
 const (
-	MqttServerIp      = "192.168.242.133"
+	MqttServerIp      = "192.168.247.133"
 	MqttServerPort    = 1883
 	MqttUsername      = "test0"
 	MqttPassword      = "z123456"
@@ -14,9 +14,15 @@ const (
 	CACrtPath     = "./auth/ca.crt"
 )
 
-//cmd number
-var (
+// cmd number
+const (
 	CmdInvalid   int = 0
 	CmdServoUp   int = 1
 	CmdServoDown int = 2
+)
+
+// rpc rasp
+const (
+	LPCheckSucceeded bool = true
+	LPCheckFailed    bool = false
 )

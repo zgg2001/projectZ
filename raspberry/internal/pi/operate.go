@@ -2,12 +2,16 @@ package pi
 
 import (
 	"bufio"
+	"context"
 	"log"
 	"os"
 	"os/exec"
 	"strconv"
 	"strings"
 	"syscall"
+
+	"github.com/zgg2001/projectZ/raspberry/internal/transmission"
+	"github.com/zgg2001/projectZ/server/pkg/rpc"
 )
 
 func PipeInit() {
@@ -69,6 +73,10 @@ func RunPythonTask(mgr *ParkingMgr) {
 		log.Panic("Error open file: ", err)
 	}
 
+	conn := transmission.RPCNewClient()
+	defer conn.Close()
+	rpcClient := rpc.NewProjectServiceClient(conn)
+
 	reader := bufio.NewReader(rPipe)
 	for {
 		// parse
@@ -89,8 +97,20 @@ func RunPythonTask(mgr *ParkingMgr) {
 		plateStr := strings.TrimRight(strArr[1], "\n")
 		log.Println(cameraMode, plateStr)
 
+		request := &rpc.LPCheckRequest{
+			Model:   int32(cameraMode),
+			License: plateStr,
+		}
+		resp, err := rpcClient.LicencePlateCheck(context.Background(), request)
+		if err != nil {
+			log.Printf("Error licence plate check: %s\n", err)
+			wPipe.WriteString("reject")
+			continue
+		}
+		log.Println("Check success", resp.Result)
+
 		// 检测逻辑部分
-		if plateStr == "沪AZ0001" {
+		if resp.Result == transmission.LPCheckSucceeded {
 			wPipe.WriteString("pass")
 			if cameraMode == FrontCamera {
 				err = mgr.DriveIntoCar(plateStr)

@@ -11,9 +11,12 @@ const (
 )
 
 // parking
-var (
+const (
 	EmptyParkingSpace    int = 0
 	NonEmptyParkingSpace int = 1
+
+	FrontCamera int = 0
+	RearCamera  int = 1
 )
 
 // parkingMgr
@@ -28,7 +31,4 @@ var (
 var (
 	ErrProtocol         error = errors.New("protocol error")
 	ErrArrayOutOfBounds error = errors.New("array out of bounds")
-
-	FrontCamera int = 0
-	RearCamera  int = 1
 )

@@ -45,7 +45,7 @@ if not os.path.exists(dirs):
 # 管道
 pipe_read  = "./tmp/pipe.2"
 pipe_write = "./tmp/pipe.1"
-rf = os.open(pipe_read, os.O_RDONLY | os.O_NONBLOCK)
+rf = os.open(pipe_read, os.O_RDONLY)
 wf = os.open(pipe_write, os.O_SYNC | os.O_CREAT | os.O_RDWR)
 
 time.sleep(1)
