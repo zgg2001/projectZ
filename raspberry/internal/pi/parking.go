@@ -81,3 +81,21 @@ func (p *Parking) UpdataData(strArr []string) error {
 	atomic.StoreInt32(&p.IsFlammable, int32(isFlammable))
 	return nil
 }
+
+func (p *Parking) GetData() (int32, int32, int32) {
+
+	temperature := atomic.LoadInt32(&p.Temperature)
+	humidity := atomic.LoadInt32(&p.Humidity)
+	isFlame := atomic.LoadInt32(&p.IsFlame)
+	isFlammable := atomic.LoadInt32(&p.IsFlammable)
+
+	alarm := NoAlarm
+	if isFlame == 1 {
+		alarm += FireAlarm
+	}
+	if isFlammable == 1 {
+		alarm += GasAlarm
+	}
+
+	return temperature, humidity, alarm
+}

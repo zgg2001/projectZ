@@ -29,5 +29,8 @@ func main() {
 	// mqtt 订阅启动
 	transmission.MqttSub(mqttClient)
 
+	//
+	pi.UploadPiData(&mgr)
+
 	time.Sleep(time.Second * 1000)
 }

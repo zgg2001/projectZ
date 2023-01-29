@@ -17,6 +17,11 @@ const (
 
 	FrontCamera int = 0
 	RearCamera  int = 1
+
+	NoAlarm         int32 = 0
+	FireAlarm       int32 = 1
+	GasAlarm        int32 = 2
+	FireAndGasAlarm int32 = 3
 )
 
 // parkingMgr

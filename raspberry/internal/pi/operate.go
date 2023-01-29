@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"syscall"
+	"time"
 
 	"github.com/zgg2001/projectZ/raspberry/internal/transmission"
 	"github.com/zgg2001/projectZ/server/pkg/rpc"
@@ -57,6 +58,7 @@ func PythonStartUp() *exec.Cmd {
 
 func PythonCancel(cmd *exec.Cmd) {
 	cmd.Process.Signal(syscall.SIGQUIT)
+	log.Println("Python cancel complete")
 }
 
 // 树莓派硬件数据交互
@@ -153,11 +155,34 @@ func RunDataTask(dataChan chan string, mgr *ParkingMgr) {
 		if len(mgr.Spaces) >= id {
 			err = mgr.Spaces[id-1].UpdataData(strArr)
 			if err != nil {
-				log.Printf("Error atoi data str: %s\n", err)
+				log.Printf("Error updata data str: %s\n", err)
 			}
 			// log.Println(mgr.Spaces[id-1])
 		} else {
 			log.Printf("Error update data: %s\n", ErrArrayOutOfBounds)
 		}
+	}
+}
+
+// 停车场数据上传
+func UploadPiData(mgr *ParkingMgr) {
+
+	log.Println("Upload Pi data ... ")
+	time.Sleep(time.Second * 5)
+
+	parkingSpaceCount := len(mgr.Spaces)
+	for parkingSpaceCount <= 0 {
+		parkingSpaceCount = len(mgr.Spaces)
+		time.Sleep(time.Second)
+	}
+
+	for {
+		// get and upload
+		parkingSpaceCount := len(mgr.Spaces)
+		for id := 0; id < parkingSpaceCount; id++ {
+			temperature, humidity, alarm := mgr.Spaces[id].GetData() // real id = id + 1
+			log.Println(temperature, humidity, alarm)
+		}
+		time.Sleep(time.Second * 5)
 	}
 }
