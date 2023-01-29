@@ -170,18 +170,44 @@ func UploadPiData(mgr *ParkingMgr) {
 	log.Println("Upload Pi data ... ")
 	time.Sleep(time.Second * 5)
 
+	conn := transmission.RPCNewClient()
+	defer conn.Close()
+	rpcClient := rpc.NewProjectServiceClient(conn)
+
 	parkingSpaceCount := len(mgr.Spaces)
 	for parkingSpaceCount <= 0 {
 		parkingSpaceCount = len(mgr.Spaces)
 		time.Sleep(time.Second)
 	}
 
+	packet := &rpc.UploadInfoRequest{}
+	packet.PInfo = &rpc.ParkingInfo{
+		Id:          1,
+		Temperature: 4,
+		Humidity:    28,
+		Weather:     "sunny",
+	}
+	for id := 0; id < parkingSpaceCount; id++ {
+		info := rpc.ParkingSpaceInfo{
+			Id:          int32(id) + 1,
+			Temperature: 0,
+			Humidity:    0,
+			Alarm:       NoAlarm,
+		}
+		packet.InfoArr = append(packet.InfoArr, &info)
+	}
+
 	for {
 		// get and upload
-		parkingSpaceCount := len(mgr.Spaces)
 		for id := 0; id < parkingSpaceCount; id++ {
 			temperature, humidity, alarm := mgr.Spaces[id].GetData() // real id = id + 1
-			log.Println(temperature, humidity, alarm)
+			packet.InfoArr[id].Temperature = temperature
+			packet.InfoArr[id].Humidity = humidity
+			packet.InfoArr[id].Alarm = alarm
+		}
+		_, err := rpcClient.UploadParkingInfo(context.Background(), packet)
+		if err != nil {
+			log.Printf("Error upload parking info: %s\n", err)
 		}
 		time.Sleep(time.Second * 5)
 	}

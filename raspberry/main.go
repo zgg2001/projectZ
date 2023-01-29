@@ -3,8 +3,6 @@ package main
 import (
 	"github.com/zgg2001/projectZ/raspberry/internal/pi"
 	"github.com/zgg2001/projectZ/raspberry/internal/transmission"
-
-	"time"
 )
 
 var parkingSpacesNum int = 2
@@ -29,8 +27,5 @@ func main() {
 	// mqtt 订阅启动
 	transmission.MqttSub(mqttClient)
 
-	//
 	pi.UploadPiData(&mgr)
-
-	time.Sleep(time.Second * 1000)
 }

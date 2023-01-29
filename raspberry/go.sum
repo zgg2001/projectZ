@@ -7,8 +7,10 @@ github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/
 github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
 github.com/gorilla/websocket v1.4.2 h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=
 github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
-github.com/zgg2001/projectZ/server v0.0.0-20230128155719-6719990cd704 h1:FR0tQ+VCc/Ko4P9+gpOvKlnpEIpDqN/JACf2Tso6fnU=
-github.com/zgg2001/projectZ/server v0.0.0-20230128155719-6719990cd704/go.mod h1:ayzbs0QVyZmnZK4KU8PGfq5la3/AR/xiS0rajHOMwwE=
+github.com/zgg2001/projectZ/server v0.0.0-20230129123547-cc07bf1c5360 h1:NEEhxWnZXOSByH+sFioLFDB5oNzWHU8qASubcw+/PcE=
+github.com/zgg2001/projectZ/server v0.0.0-20230129123547-cc07bf1c5360/go.mod h1:ayzbs0QVyZmnZK4KU8PGfq5la3/AR/xiS0rajHOMwwE=
+github.com/zgg2001/projectZ/server v0.0.0-20230129130359-cd44d06e2282 h1:iTEoot0qYX53b3HWJo7D2mNhBNFnjUI++wumVAdj0rI=
+github.com/zgg2001/projectZ/server v0.0.0-20230129130359-cd44d06e2282/go.mod h1:ayzbs0QVyZmnZK4KU8PGfq5la3/AR/xiS0rajHOMwwE=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20200425230154-ff2c4b7c35a0/go.mod h1:qpuaurCH72eLCgpAm/N6yyVIVM9cpaDIP3A8BGJEC5A=
 golang.org/x/net v0.5.0 h1:GyT4nK/YDHSqa1c4753ouYCDajOYKTja9Xb/OHtgvSw=
