@@ -24,11 +24,10 @@ message ParkingSpaceInfo {
     int32 temperature = 2;
     int32 humidity = 3;
     int32 alarm = 4;
-    string license = 5;
 }
 message UploadInfoRequest {
     ParkingInfo pInfo = 1;
-    repeated ParkingInfo infoArr = 2;
+    repeated ParkingSpaceInfo infoArr = 2;
 }
 message UploadInfoResponse {
     int32 result = 1;
