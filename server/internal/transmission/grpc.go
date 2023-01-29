@@ -42,8 +42,7 @@ func StartRPCService() {
 	}
 
 	grpcServer := grpc.NewServer(grpc.Creds(creds))
-	rpc.RegisterProjectServiceServer(grpcServer, operate.CheckService)
-	rpc.RegisterProjectServiceServer(grpcServer, operate.UploadParkingInfoService)
+	rpc.RegisterProjectServiceServer(grpcServer, operate.ServerService)
 
 	err = grpcServer.Serve(listen)
 	if err != nil {
