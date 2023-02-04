@@ -100,8 +100,9 @@ func RunPythonTask(mgr *ParkingMgr) {
 		log.Println(cameraMode, plateStr)
 
 		request := &rpc.LPCheckRequest{
-			Model:   int32(cameraMode),
-			License: plateStr,
+			Model:     int32(cameraMode),
+			ParkingId: ParkingID,
+			License:   plateStr,
 		}
 		resp, err := rpcClient.LicencePlateCheck(context.Background(), request)
 		if err != nil {
@@ -182,7 +183,7 @@ func UploadPiData(mgr *ParkingMgr) {
 
 	packet := &rpc.UploadInfoRequest{}
 	packet.PInfo = &rpc.ParkingInfo{
-		Id:          1,
+		Id:          ParkingID,
 		Temperature: 4,
 		Humidity:    28,
 		Weather:     "sunny",

@@ -12,6 +12,8 @@ const (
 
 // parking
 const (
+	ParkingID int32 = 1
+
 	EmptyParkingSpace    int = 0
 	NonEmptyParkingSpace int = 1
 
