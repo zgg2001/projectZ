@@ -13,7 +13,7 @@ github.com/golang/protobuf/ptypes/timestamp
 # github.com/gorilla/websocket v1.4.2
 ## explicit; go 1.12
 github.com/gorilla/websocket
-# github.com/zgg2001/projectZ/server v0.0.0-20230204131238-132a2ea316e1
+# github.com/zgg2001/projectZ/server v0.0.0-20230204151330-3a7ccc4b75aa
 ## explicit; go 1.18
 github.com/zgg2001/projectZ/server/pkg/rpc
 # golang.org/x/net v0.5.0

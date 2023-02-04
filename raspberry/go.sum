@@ -15,6 +15,8 @@ github.com/zgg2001/projectZ/server v0.0.0-20230204125216-89110305d935 h1:/smbRU2
 github.com/zgg2001/projectZ/server v0.0.0-20230204125216-89110305d935/go.mod h1:ayzbs0QVyZmnZK4KU8PGfq5la3/AR/xiS0rajHOMwwE=
 github.com/zgg2001/projectZ/server v0.0.0-20230204131238-132a2ea316e1 h1:diBjqc3lWZNcuRYJ2fWKnhAabUTQc7FU152Eql8S77E=
 github.com/zgg2001/projectZ/server v0.0.0-20230204131238-132a2ea316e1/go.mod h1:ayzbs0QVyZmnZK4KU8PGfq5la3/AR/xiS0rajHOMwwE=
+github.com/zgg2001/projectZ/server v0.0.0-20230204151330-3a7ccc4b75aa h1:xvayxgOKIqLCIwpE2c6UKi18kOVQzKq1bExMJebTAPw=
+github.com/zgg2001/projectZ/server v0.0.0-20230204151330-3a7ccc4b75aa/go.mod h1:ayzbs0QVyZmnZK4KU8PGfq5la3/AR/xiS0rajHOMwwE=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20200425230154-ff2c4b7c35a0/go.mod h1:qpuaurCH72eLCgpAm/N6yyVIVM9cpaDIP3A8BGJEC5A=
 golang.org/x/net v0.5.0 h1:GyT4nK/YDHSqa1c4753ouYCDajOYKTja9Xb/OHtgvSw=
