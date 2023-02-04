@@ -41,6 +41,7 @@ func StartRPCService() {
 		log.Fatal(err)
 	}
 
+	operate.ServerService.Init()
 	grpcServer := grpc.NewServer(grpc.Creds(creds))
 	rpc.RegisterProjectServiceServer(grpcServer, operate.ServerService)
 

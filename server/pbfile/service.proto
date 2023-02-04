@@ -6,7 +6,7 @@ option go_package = "../pkg/rpc";
 message LPCheckRequest {
     int32 model = 1;
     int32 parkingId = 2;
-    string license = 4;
+    string license = 3;
 }
 message LPCheckResponse {
     bool result = 1;
