@@ -5,7 +5,9 @@ option go_package = "../pkg/rpc";
 // license plate check
 message LPCheckRequest {
     int32 model = 1;
-    string license = 2;
+    int32 parkingId = 2;
+    int32 parkingSpaceId = 3;
+    string license = 4;
 }
 message LPCheckResponse {
     bool result = 1;
