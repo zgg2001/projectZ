@@ -20,13 +20,13 @@ func StartRPCService() {
 
 	cert, err := tls.LoadX509KeyPair(ServerPemPath, ServerKeyPath)
 	if err != nil {
-		log.Fatal("TLS error", err)
+		log.Fatal("TLS error:", err)
 		return
 	}
 	certPool := x509.NewCertPool()
 	ca, err := ioutil.ReadFile(CACrtPath)
 	if err != nil {
-		log.Fatal("NewCertPool error", err)
+		log.Fatal("NewCertPool error:", err)
 		return
 	}
 	certPool.AppendCertsFromPEM(ca)
@@ -41,7 +41,6 @@ func StartRPCService() {
 		log.Fatal(err)
 	}
 
-	operate.ServerService.Init()
 	grpcServer := grpc.NewServer(grpc.Creds(creds))
 	rpc.RegisterProjectServiceServer(grpcServer, operate.ServerService)
 
