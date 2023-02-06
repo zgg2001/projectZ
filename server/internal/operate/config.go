@@ -17,7 +17,14 @@ type serverService struct {
 	uMgr data.UserMgr
 }
 
-func (ss *serverService) Init() {
-	ss.pMgr.Init()
-	ss.uMgr.Init()
+func (ss *serverService) Init() error {
+	err := ss.pMgr.Init()
+	if err != nil {
+		return err
+	}
+	err = ss.uMgr.Init()
+	if err != nil {
+		return err
+	}
+	return nil
 }

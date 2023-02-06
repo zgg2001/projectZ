@@ -1,6 +1,9 @@
 package data
 
-import "log"
+import (
+	"fmt"
+	"log"
+)
 
 type UserMgr struct {
 	userArr    []user
@@ -8,6 +11,19 @@ type UserMgr struct {
 	licenseMap map[string]*user
 }
 
-func (um *UserMgr) Init() {
-	log.Println("hello init from usermgr")
+func (um *UserMgr) Init() error {
+
+	log.Println("UserMgr init ...")
+
+	// read and load
+	userRet, err := ReadUserTbl()
+	if err != nil {
+		return err
+	}
+
+	for user := range userRet {
+		fmt.Println(user)
+	}
+
+	return nil
 }

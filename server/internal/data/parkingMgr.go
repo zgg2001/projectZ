@@ -7,6 +7,9 @@ type ParkingMgr struct {
 	idMap      map[int32]*parking
 }
 
-func (pm *ParkingMgr) Init() {
+func (pm *ParkingMgr) Init() error {
+
 	log.Println("hello init from parkingmgr")
+
+	return nil
 }
