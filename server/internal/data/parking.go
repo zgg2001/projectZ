@@ -1,8 +1,8 @@
 package data
 
 type parking struct {
+	id              int32
 	parkingSpaceArr []parkingSpace
-	spaceMap        map[int32]*parkingSpace
 	count           int32
 	temperature     int32
 	humidity        int32

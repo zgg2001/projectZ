@@ -7,6 +7,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type parkingRow struct {
+	Id    int32
+	Count int32
+	Info  string
+}
+
 type userRow struct {
 	Id           int32
 	Username     string
@@ -34,6 +40,28 @@ func InitDB() error {
 	}
 
 	return nil
+}
+
+func ReadParkingTbl() ([]*parkingRow, error) {
+
+	var data []*parkingRow
+
+	ret, err := DB.Query(SqlSelectParkingTbl)
+	if err != nil {
+		return nil, err
+	}
+	defer ret.Close()
+
+	for ret.Next() {
+		var d parkingRow
+		err := ret.Scan(&d.Id, &d.Count, &d.Info)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, &d)
+	}
+
+	return data, nil
 }
 
 func ReadUserTbl() ([]*userRow, error) {
@@ -120,6 +148,11 @@ func checkTable() error {
 	}
 
 	if tableNum == 0 {
+		log.Println("Create DB tables ...")
+		_, err = DB.Exec(SqlCreateParkingTbl)
+		if err != nil {
+			return err
+		}
 		_, err := DB.Exec(SqlCreateUserTbl)
 		if err != nil {
 			return err
@@ -132,7 +165,7 @@ func checkTable() error {
 		if err != nil {
 			return err
 		}
-	} else if tableNum != 3 {
+	} else if tableNum != 4 {
 		return ErrTableNum
 	}
 
