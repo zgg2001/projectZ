@@ -15,11 +15,11 @@ func (pm *ParkingMgr) Init() error {
 	log.Println("ParkingMgr init ...")
 
 	// read and load parking
-	userRet, err := ReadParkingTbl()
+	parkingRet, err := ReadParkingTbl()
 	if err != nil {
 		return err
 	}
-	for _, tempParking := range userRet {
+	for _, tempParking := range parkingRet {
 		fmt.Println(tempParking)
 		p := parking{
 			id:              tempParking.Id,
@@ -43,4 +43,20 @@ func (pm *ParkingMgr) Init() error {
 	}
 
 	return nil
+}
+
+func (pm *ParkingMgr) MgrGetParkingPtr(pid, sid int32) (*parking, *parkingSpace, error) {
+
+	var pptr *parking
+	var ok bool
+
+	if pptr, ok = pm.idMap[pid]; !ok {
+		return nil, nil, ErrPIdNotFound
+	}
+	sptr, err := pptr.GetParkingPtr(sid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return pptr, sptr, nil
 }

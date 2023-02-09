@@ -11,7 +11,7 @@ type UserMgr struct {
 	licenseMap map[string]*user
 }
 
-func (um *UserMgr) Init() error {
+func (um *UserMgr) Init(pm *ParkingMgr) error {
 
 	log.Println("UserMgr init ...")
 
@@ -57,6 +57,24 @@ func (um *UserMgr) Init() error {
 		u.cars = append(u.cars, c)
 		u.carMap[c.license] = &c
 		um.licenseMap[c.license] = u
+	}
+
+	// read and load record
+	recordRet, err := ReadRecordTbl()
+	if err != nil {
+		return err
+	}
+	for _, tempRecord := range recordRet {
+		fmt.Println(tempRecord)
+		l := tempRecord.License
+		pptr, sptr, err := pm.MgrGetParkingPtr(tempRecord.PId, tempRecord.SId)
+		if err != nil {
+			return err
+		}
+		tCar := um.licenseMap[l].carMap[l]
+		tCar.parkingPtr = pptr
+		tCar.parkingSpacePtr = sptr
+		tCar.entryTime = tempRecord.EntryTime
 	}
 
 	return nil

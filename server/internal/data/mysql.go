@@ -27,6 +27,13 @@ type licenseRow struct {
 	CheckInTime int64
 }
 
+type recordRow struct {
+	License   string
+	PId       int32
+	SId       int32
+	EntryTime int64
+}
+
 func InitDB() error {
 
 	err := connectDB()
@@ -108,6 +115,28 @@ func ReadLicenseTbl() ([]*licenseRow, error) {
 	return data, nil
 }
 
+func ReadRecordTbl() ([]*recordRow, error) {
+
+	var data []*recordRow
+
+	ret, err := DB.Query(SqlSelectRecordTbl)
+	if err != nil {
+		return nil, err
+	}
+	defer ret.Close()
+
+	for ret.Next() {
+		var d recordRow
+		err := ret.Scan(&d.License, &d.PId, &d.SId, &d.EntryTime)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, &d)
+	}
+
+	return data, nil
+}
+
 func connectDB() error {
 
 	var err error
@@ -161,7 +190,7 @@ func checkTable() error {
 		if err != nil {
 			return err
 		}
-		_, err = DB.Exec(SqlCreateEntryTimeTbl)
+		_, err = DB.Exec(SqlCreateRecordTbl)
 		if err != nil {
 			return err
 		}

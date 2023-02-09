@@ -22,7 +22,7 @@ func (ss *serverService) Init() error {
 	if err != nil {
 		return err
 	}
-	err = ss.uMgr.Init()
+	err = ss.uMgr.Init(&ss.pMgr)
 	if err != nil {
 		return err
 	}
