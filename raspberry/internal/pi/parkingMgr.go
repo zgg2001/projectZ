@@ -1,6 +1,8 @@
 package pi
 
 import (
+	"fmt"
+
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
@@ -28,27 +30,35 @@ func (mgr *ParkingMgr) Init(count int, cli *mqtt.Client) {
 	mgr.Client = cli
 }
 
-func (mgr *ParkingMgr) DriveIntoCar(license string) error {
-
-	_, ok := mgr.SpaceMap[license]
-	if ok {
-		return ErrLicenseAlreadyExists
-	}
+func (mgr *ParkingMgr) FindEmptySpace() (int, error) {
 
 	tempSubscript := mgr.LastSubscript
 	for count := 0; count < mgr.Count; count++ {
 		tempSubscript = (tempSubscript + 1) % mgr.Count
 		parking := &mgr.Spaces[tempSubscript]
 		if parking.GetStatus() == EmptyParkingSpace {
-			mgr.SpaceMap[license] = parking
-			parking.DriveInto(license, mgr.Client)
-			mgr.LastSubscript = tempSubscript
-			return NoErr
+			fmt.Println(tempSubscript, "????")
+			return tempSubscript, nil
 		}
 	}
 
 	mgr.LastSubscript = 0
-	return ErrNoParkingSpace
+	return 0, ErrNoParkingSpace
+}
+
+func (mgr *ParkingMgr) DriveIntoCar(license string, sub int) error {
+
+	_, ok := mgr.SpaceMap[license]
+	if ok {
+		return ErrLicenseAlreadyExists
+	}
+
+	parking := &mgr.Spaces[sub]
+	mgr.SpaceMap[license] = parking
+	parking.DriveInto(license, mgr.Client)
+	mgr.LastSubscript = sub
+
+	return NoErr
 }
 
 func (mgr *ParkingMgr) DriveOutCar(license string) error {

@@ -98,11 +98,17 @@ func RunPythonTask(mgr *ParkingMgr) {
 		}
 		plateStr := strings.TrimRight(strArr[1], "\n")
 		log.Println(cameraMode, plateStr)
+		sid, err := mgr.FindEmptySpace()
+		if err != nil {
+			log.Println("Error find empty space: ", err)
+			continue
+		}
 
 		request := &rpc.LPCheckRequest{
-			Model:     int32(cameraMode),
-			ParkingId: ParkingID,
-			License:   plateStr,
+			Model:          int32(cameraMode),
+			ParkingId:      ParkingID,
+			ParkingSpaceId: int32(sid + 1),
+			License:        plateStr,
 		}
 		resp, err := rpcClient.LicencePlateCheck(context.Background(), request)
 		if err != nil {
@@ -116,7 +122,7 @@ func RunPythonTask(mgr *ParkingMgr) {
 		if resp.Result == transmission.LPCheckSucceeded {
 			wPipe.WriteString("pass")
 			if cameraMode == FrontCamera {
-				err = mgr.DriveIntoCar(plateStr)
+				err = mgr.DriveIntoCar(plateStr, sid)
 			} else {
 				err = mgr.DriveOutCar(plateStr)
 			}
@@ -186,7 +192,7 @@ func UploadPiData(mgr *ParkingMgr) {
 		Id:          ParkingID,
 		Temperature: 4,
 		Humidity:    28,
-		Weather:     "sunny",
+		Weather:     WeatherSunny,
 	}
 	for id := 0; id < parkingSpaceCount; id++ {
 		info := rpc.ParkingSpaceInfo{

@@ -13,10 +13,10 @@ github.com/golang/protobuf/ptypes/timestamp
 # github.com/gorilla/websocket v1.4.2
 ## explicit; go 1.12
 github.com/gorilla/websocket
-# github.com/zgg2001/projectZ/server v0.0.0-20230204151330-3a7ccc4b75aa
+# github.com/zgg2001/projectZ/server v0.0.0-20230210112127-3fdfdec86796
 ## explicit; go 1.18
 github.com/zgg2001/projectZ/server/pkg/rpc
-# golang.org/x/net v0.5.0
+# golang.org/x/net v0.6.0
 ## explicit; go 1.17
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2
@@ -29,19 +29,19 @@ golang.org/x/net/trace
 # golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 ## explicit
 golang.org/x/sync/semaphore
-# golang.org/x/sys v0.4.0
+# golang.org/x/sys v0.5.0
 ## explicit; go 1.17
 golang.org/x/sys/unix
-# golang.org/x/text v0.6.0
+# golang.org/x/text v0.7.0
 ## explicit; go 1.17
 golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# google.golang.org/genproto v0.0.0-20230202175211-008b39050e57
+# google.golang.org/genproto v0.0.0-20230209215440-0dfe4f8abfcc
 ## explicit; go 1.19
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.52.3
+# google.golang.org/grpc v1.53.0
 ## explicit; go 1.17
 google.golang.org/grpc
 google.golang.org/grpc/attributes

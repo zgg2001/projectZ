@@ -20,6 +20,8 @@ const (
 	FrontCamera int = 0
 	RearCamera  int = 1
 
+	WeatherSunny int32 = 0
+
 	NoAlarm         int32 = 0
 	FireAlarm       int32 = 1
 	GasAlarm        int32 = 2
