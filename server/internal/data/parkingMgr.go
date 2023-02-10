@@ -27,7 +27,7 @@ func (pm *ParkingMgr) Init() error {
 			count:           tempParking.Count,
 			temperature:     0,
 			humidity:        0,
-			weather:         "",
+			weather:         0,
 			info:            tempParking.Info,
 		}
 		pm.parkingArr = append(pm.parkingArr, p)
@@ -45,7 +45,7 @@ func (pm *ParkingMgr) Init() error {
 	return nil
 }
 
-func (pm *ParkingMgr) MgrGetParkingPtr(pid, sid int32) (*parking, *parkingSpace, error) {
+func (pm *ParkingMgr) MgrGetParkingPtrPair(pid, sid int32) (*parking, *parkingSpace, error) {
 
 	var pptr *parking
 	var ok bool
@@ -59,4 +59,13 @@ func (pm *ParkingMgr) MgrGetParkingPtr(pid, sid int32) (*parking, *parkingSpace,
 	}
 
 	return pptr, sptr, nil
+}
+
+func (pm *ParkingMgr) MgrGetParkingPtr(pid int32) (*parking, error) {
+	var pptr *parking
+	var ok bool
+	if pptr, ok = pm.idMap[pid]; !ok {
+		return nil, ErrPIdNotFound
+	}
+	return pptr, nil
 }

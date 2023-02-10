@@ -67,7 +67,7 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 	for _, tempRecord := range recordRet {
 		fmt.Println(tempRecord)
 		l := tempRecord.License
-		pptr, sptr, err := pm.MgrGetParkingPtr(tempRecord.PId, tempRecord.SId)
+		pptr, sptr, err := pm.MgrGetParkingPtrPair(tempRecord.PId, tempRecord.SId)
 		if err != nil {
 			return err
 		}

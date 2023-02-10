@@ -19,7 +19,7 @@ message ParkingInfo {
     int32 id = 1;
     int32 temperature = 2;
     int32 humidity = 3;
-    string weather = 4;
+    int32 weather = 4;
 }
 message ParkingSpaceInfo {
     int32 id = 1;
