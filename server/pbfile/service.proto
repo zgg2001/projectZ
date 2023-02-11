@@ -11,7 +11,7 @@ message LPCheckRequest {
 }
 message LPCheckResponse {
     bool result = 1;
-    float balance = 2;
+    int32 balance = 2;
 }
 
 // upload parking info

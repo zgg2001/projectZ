@@ -43,6 +43,7 @@ const (
 )
 
 var (
-	ErrPIdNotFound error = errors.New("parking id not found")
-	ErrSIdNotFound error = errors.New("parkingSpace id not found")
+	ErrPIdNotFound         error = errors.New("parking id not found")
+	ErrSIdNotFound         error = errors.New("parkingSpace id not found")
+	ErrUserLicenseNotFound error = errors.New("user license not found")
 )

@@ -72,10 +72,15 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 			return err
 		}
 		tCar := um.licenseMap[l].carMap[l]
-		tCar.parkingPtr = pptr
-		tCar.parkingSpacePtr = sptr
-		tCar.entryTime = tempRecord.EntryTime
+		tCar.SetParkingSpace(pptr, sptr, tempRecord.EntryTime)
 	}
 
 	return nil
+}
+
+func (um *UserMgr) GetUser(license string) (bool, *user) {
+	if uptr, ok := um.licenseMap[license]; ok {
+		return true, uptr
+	}
+	return false, nil
 }
