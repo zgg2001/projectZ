@@ -33,6 +33,10 @@ func (u *user) GetBalance() int32 {
 	return atomic.LoadInt32(&u.balance)
 }
 
+func (u *user) SetBalance(balance int32) {
+	atomic.StoreInt32(&u.balance, balance)
+}
+
 func (u *user) GetCarPtr(license string) (*car, error) {
 	if cptr, ok := u.carMap[license]; ok {
 		return cptr, nil

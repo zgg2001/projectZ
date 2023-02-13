@@ -17,9 +17,28 @@ var (
 	ErrTableNum error = errors.New("wrong number of tables")
 )
 
-// 后续找机会放外面
+// data
 const (
-	SqlGetTableNum = "SELECT COUNT(TABLE_NAME) FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'projectZ';"
+	startId int32 = 1
+
+	NoAlarm         int32 = 0
+	FireAlarm       int32 = 1
+	GasAlarm        int32 = 2
+	FireAndGasAlarm int32 = 3
+)
+
+var (
+	ErrPIdNotFound           error = errors.New("parking id not found")
+	ErrSIdNotFound           error = errors.New("parkingSpace id not found")
+	ErrUserLicenseNotFound   error = errors.New("user license not found")
+	ErrParkingRecordNotFound error = errors.New("parking record not found")
+)
+
+// sql语句
+const (
+	SqlGetTableNum = "SELECT COUNT(TABLE_NAME) " +
+		"FROM information_schema.TABLES " +
+		"WHERE TABLE_SCHEMA = 'projectZ';"
 
 	SqlCreateParkingTbl = "CREATE TABLE `z_parking` (" +
 		"`id` int unsigned NOT NULL DEFAULT '0'," +
@@ -44,25 +63,29 @@ const (
 		"`sid` int unsigned NOT NULL DEFAULT '0'," +
 		"`entry_time` bigint unsigned DEFAULT '0'," +
 		"PRIMARY KEY (`license`));"
+	SqlCreateParkingRecordTbl = "CREATE TABLE `z_parking_record` (" +
+		"`license` varchar(255) NOT NULL DEFAULT '豫A88888'," +
+		"`pid` int unsigned NOT NULL DEFAULT '0'," +
+		"`sid` int unsigned NOT NULL DEFAULT '0'," +
+		"`state` TINYINT(1) NOT NULL DEFAULT '0'," +
+		"`time` bigint unsigned DEFAULT '0'," +
+		"PRIMARY KEY (`license`));"
 
-	SqlSelectParkingTbl = "SELECT * FROM z_parking;"
-	SqlSelectUserTbl    = "SELECT * FROM z_user;"
-	SqlSelectLicenseTbl = "SELECT * FROM z_license;"
-	SqlSelectRecordTbl  = "SELECT * FROM z_record;"
-)
+	SqlInsertRecordTbl = "INSERT INTO" +
+		"z_record(license, pid, sid, entry_time)" +
+		"VALUES (?, ?, ?, ?);"
+	SqlInsertParkingRecordTbl = "INSERT INTO" +
+		"z_parking_record(license, pid, sid, state, time)" +
+		"VALUES (?, ?, ?, ?, ?);"
 
-// data
-const (
-	startId int32 = 1
+	SqlDeleteRecordTbl = "DELETE FROM mark_plan" +
+		"WHERE license = ?;"
 
-	NoAlarm         int32 = 0
-	FireAlarm       int32 = 1
-	GasAlarm        int32 = 2
-	FireAndGasAlarm int32 = 3
-)
+	SqlSelectRecordUsingLicenseTbl = "SELECT * FROM z_record WHERE license = ?"
 
-var (
-	ErrPIdNotFound         error = errors.New("parking id not found")
-	ErrSIdNotFound         error = errors.New("parkingSpace id not found")
-	ErrUserLicenseNotFound error = errors.New("user license not found")
+	SqlSelectParkingTbl       = "SELECT * FROM z_parking;"
+	SqlSelectUserTbl          = "SELECT * FROM z_user;"
+	SqlSelectLicenseTbl       = "SELECT * FROM z_license;"
+	SqlSelectRecordTbl        = "SELECT * FROM z_record;"
+	SqlSelectParkingRecordTbl = "SELECT * FROM z_parking_record;"
 )
