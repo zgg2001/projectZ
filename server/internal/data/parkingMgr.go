@@ -14,6 +14,8 @@ func (pm *ParkingMgr) Init() error {
 
 	log.Println("ParkingMgr init ...")
 
+	pm.idMap = make(map[int32]*parking)
+
 	// read and load parking
 	parkingRet, err := ReadParkingTbl()
 	if err != nil {

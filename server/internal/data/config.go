@@ -68,13 +68,12 @@ const (
 		"`pid` int unsigned NOT NULL DEFAULT '0'," +
 		"`sid` int unsigned NOT NULL DEFAULT '0'," +
 		"`state` TINYINT(1) NOT NULL DEFAULT '0'," +
-		"`time` bigint unsigned DEFAULT '0'," +
-		"PRIMARY KEY (`license`));"
+		"`time` bigint unsigned DEFAULT '0');"
 
-	SqlInsertRecordTbl = "INSERT INTO" +
+	SqlInsertRecordTbl = "INSERT INTO " +
 		"z_record(license, pid, sid, entry_time)" +
 		"VALUES (?, ?, ?, ?);"
-	SqlInsertParkingRecordTbl = "INSERT INTO" +
+	SqlInsertParkingRecordTbl = "INSERT INTO " +
 		"z_parking_record(license, pid, sid, state, time)" +
 		"VALUES (?, ?, ?, ?, ?);"
 
