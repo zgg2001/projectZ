@@ -116,7 +116,7 @@ func RunPythonTask(mgr *ParkingMgr) {
 			wPipe.WriteString("reject")
 			continue
 		}
-		log.Println("Check success", resp.Result)
+		log.Println("Check success", resp.Result, resp.Balance)
 
 		// 检测逻辑部分
 		if resp.Result == transmission.LPCheckSucceeded {
@@ -160,9 +160,9 @@ func RunDataTask(dataChan chan string, mgr *ParkingMgr) {
 
 		// update
 		if len(mgr.Spaces) >= id {
-			err = mgr.Spaces[id-1].UpdataData(strArr)
+			err = mgr.Spaces[id-1].UpdateData(strArr)
 			if err != nil {
-				log.Printf("Error updata data str: %s\n", err)
+				log.Printf("Error update data str: %s\n", err)
 			}
 			// log.Println(mgr.Spaces[id-1])
 		} else {

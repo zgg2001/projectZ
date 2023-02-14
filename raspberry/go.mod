@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.4.2
-	github.com/zgg2001/projectZ/server v0.0.0-20230210112127-3fdfdec86796
+	github.com/zgg2001/projectZ/server v0.0.0-20230213143626-b954fbfe58b9
 	google.golang.org/grpc v1.53.0
 )
 

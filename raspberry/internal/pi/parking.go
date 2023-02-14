@@ -17,7 +17,7 @@ type ParkingOperation interface {
 	GetStatus() status
 	DriveInto(license string, cli *mqtt.Client)
 	DriveOut(cli *mqtt.Client)
-	UpdataData(dataStr string) error
+	UpdateData(dataStr string) error
 }
 
 type Parking struct {
@@ -56,7 +56,7 @@ func (p *Parking) DriveOut(cli *mqtt.Client) {
 	p.License = ""
 }
 
-func (p *Parking) UpdataData(strArr []string) error {
+func (p *Parking) UpdateData(strArr []string) error {
 
 	temperature, err := strconv.ParseInt(strArr[1], 10, 64)
 	if err != nil {

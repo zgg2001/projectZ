@@ -1,8 +1,6 @@
 package pi
 
 import (
-	"fmt"
-
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
@@ -37,7 +35,6 @@ func (mgr *ParkingMgr) FindEmptySpace() (int, error) {
 		tempSubscript = (tempSubscript + 1) % mgr.Count
 		parking := &mgr.Spaces[tempSubscript]
 		if parking.GetStatus() == EmptyParkingSpace {
-			fmt.Println(tempSubscript, "????")
 			return tempSubscript, nil
 		}
 	}
