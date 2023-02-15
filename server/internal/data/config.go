@@ -8,7 +8,7 @@ import (
 // mysql
 const (
 	DriverName     = "mysql"
-	DataSourceName = "root:Zhj@7512@/projectZ"
+	DataSourceName = "root:password@/projectZ"
 )
 
 var (
@@ -28,10 +28,11 @@ const (
 )
 
 var (
-	ErrPIdNotFound           error = errors.New("parking id not found")
-	ErrSIdNotFound           error = errors.New("parkingSpace id not found")
-	ErrUserLicenseNotFound   error = errors.New("user license not found")
-	ErrParkingRecordNotFound error = errors.New("parking record not found")
+	ErrPIdNotFound                  error = errors.New("parking id not found")
+	ErrSIdNotFound                  error = errors.New("parkingSpace id not found")
+	ErrUserLicenseNotFound          error = errors.New("user license not found")
+	ErrParkingRecordNotFound        error = errors.New("parking record not found")
+	ErrParkingRecordDuplicateRecord error = errors.New("parking record duplicate record")
 )
 
 // sql语句

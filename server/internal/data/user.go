@@ -39,7 +39,10 @@ func (u *user) SetBalance(balance int32) {
 
 func (u *user) GetCarPtr(license string) (*car, error) {
 	if cptr, ok := u.carMap[license]; ok {
-		return cptr, nil
+		if cptr.entryTime == 0 && cptr.parkingPtr == nil && cptr.parkingSpacePtr == nil {
+			return cptr, nil
+		}
+		return nil, ErrParkingRecordDuplicateRecord
 	}
 	return nil, ErrUserLicenseNotFound
 }
