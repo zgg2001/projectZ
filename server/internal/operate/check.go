@@ -2,7 +2,6 @@ package operate
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/zgg2001/projectZ/server/internal/data"
@@ -15,7 +14,6 @@ const (
 )
 
 func (ss *serverService) LicencePlateCheck(con context.Context, request *rpc.LPCheckRequest) (*rpc.LPCheckResponse, error) {
-	log.Println(request.Model, request.ParkingId, request.ParkingSpaceId, request.License)
 
 	model := request.GetModel()
 	license := request.GetLicense()

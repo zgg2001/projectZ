@@ -30,7 +30,7 @@ func (pm *ParkingMgr) Init() error {
 			temperature:     0,
 			humidity:        0,
 			weather:         0,
-			info:            tempParking.Info,
+			address:         tempParking.address,
 		}
 		pm.parkingArr = append(pm.parkingArr, p)
 		pm.idMap[p.id] = &p

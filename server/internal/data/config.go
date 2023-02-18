@@ -44,7 +44,7 @@ const (
 	SqlCreateParkingTbl = "CREATE TABLE `z_parking` (" +
 		"`id` int unsigned NOT NULL DEFAULT '0'," +
 		"`count` int unsigned NOT NULL DEFAULT '0'," +
-		"`info` varchar(255) NOT NULL DEFAULT ''," +
+		"`address` varchar(255) NOT NULL DEFAULT ''," +
 		"PRIMARY KEY (`id`));"
 	SqlCreateUserTbl = "CREATE TABLE `z_user` (" +
 		"`id` int unsigned NOT NULL AUTO_INCREMENT, " +

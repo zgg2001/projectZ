@@ -9,7 +9,7 @@ type parking struct {
 	temperature     int32
 	humidity        int32
 	weather         int32
-	info            string
+	address         string
 }
 
 func (p *parking) GetParkingPtr(sid int32) (*parkingSpace, error) {

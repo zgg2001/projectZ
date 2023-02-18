@@ -2,11 +2,35 @@ syntax = "proto3";
 
 option go_package = "../pkg/rpc";
 
+message ParkingInfo {
+    int32 p_id = 1;
+    int32 temperature = 2;
+    int32 humidity = 3;
+    int32 weather = 4;
+}
+message ParkingSpaceInfo {
+    int32 s_id = 1;
+    int32 temperature = 2;
+    int32 humidity = 3;
+    int32 alarm = 4;
+}
+message CarInfo {
+    int32 p_temperature = 1;
+    int32 p_humidity = 2;
+    int32 p_weather = 3;
+    int32 p_address = 4;
+    int32 s_id = 5;
+    int32 s_temperature = 6;
+    int32 s_humidity = 7;
+    int32 s_alarm = 8;
+}
+
+// raspbery
 // license plate check
 message LPCheckRequest {
     int32 model = 1;
-    int32 parkingId = 2;
-    int32 parkingSpaceId = 3;
+    int32 parking_id = 2;
+    int32 parking_space_id = 3;
     string license = 4;
 }
 message LPCheckResponse {
@@ -15,27 +39,25 @@ message LPCheckResponse {
 }
 
 // upload parking info
-message ParkingInfo {
-    int32 id = 1;
-    int32 temperature = 2;
-    int32 humidity = 3;
-    int32 weather = 4;
-}
-message ParkingSpaceInfo {
-    int32 id = 1;
-    int32 temperature = 2;
-    int32 humidity = 3;
-    int32 alarm = 4;
-}
 message UploadInfoRequest {
-    ParkingInfo pInfo = 1;
-    repeated ParkingSpaceInfo infoArr = 2;
+    ParkingInfo p_info = 1;
+    repeated ParkingSpaceInfo s_info_arr = 2;
 }
 message UploadInfoResponse {
     int32 result = 1;
+}
+
+// client
+// get User data
+message GetUserDataRequest {
+    int32 u_id = 1;
+}
+message GetUserDataResponse {
+    repeated CarInfo car_info_arr = 1;
 }
  
 service ProjectService {
     rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
     rpc UploadParkingInfo(UploadInfoRequest) returns (UploadInfoResponse);
+    rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
 }

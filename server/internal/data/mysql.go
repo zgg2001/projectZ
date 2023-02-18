@@ -8,9 +8,9 @@ import (
 )
 
 type parkingRow struct {
-	Id    int32
-	Count int32
-	Info  string
+	Id      int32
+	Count   int32
+	address string
 }
 
 type userRow struct {
@@ -61,7 +61,7 @@ func ReadParkingTbl() ([]*parkingRow, error) {
 
 	for ret.Next() {
 		var d parkingRow
-		err := ret.Scan(&d.Id, &d.Count, &d.Info)
+		err := ret.Scan(&d.Id, &d.Count, &d.address)
 		if err != nil {
 			return nil, err
 		}
