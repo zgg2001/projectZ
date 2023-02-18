@@ -13,10 +13,10 @@ github.com/golang/protobuf/ptypes/timestamp
 # github.com/gorilla/websocket v1.4.2
 ## explicit; go 1.12
 github.com/gorilla/websocket
-# github.com/zgg2001/projectZ/server v0.0.0-20230213143626-b954fbfe58b9
+# github.com/zgg2001/projectZ/server v0.0.0-20230218133648-3b1e9311740e
 ## explicit; go 1.18
 github.com/zgg2001/projectZ/server/pkg/rpc
-# golang.org/x/net v0.6.0
+# golang.org/x/net v0.7.0
 ## explicit; go 1.17
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2
@@ -38,7 +38,7 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# google.golang.org/genproto v0.0.0-20230209215440-0dfe4f8abfcc
+# google.golang.org/genproto v0.0.0-20230216225411-c8e22ba71e44
 ## explicit; go 1.19
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.53.0

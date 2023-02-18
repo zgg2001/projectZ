@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ProjectServiceClient interface {
 	LicencePlateCheck(ctx context.Context, in *LPCheckRequest, opts ...grpc.CallOption) (*LPCheckResponse, error)
 	UploadParkingInfo(ctx context.Context, in *UploadInfoRequest, opts ...grpc.CallOption) (*UploadInfoResponse, error)
+	GetUserData(ctx context.Context, in *GetUserDataRequest, opts ...grpc.CallOption) (*GetUserDataResponse, error)
 }
 
 type projectServiceClient struct {
@@ -52,12 +53,22 @@ func (c *projectServiceClient) UploadParkingInfo(ctx context.Context, in *Upload
 	return out, nil
 }
 
+func (c *projectServiceClient) GetUserData(ctx context.Context, in *GetUserDataRequest, opts ...grpc.CallOption) (*GetUserDataResponse, error) {
+	out := new(GetUserDataResponse)
+	err := c.cc.Invoke(ctx, "/ProjectService/GetUserData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
 type ProjectServiceServer interface {
 	LicencePlateCheck(context.Context, *LPCheckRequest) (*LPCheckResponse, error)
 	UploadParkingInfo(context.Context, *UploadInfoRequest) (*UploadInfoResponse, error)
+	GetUserData(context.Context, *GetUserDataRequest) (*GetUserDataResponse, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -70,6 +81,9 @@ func (UnimplementedProjectServiceServer) LicencePlateCheck(context.Context, *LPC
 }
 func (UnimplementedProjectServiceServer) UploadParkingInfo(context.Context, *UploadInfoRequest) (*UploadInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadParkingInfo not implemented")
+}
+func (UnimplementedProjectServiceServer) GetUserData(context.Context, *GetUserDataRequest) (*GetUserDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserData not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -120,6 +134,24 @@ func _ProjectService_UploadParkingInfo_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_GetUserData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserDataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GetUserData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ProjectService/GetUserData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GetUserData(ctx, req.(*GetUserDataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +166,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadParkingInfo",
 			Handler:    _ProjectService_UploadParkingInfo_Handler,
+		},
+		{
+			MethodName: "GetUserData",
+			Handler:    _ProjectService_GetUserData_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
