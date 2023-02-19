@@ -167,14 +167,14 @@ type CarInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PTemperature int32 `protobuf:"varint,1,opt,name=p_temperature,json=pTemperature,proto3" json:"p_temperature,omitempty"`
-	PHumidity    int32 `protobuf:"varint,2,opt,name=p_humidity,json=pHumidity,proto3" json:"p_humidity,omitempty"`
-	PWeather     int32 `protobuf:"varint,3,opt,name=p_weather,json=pWeather,proto3" json:"p_weather,omitempty"`
-	PAddress     int32 `protobuf:"varint,4,opt,name=p_address,json=pAddress,proto3" json:"p_address,omitempty"`
-	SId          int32 `protobuf:"varint,5,opt,name=s_id,json=sId,proto3" json:"s_id,omitempty"`
-	STemperature int32 `protobuf:"varint,6,opt,name=s_temperature,json=sTemperature,proto3" json:"s_temperature,omitempty"`
-	SHumidity    int32 `protobuf:"varint,7,opt,name=s_humidity,json=sHumidity,proto3" json:"s_humidity,omitempty"`
-	SAlarm       int32 `protobuf:"varint,8,opt,name=s_alarm,json=sAlarm,proto3" json:"s_alarm,omitempty"`
+	PTemperature int32  `protobuf:"varint,1,opt,name=p_temperature,json=pTemperature,proto3" json:"p_temperature,omitempty"`
+	PHumidity    int32  `protobuf:"varint,2,opt,name=p_humidity,json=pHumidity,proto3" json:"p_humidity,omitempty"`
+	PWeather     int32  `protobuf:"varint,3,opt,name=p_weather,json=pWeather,proto3" json:"p_weather,omitempty"`
+	PAddress     string `protobuf:"bytes,4,opt,name=p_address,json=pAddress,proto3" json:"p_address,omitempty"`
+	SId          int32  `protobuf:"varint,5,opt,name=s_id,json=sId,proto3" json:"s_id,omitempty"`
+	STemperature int32  `protobuf:"varint,6,opt,name=s_temperature,json=sTemperature,proto3" json:"s_temperature,omitempty"`
+	SHumidity    int32  `protobuf:"varint,7,opt,name=s_humidity,json=sHumidity,proto3" json:"s_humidity,omitempty"`
+	SAlarm       int32  `protobuf:"varint,8,opt,name=s_alarm,json=sAlarm,proto3" json:"s_alarm,omitempty"`
 }
 
 func (x *CarInfo) Reset() {
@@ -230,11 +230,11 @@ func (x *CarInfo) GetPWeather() int32 {
 	return 0
 }
 
-func (x *CarInfo) GetPAddress() int32 {
+func (x *CarInfo) GetPAddress() string {
 	if x != nil {
 		return x.PAddress
 	}
-	return 0
+	return ""
 }
 
 func (x *CarInfo) GetSId() int32 {
@@ -619,7 +619,7 @@ var file_service_proto_rawDesc = []byte{
 	0x64, 0x69, 0x74, 0x79, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x5f, 0x77, 0x65, 0x61, 0x74, 0x68, 0x65,
 	0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x57, 0x65, 0x61, 0x74, 0x68, 0x65,
 	0x72, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x04,
-	0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x11,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x11,
 	0x0a, 0x04, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x03, 0x73, 0x49,
 	0x64, 0x12, 0x23, 0x0a, 0x0d, 0x73, 0x5f, 0x74, 0x65, 0x6d, 0x70, 0x65, 0x72, 0x61, 0x74, 0x75,
 	0x72, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0c, 0x73, 0x54, 0x65, 0x6d, 0x70, 0x65,

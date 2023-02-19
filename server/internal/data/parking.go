@@ -24,8 +24,16 @@ func (p *parking) GetParkingPtr(sid int32) (*parkingSpace, error) {
 	return sptr, nil
 }
 
-func (p *parking) UpdateParkingData(t, h, w int32) {
-	atomic.StoreInt32(&p.temperature, int32(t))
-	atomic.StoreInt32(&p.humidity, int32(h))
-	atomic.StoreInt32(&p.weather, int32(w))
+func (p *parking) UpdateParkingData(temp, hum, weather int32) {
+	atomic.StoreInt32(&p.temperature, int32(temp))
+	atomic.StoreInt32(&p.humidity, int32(hum))
+	atomic.StoreInt32(&p.weather, int32(weather))
+}
+
+func (p *parking) GetParkingData() (temp, hum, weather int32, address string) {
+	temp = atomic.LoadInt32(&p.temperature)
+	hum = atomic.LoadInt32(&p.humidity)
+	weather = atomic.LoadInt32(&p.weather)
+	address = p.address
+	return
 }

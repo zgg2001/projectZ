@@ -78,9 +78,16 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 	return nil
 }
 
-func (um *UserMgr) GetUser(license string) (bool, *user) {
+func (um *UserMgr) GetUserByLicense(license string) (bool, *user) {
 	if uptr, ok := um.licenseMap[license]; ok {
 		return true, uptr
 	}
 	return false, nil
+}
+
+func (um *UserMgr) GetUserById(uid int32) (*user, error) {
+	if uptr, ok := um.idMap[uid]; ok {
+		return uptr, nil
+	}
+	return nil, ErrUserNotExist
 }

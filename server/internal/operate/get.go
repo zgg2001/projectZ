@@ -12,6 +12,19 @@ func (ss *serverService) GetUserData(ctx context.Context, request *rpc.GetUserDa
 	log.Println(request)
 
 	var ret []*rpc.CarInfo
+	uid := request.GetUId()
+
+	uptr, err := ss.uMgr.GetUserById(uid)
+	if err != nil {
+		// 未登记用户
+		return &rpc.GetUserDataResponse{CarInfoArr: ret}, err
+	}
+
+	cptrArr := uptr.GetCarPtrArr()
+	for _, cptr := range cptrArr {
+
+		ret = append(ret, cptr.GetCarPtrArr())
+	}
 
 	return &rpc.GetUserDataResponse{CarInfoArr: ret}, nil
 }

@@ -18,7 +18,7 @@ message CarInfo {
     int32 p_temperature = 1;
     int32 p_humidity = 2;
     int32 p_weather = 3;
-    int32 p_address = 4;
+    string p_address = 4;
     int32 s_id = 5;
     int32 s_temperature = 6;
     int32 s_humidity = 7;

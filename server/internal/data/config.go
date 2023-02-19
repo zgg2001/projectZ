@@ -33,6 +33,7 @@ var (
 	ErrUserLicenseNotFound          error = errors.New("user license not found")
 	ErrParkingRecordNotFound        error = errors.New("parking record not found")
 	ErrParkingRecordDuplicateRecord error = errors.New("parking record duplicate record")
+	ErrUserNotExist                 error = errors.New("user not exist")
 )
 
 // sql语句

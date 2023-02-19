@@ -21,7 +21,7 @@ func (ss *serverService) LicencePlateCheck(con context.Context, request *rpc.LPC
 	sid := request.GetParkingSpaceId()
 
 	// find car
-	ok, uptr := ss.uMgr.GetUser(license)
+	ok, uptr := ss.uMgr.GetUserByLicense(license)
 	if !ok {
 		// 未登记车辆
 		return &rpc.LPCheckResponse{Result: false, Balance: 1}, nil

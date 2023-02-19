@@ -3,6 +3,8 @@ package data
 import (
 	"sync/atomic"
 	"unsafe"
+
+	"github.com/zgg2001/projectZ/server/pkg/rpc"
 )
 
 type car struct {
@@ -29,6 +31,24 @@ func (c *car) SetParkingSpace(pptr *parking, sptr *parkingSpace, etime int64) {
 	atomic.StoreInt64(&c.entryTime, etime)
 }
 
+func (c *car) GetCarPtrArr() *rpc.CarInfo {
+	var pptr *parking = (*parking)(atomic.LoadPointer(&c.parkingPtr))
+	var sptr *parkingSpace = (*parkingSpace)(atomic.LoadPointer(&c.parkingSpacePtr))
+	temp, hum, weather, address := pptr.GetParkingData()
+	sid, stemp, shum, alarm := sptr.GetParkingSpaceData()
+	ret := &rpc.CarInfo{
+		PTemperature: temp,
+		PHumidity:    hum,
+		PWeather:     weather,
+		PAddress:     address,
+		SId:          sid,
+		STemperature: stemp,
+		SHumidity:    shum,
+		SAlarm:       alarm,
+	}
+	return ret
+}
+
 func (u *user) GetBalance() int32 {
 	return atomic.LoadInt32(&u.balance)
 }
@@ -45,4 +65,12 @@ func (u *user) GetCarPtr(license string) (*car, error) {
 		return nil, ErrParkingRecordDuplicateRecord
 	}
 	return nil, ErrUserLicenseNotFound
+}
+
+func (u *user) GetCarPtrArr() []*car {
+	var ret []*car
+	for _, car := range u.cars {
+		ret = append(ret, &car)
+	}
+	return ret
 }
