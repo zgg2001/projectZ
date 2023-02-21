@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Git/project/projectZ/android_client/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.290625" />
+        <entry key="..\:/Git/project/projectZ/android_client/app/src/main/res/drawable/ic_launcher_background.xml" value="0.290625" />
         <entry key="..\:/Git/project/projectZ/android_client/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.14375" />
         <entry key="..\:/Git/project/projectZ/android_client/app/src/main/res/layout-w936dp/activity_login.xml" value="0.12568306010928962" />
-        <entry key="..\:/Git/project/projectZ/android_client/app/src/main/res/layout/activity_login.xml" value="0.14375" />
+        <entry key="..\:/Git/project/projectZ/android_client/app/src/main/res/layout/activity_login.xml" value="0.8" />
       </map>
     </option>
   </component>
