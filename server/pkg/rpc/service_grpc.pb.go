@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ProjectServiceClient interface {
 	LicencePlateCheck(ctx context.Context, in *LPCheckRequest, opts ...grpc.CallOption) (*LPCheckResponse, error)
 	UploadParkingInfo(ctx context.Context, in *UploadInfoRequest, opts ...grpc.CallOption) (*UploadInfoResponse, error)
+	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	GetUserData(ctx context.Context, in *GetUserDataRequest, opts ...grpc.CallOption) (*GetUserDataResponse, error)
 }
 
@@ -53,6 +54,15 @@ func (c *projectServiceClient) UploadParkingInfo(ctx context.Context, in *Upload
 	return out, nil
 }
 
+func (c *projectServiceClient) UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error) {
+	out := new(UserLoginResponse)
+	err := c.cc.Invoke(ctx, "/ProjectService/UserLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *projectServiceClient) GetUserData(ctx context.Context, in *GetUserDataRequest, opts ...grpc.CallOption) (*GetUserDataResponse, error) {
 	out := new(GetUserDataResponse)
 	err := c.cc.Invoke(ctx, "/ProjectService/GetUserData", in, out, opts...)
@@ -68,6 +78,7 @@ func (c *projectServiceClient) GetUserData(ctx context.Context, in *GetUserDataR
 type ProjectServiceServer interface {
 	LicencePlateCheck(context.Context, *LPCheckRequest) (*LPCheckResponse, error)
 	UploadParkingInfo(context.Context, *UploadInfoRequest) (*UploadInfoResponse, error)
+	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	GetUserData(context.Context, *GetUserDataRequest) (*GetUserDataResponse, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
@@ -81,6 +92,9 @@ func (UnimplementedProjectServiceServer) LicencePlateCheck(context.Context, *LPC
 }
 func (UnimplementedProjectServiceServer) UploadParkingInfo(context.Context, *UploadInfoRequest) (*UploadInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadParkingInfo not implemented")
+}
+func (UnimplementedProjectServiceServer) UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
 }
 func (UnimplementedProjectServiceServer) GetUserData(context.Context, *GetUserDataRequest) (*GetUserDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserData not implemented")
@@ -134,6 +148,24 @@ func _ProjectService_UploadParkingInfo_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).UserLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ProjectService/UserLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).UserLogin(ctx, req.(*UserLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProjectService_GetUserData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserDataRequest)
 	if err := dec(in); err != nil {
@@ -166,6 +198,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadParkingInfo",
 			Handler:    _ProjectService_UploadParkingInfo_Handler,
+		},
+		{
+			MethodName: "UserLogin",
+			Handler:    _ProjectService_UserLogin_Handler,
 		},
 		{
 			MethodName: "GetUserData",
