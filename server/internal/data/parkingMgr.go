@@ -3,11 +3,13 @@ package data
 import (
 	"fmt"
 	"log"
+	"sync"
 )
 
 type ParkingMgr struct {
 	parkingArr []parking
 	idMap      map[int32]*parking
+	idMapLock  *sync.RWMutex
 }
 
 func (pm *ParkingMgr) Init() error {
@@ -15,6 +17,7 @@ func (pm *ParkingMgr) Init() error {
 	log.Println("ParkingMgr init ...")
 
 	pm.idMap = make(map[int32]*parking)
+	pm.idMapLock = new(sync.RWMutex)
 
 	// read and load parking
 	parkingRet, err := ReadParkingTbl()
@@ -49,6 +52,9 @@ func (pm *ParkingMgr) Init() error {
 
 func (pm *ParkingMgr) MgrGetParkingPtrPair(pid, sid int32) (*parking, *parkingSpace, error) {
 
+	pm.idMapLock.RLock()
+	defer pm.idMapLock.RUnlock()
+
 	var pptr *parking
 	var ok bool
 
@@ -64,6 +70,8 @@ func (pm *ParkingMgr) MgrGetParkingPtrPair(pid, sid int32) (*parking, *parkingSp
 }
 
 func (pm *ParkingMgr) MgrGetParkingPtr(pid int32) (*parking, error) {
+	pm.idMapLock.RLock()
+	defer pm.idMapLock.RUnlock()
 	var pptr *parking
 	var ok bool
 	if pptr, ok = pm.idMap[pid]; !ok {

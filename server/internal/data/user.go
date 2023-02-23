@@ -1,6 +1,7 @@
 package data
 
 import (
+	"sync"
 	"sync/atomic"
 	"unsafe"
 
@@ -23,6 +24,7 @@ type user struct {
 	lastModified int64
 	cars         []car
 	carMap       map[string]*car
+	carMapLock   *sync.RWMutex
 }
 
 func (c *car) SetParkingSpace(pptr *parking, sptr *parkingSpace, etime int64) {
@@ -58,6 +60,8 @@ func (u *user) SetBalance(balance int32) {
 }
 
 func (u *user) GetCarPtr(license string) (*car, error) {
+	u.carMapLock.RLock()
+	defer u.carMapLock.RUnlock()
 	if cptr, ok := u.carMap[license]; ok {
 		if cptr.entryTime == 0 && cptr.parkingPtr == nil && cptr.parkingSpacePtr == nil {
 			return cptr, nil

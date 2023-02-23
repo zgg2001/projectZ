@@ -3,12 +3,15 @@ package data
 import (
 	"fmt"
 	"log"
+	"sync"
 )
 
 type UserMgr struct {
-	userArr    []user
-	idMap      map[int32]*user
-	licenseMap map[string]*user
+	userArr        []user
+	idMap          map[int32]*user
+	idMapLock      *sync.RWMutex
+	licenseMap     map[string]*user
+	licenseMapLock *sync.RWMutex
 }
 
 func (um *UserMgr) Init(pm *ParkingMgr) error {
@@ -16,7 +19,9 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 	log.Println("UserMgr init ...")
 
 	um.idMap = make(map[int32]*user)
+	um.idMapLock = new(sync.RWMutex)
 	um.licenseMap = make(map[string]*user)
+	um.licenseMapLock = new(sync.RWMutex)
 
 	// read and load user
 	userRet, err := ReadUserTbl()
@@ -33,6 +38,7 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 			lastModified: tempUser.LastModified,
 			cars:         nil,
 			carMap:       make(map[string]*car),
+			carMapLock:   new(sync.RWMutex),
 		}
 		um.userArr = append(um.userArr, u)
 		um.idMap[u.id] = &u
@@ -79,6 +85,8 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 }
 
 func (um *UserMgr) GetUserByLicense(license string) (bool, *user) {
+	um.licenseMapLock.RLock()
+	defer um.licenseMapLock.RUnlock()
 	if uptr, ok := um.licenseMap[license]; ok {
 		return true, uptr
 	}
@@ -86,6 +94,8 @@ func (um *UserMgr) GetUserByLicense(license string) (bool, *user) {
 }
 
 func (um *UserMgr) GetUserById(uid int32) (*user, error) {
+	um.idMapLock.RLock()
+	defer um.idMapLock.RUnlock()
 	if uptr, ok := um.idMap[uid]; ok {
 		return uptr, nil
 	}
