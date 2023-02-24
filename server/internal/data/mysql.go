@@ -16,6 +16,7 @@ type parkingRow struct {
 type userRow struct {
 	Id           int32
 	Username     string
+	Password     string
 	Balance      int32
 	CreationTime int64
 	LastModified int64
@@ -83,7 +84,7 @@ func ReadUserTbl() ([]*userRow, error) {
 
 	for ret.Next() {
 		var d userRow
-		err := ret.Scan(&d.Id, &d.Username, &d.Balance, &d.CreationTime, &d.LastModified)
+		err := ret.Scan(&d.Id, &d.Username, &d.Password, &d.Balance, &d.CreationTime, &d.LastModified)
 		if err != nil {
 			return nil, err
 		}

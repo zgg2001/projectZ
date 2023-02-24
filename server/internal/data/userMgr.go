@@ -1,6 +1,8 @@
 package data
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"log"
 	"sync"
@@ -12,6 +14,8 @@ type UserMgr struct {
 	idMapLock      *sync.RWMutex
 	licenseMap     map[string]*user
 	licenseMapLock *sync.RWMutex
+	loginMap       map[string]string
+	loginMapLock   *sync.RWMutex
 }
 
 func (um *UserMgr) Init(pm *ParkingMgr) error {
@@ -22,6 +26,8 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 	um.idMapLock = new(sync.RWMutex)
 	um.licenseMap = make(map[string]*user)
 	um.licenseMapLock = new(sync.RWMutex)
+	um.loginMap = make(map[string]string)
+	um.loginMapLock = new(sync.RWMutex)
 
 	// read and load user
 	userRet, err := ReadUserTbl()
@@ -42,6 +48,7 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 		}
 		um.userArr = append(um.userArr, u)
 		um.idMap[u.id] = &u
+		um.loginMap[tempUser.Username] = tempUser.Password
 	}
 
 	// read and load user license
@@ -100,4 +107,23 @@ func (um *UserMgr) GetUserById(uid int32) (*user, error) {
 		return uptr, nil
 	}
 	return nil, ErrUserNotExist
+}
+
+func (um *UserMgr) LoginAuth(username, password string) error {
+	um.loginMapLock.RLock()
+	defer um.loginMapLock.RUnlock()
+	if realpw, ok := um.loginMap[username]; ok {
+		changedStr := GetMD5Hash(password)
+		if realpw == changedStr {
+			return nil
+		}
+		return ErrWrongPassword
+	}
+	return ErrUserNotExist
+}
+
+func GetMD5Hash(text string) string {
+	hasher := md5.New()
+	hasher.Write([]byte(text))
+	return hex.EncodeToString(hasher.Sum(nil))
 }

@@ -34,6 +34,7 @@ var (
 	ErrParkingRecordNotFound        error = errors.New("parking record not found")
 	ErrParkingRecordDuplicateRecord error = errors.New("parking record duplicate record")
 	ErrUserNotExist                 error = errors.New("user not exist")
+	ErrWrongPassword                error = errors.New("wrong password")
 )
 
 // sql语句
@@ -49,7 +50,8 @@ const (
 		"PRIMARY KEY (`id`));"
 	SqlCreateUserTbl = "CREATE TABLE `z_user` (" +
 		"`id` int unsigned NOT NULL AUTO_INCREMENT, " +
-		"`username` varchar(255) NOT NULL DEFAULT 'user'," +
+		"`username` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT ''," +
+		"`password` varchar(255) DEFAULT NULL," +
 		"`balance` int unsigned NOT NULL DEFAULT '0', " +
 		"`creation_time` bigint unsigned DEFAULT '0', " +
 		"`last_Modified` bigint unsigned DEFAULT '0', " +
