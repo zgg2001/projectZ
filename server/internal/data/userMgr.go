@@ -6,7 +6,14 @@ import (
 	"fmt"
 	"log"
 	"sync"
+
+	"github.com/zgg2001/projectZ/server/pkg/rpc"
 )
+
+type UserLoginInfo struct {
+	uid      int32
+	password string
+}
 
 type UserMgr struct {
 	userArr        []user
@@ -14,7 +21,7 @@ type UserMgr struct {
 	idMapLock      *sync.RWMutex
 	licenseMap     map[string]*user
 	licenseMapLock *sync.RWMutex
-	loginMap       map[string]string
+	loginMap       map[string]UserLoginInfo
 	loginMapLock   *sync.RWMutex
 }
 
@@ -26,7 +33,7 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 	um.idMapLock = new(sync.RWMutex)
 	um.licenseMap = make(map[string]*user)
 	um.licenseMapLock = new(sync.RWMutex)
-	um.loginMap = make(map[string]string)
+	um.loginMap = make(map[string]UserLoginInfo)
 	um.loginMapLock = new(sync.RWMutex)
 
 	// read and load user
@@ -48,7 +55,7 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 		}
 		um.userArr = append(um.userArr, u)
 		um.idMap[u.id] = &u
-		um.loginMap[tempUser.Username] = tempUser.Password
+		um.loginMap[tempUser.Username] = UserLoginInfo{uid: tempUser.Id, password: tempUser.Password}
 	}
 
 	// read and load user license
@@ -109,17 +116,17 @@ func (um *UserMgr) GetUserById(uid int32) (*user, error) {
 	return nil, ErrUserNotExist
 }
 
-func (um *UserMgr) LoginAuth(username, password string) error {
+func (um *UserMgr) LoginAuth(username, password string) (int32, rpc.LoginResult) {
 	um.loginMapLock.RLock()
 	defer um.loginMapLock.RUnlock()
-	if realpw, ok := um.loginMap[username]; ok {
+	if userInfo, ok := um.loginMap[username]; ok {
 		changedStr := GetMD5Hash(password)
-		if realpw == changedStr {
-			return nil
+		if userInfo.password == changedStr {
+			return userInfo.uid, rpc.LoginResult_LOGIN_SUCCESS
 		}
-		return ErrWrongPassword
+		return -1, rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
 	}
-	return ErrUserNotExist
+	return -1, rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
 }
 
 func GetMD5Hash(text string) string {

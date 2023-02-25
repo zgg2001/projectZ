@@ -46,7 +46,7 @@ func (c *car) GetCarPtrArr() *rpc.CarInfo {
 		SId:          sid,
 		STemperature: stemp,
 		SHumidity:    shum,
-		SAlarm:       alarm,
+		SAlarm:       rpc.Alarm(alarm),
 	}
 	return ret
 }

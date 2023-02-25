@@ -22,7 +22,7 @@ func (ss *serverService) UploadParkingInfo(con context.Context, request *rpc.Upl
 		if err != nil {
 			return &rpc.UploadInfoResponse{Result: 0}, err
 		}
-		sPtr.UpdateParkingSpaceData(i.GetTemperature(), i.GetHumidity(), i.GetAlarm())
+		sPtr.UpdateParkingSpaceData(i.GetTemperature(), i.GetHumidity(), int32(i.GetAlarm()))
 	}
 
 	return &rpc.UploadInfoResponse{Result: 1}, nil
