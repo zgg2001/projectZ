@@ -9,9 +9,6 @@ import (
 func (ss *serverService) UserLogin(ctx context.Context, request *rpc.UserLoginRequest) (*rpc.UserLoginResponse, error) {
 	username := request.GetUsername()
 	password := request.GetPassword()
-	err := ss.uMgr.LoginAuth(username, password)
-	if err != nil {
-		return &rpc.UserLoginResponse{Result: 0}, err
-	}
-	return &rpc.UserLoginResponse{Result: 1}, nil
+	ret := ss.uMgr.LoginAuth(username, password)
+	return &rpc.UserLoginResponse{Result: ret, UId: 1}, nil
 }

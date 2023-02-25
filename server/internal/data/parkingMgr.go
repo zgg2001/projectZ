@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"sync"
+
+	"github.com/zgg2001/projectZ/server/pkg/rpc"
 )
 
 type ParkingMgr struct {
@@ -42,7 +44,7 @@ func (pm *ParkingMgr) Init() error {
 				id:          sid,
 				temperature: 0,
 				humidity:    0,
-				alarm:       NoAlarm,
+				alarm:       int32(rpc.Alarm_ALARM_NO),
 			})
 		}
 	}

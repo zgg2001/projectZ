@@ -20,11 +20,6 @@ var (
 // data
 const (
 	startId int32 = 1
-
-	NoAlarm         int32 = 0
-	FireAlarm       int32 = 1
-	GasAlarm        int32 = 2
-	FireAndGasAlarm int32 = 3
 )
 
 var (
@@ -34,7 +29,6 @@ var (
 	ErrParkingRecordNotFound        error = errors.New("parking record not found")
 	ErrParkingRecordDuplicateRecord error = errors.New("parking record duplicate record")
 	ErrUserNotExist                 error = errors.New("user not exist")
-	ErrWrongPassword                error = errors.New("wrong password")
 )
 
 // sql语句

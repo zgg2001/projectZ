@@ -2,6 +2,19 @@ syntax = "proto3";
 
 option go_package = "../pkg/rpc";
 
+enum Alarm {
+    ALARM_NO = 0;
+    ALARM_FIRE = 1;
+    ALARM_GAS = 2;
+    ALARM_FIRE_AND_GAS = 3;
+}
+
+enum LoginResult {
+    LOGIN_SUCCESS = 0;
+    LOGIN_FAIL_NOT_EXIST = 1;
+    LOGIN_FAIL_WRONG_PASSWORD = 2;
+}
+
 message ParkingInfo {
     int32 p_id = 1;
     int32 temperature = 2;
@@ -12,7 +25,7 @@ message ParkingSpaceInfo {
     int32 s_id = 1;
     int32 temperature = 2;
     int32 humidity = 3;
-    int32 alarm = 4;
+    Alarm alarm = 4;
 }
 message CarInfo {
     int32 p_temperature = 1;
@@ -22,7 +35,7 @@ message CarInfo {
     int32 s_id = 5;
     int32 s_temperature = 6;
     int32 s_humidity = 7;
-    int32 s_alarm = 8;
+    Alarm s_alarm = 8;
 }
 
 // raspbery
@@ -48,14 +61,16 @@ message UploadInfoResponse {
 }
 
 // client
-// get User data
+// login
 message UserLoginRequest {
     string username = 1;
     string password = 2;
 }
 message UserLoginResponse {
-    int32 result = 1;
+    LoginResult result = 1;
+    int32 u_id = 2;
 }
+// get User data
 message GetUserDataRequest {
     int32 u_id = 1;
 }
