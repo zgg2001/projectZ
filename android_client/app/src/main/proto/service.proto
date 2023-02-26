@@ -1,0 +1,89 @@
+syntax = "proto3";
+package com.zgg2001.grpc.service;
+
+
+option go_package = "../pkg/rpc";
+option java_package = "com.zgg2001.grpc.service";
+
+enum Alarm {
+    ALARM_NO = 0;
+    ALARM_FIRE = 1;
+    ALARM_GAS = 2;
+    ALARM_FIRE_AND_GAS = 3;
+}
+
+enum LoginResult {
+    LOGIN_SUCCESS = 0;
+    LOGIN_FAIL_NOT_EXIST = 1;
+    LOGIN_FAIL_WRONG_PASSWORD = 2;
+}
+
+message ParkingInfo {
+    int32 p_id = 1;
+    int32 temperature = 2;
+    int32 humidity = 3;
+    int32 weather = 4;
+}
+message ParkingSpaceInfo {
+    int32 s_id = 1;
+    int32 temperature = 2;
+    int32 humidity = 3;
+    Alarm alarm = 4;
+}
+message CarInfo {
+    int32 p_temperature = 1;
+    int32 p_humidity = 2;
+    int32 p_weather = 3;
+    string p_address = 4;
+    int32 s_id = 5;
+    int32 s_temperature = 6;
+    int32 s_humidity = 7;
+    Alarm s_alarm = 8;
+}
+
+// raspbery
+// license plate check
+message LPCheckRequest {
+    int32 model = 1;
+    int32 parking_id = 2;
+    int32 parking_space_id = 3;
+    string license = 4;
+}
+message LPCheckResponse {
+    bool result = 1;
+    int32 balance = 2;
+}
+
+// upload parking info
+message UploadInfoRequest {
+    ParkingInfo p_info = 1;
+    repeated ParkingSpaceInfo s_info_arr = 2;
+}
+message UploadInfoResponse {
+    int32 result = 1;
+}
+
+// client
+// login
+message UserLoginRequest {
+    string username = 1;
+    string password = 2;
+}
+message UserLoginResponse {
+    LoginResult result = 1;
+    int32 u_id = 2;
+}
+// get User data
+message GetUserDataRequest {
+    int32 u_id = 1;
+}
+message GetUserDataResponse {
+    repeated CarInfo car_info_arr = 1;
+}
+ 
+service ProjectService {
+    rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
+    rpc UploadParkingInfo(UploadInfoRequest) returns (UploadInfoResponse);
+    rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
+    rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
+}
