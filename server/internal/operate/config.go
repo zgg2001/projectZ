@@ -13,8 +13,9 @@ type ServiceOperation interface {
 
 type serverService struct {
 	rpc.UnimplementedProjectServiceServer
-	pMgr data.ParkingMgr
-	uMgr data.UserMgr
+	pMgr     data.ParkingMgr
+	uMgr     data.UserMgr
+	funcChan chan func()
 }
 
 func (ss *serverService) Init() error {
@@ -27,4 +28,21 @@ func (ss *serverService) Init() error {
 		return err
 	}
 	return nil
+}
+
+func (ss *serverService) DBMgrTaskQueueRunning() {
+	ss.funcChan = make(chan func(), 10)
+	for {
+		f, ok := <-ss.funcChan
+		if !ok {
+			break
+		}
+		f()
+	}
+}
+
+func (ss *serverService) RegisterUser(username, paasword string) {
+	ss.funcChan <- func() {
+		//注册用户
+	}
 }

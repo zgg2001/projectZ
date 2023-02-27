@@ -23,5 +23,8 @@ func main() {
 		return
 	}
 
+	// db task
+	go operate.ServerService.DBMgrTaskQueueRunning()
+
 	transmission.StartRPCService()
 }

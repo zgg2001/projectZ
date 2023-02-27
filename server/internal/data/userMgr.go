@@ -120,13 +120,22 @@ func (um *UserMgr) LoginAuth(username, password string) (int32, rpc.LoginResult)
 	um.loginMapLock.RLock()
 	defer um.loginMapLock.RUnlock()
 	if userInfo, ok := um.loginMap[username]; ok {
-		changedStr := GetMD5Hash(password)
-		if userInfo.password == changedStr {
+		changedPasswd := GetMD5Hash(password)
+		if userInfo.password == changedPasswd {
 			return userInfo.uid, rpc.LoginResult_LOGIN_SUCCESS
 		}
 		return -1, rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
 	}
 	return -1, rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
+}
+
+func (um *UserMgr) RegistrationAuth(username, password string) rpc.RegistrationResult {
+	um.loginMapLock.RLock()
+	defer um.loginMapLock.RUnlock()
+	if _, ok := um.loginMap[username]; ok {
+		return rpc.RegistrationResult_REGISTRATION_FAIL_ALREADY_EXIST
+	}
+	return rpc.RegistrationResult_REGISTRATION_SUCCESS
 }
 
 func GetMD5Hash(text string) string {
