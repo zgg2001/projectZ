@@ -1,6 +1,9 @@
 package operate
 
 import (
+	"log"
+	"time"
+
 	"github.com/zgg2001/projectZ/server/internal/data"
 	"github.com/zgg2001/projectZ/server/pkg/rpc"
 )
@@ -19,6 +22,7 @@ type serverService struct {
 }
 
 func (ss *serverService) Init() error {
+	ss.funcChan = make(chan func(), 22)
 	err := ss.pMgr.Init()
 	if err != nil {
 		return err
@@ -31,7 +35,6 @@ func (ss *serverService) Init() error {
 }
 
 func (ss *serverService) DBMgrTaskQueueRunning() {
-	ss.funcChan = make(chan func(), 10)
 	for {
 		f, ok := <-ss.funcChan
 		if !ok {
@@ -43,6 +46,13 @@ func (ss *serverService) DBMgrTaskQueueRunning() {
 
 func (ss *serverService) RegisterUser(username, paasword string) {
 	ss.funcChan <- func() {
-		//注册用户
+		var balance int32 = 0
+		nowTime := time.Now().Unix()
+		changedPasswd := data.GetMD5Hash(paasword)
+		uid, err := data.InsertUserTbl(username, changedPasswd, balance, nowTime)
+		if err != nil {
+			log.Println(err)
+		}
+		ss.uMgr.AddUser(username, paasword, uid, balance, nowTime)
 	}
 }

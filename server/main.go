@@ -26,5 +26,7 @@ func main() {
 	// db task
 	go operate.ServerService.DBMgrTaskQueueRunning()
 
+	operate.ServerService.RegisterUser("zhj", "7512")
+
 	transmission.StartRPCService()
 }
