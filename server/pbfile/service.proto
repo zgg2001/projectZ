@@ -15,6 +15,11 @@ enum LoginResult {
     LOGIN_FAIL_WRONG_PASSWORD = 2;
 }
 
+enum RegistrationResult {
+    REGISTRATION_SUCCESS = 0;
+    REGISTRATION_FAIL_ALREADY_EXIST = 1;
+}
+
 message ParkingInfo {
     int32 p_id = 1;
     int32 temperature = 2;
@@ -61,7 +66,7 @@ message UploadInfoResponse {
 }
 
 // client
-// login
+// login & registration
 message UserLoginRequest {
     string username = 1;
     string password = 2;
@@ -69,6 +74,13 @@ message UserLoginRequest {
 message UserLoginResponse {
     LoginResult result = 1;
     int32 u_id = 2;
+}
+message UserRegistrationRequest {
+    string username = 1;
+    string password = 2;
+}
+message UserRegistrationResponse {
+    RegistrationResult result = 1;
 }
 // get User data
 message GetUserDataRequest {
@@ -82,5 +94,6 @@ service ProjectService {
     rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
     rpc UploadParkingInfo(UploadInfoRequest) returns (UploadInfoResponse);
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
+    rpc UserRegistration(UserRegistrationRequest) returns (UserRegistrationResponse);
     rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
 }

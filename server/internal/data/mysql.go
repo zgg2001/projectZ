@@ -138,6 +138,30 @@ func ReadRecordTbl() ([]*recordRow, error) {
 	return data, nil
 }
 
+func InsertUserTbl(username, password string, balance int32, nowTime int64) (int32, error) {
+
+	var uid int32 = -1
+
+	ret, err := DB.Query(SqlSelectNextPrimaryId, "z_user")
+	if err != nil {
+		return uid, err
+	}
+	defer ret.Close()
+	for ret.Next() {
+		err := ret.Scan(&uid)
+		if err != nil {
+			return uid, err
+		}
+	}
+
+	_, err = DB.Query(SqlInsertUserTbl, username, password, balance, nowTime, nowTime)
+	if err != nil {
+		log.Println(err)
+		return uid, err
+	}
+	return uid, nil
+}
+
 func InsertRecordTbl(license string, pid, sid int32, etime int64) {
 	_, err := DB.Query(SqlInsertRecordTbl, license, pid, sid, etime)
 	if err != nil {

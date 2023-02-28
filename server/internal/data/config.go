@@ -68,6 +68,9 @@ const (
 		"`state` TINYINT(1) NOT NULL DEFAULT '0'," +
 		"`time` bigint unsigned DEFAULT '0');"
 
+	SqlInsertUserTbl = "INSERT INTO " +
+		"z_user(username, password, balance, creation_time, last_Modified)" +
+		"VALUES (?, ?, ?, ?, ?);"
 	SqlInsertRecordTbl = "INSERT INTO " +
 		"z_record(license, pid, sid, entry_time)" +
 		"VALUES (?, ?, ?, ?);"
@@ -80,6 +83,7 @@ const (
 
 	SqlSelectRecordUsingLicenseTbl = "SELECT * FROM z_record WHERE license = ?"
 
+	SqlSelectNextPrimaryId    = "SELECT AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME=?;"
 	SqlSelectParkingTbl       = "SELECT * FROM z_parking;"
 	SqlSelectUserTbl          = "SELECT * FROM z_user;"
 	SqlSelectLicenseTbl       = "SELECT * FROM z_license;"

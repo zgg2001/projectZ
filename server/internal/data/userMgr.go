@@ -98,6 +98,22 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 	return nil
 }
 
+func (um *UserMgr) AddUser(username, paasword string, uid, balance int32, nowTime int64) {
+	u := user{
+		id:           uid,
+		balance:      balance,
+		username:     username,
+		creationTime: nowTime,
+		lastModified: nowTime,
+		cars:         nil,
+		carMap:       make(map[string]*car),
+		carMapLock:   new(sync.RWMutex),
+	}
+	um.userArr = append(um.userArr, u)
+	um.setUserByUsername(username, paasword, uid)
+	um.setUserById(uid, &u)
+}
+
 func (um *UserMgr) GetUserByLicense(license string) (bool, *user) {
 	um.licenseMapLock.RLock()
 	defer um.licenseMapLock.RUnlock()
@@ -120,8 +136,8 @@ func (um *UserMgr) LoginAuth(username, password string) (int32, rpc.LoginResult)
 	um.loginMapLock.RLock()
 	defer um.loginMapLock.RUnlock()
 	if userInfo, ok := um.loginMap[username]; ok {
-		changedStr := GetMD5Hash(password)
-		if userInfo.password == changedStr {
+		changedPasswd := GetMD5Hash(password)
+		if userInfo.password == changedPasswd {
 			return userInfo.uid, rpc.LoginResult_LOGIN_SUCCESS
 		}
 		return -1, rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
@@ -129,8 +145,29 @@ func (um *UserMgr) LoginAuth(username, password string) (int32, rpc.LoginResult)
 	return -1, rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
 }
 
+func (um *UserMgr) RegistrationAuth(username, password string) rpc.RegistrationResult {
+	um.loginMapLock.RLock()
+	defer um.loginMapLock.RUnlock()
+	if _, ok := um.loginMap[username]; ok {
+		return rpc.RegistrationResult_REGISTRATION_FAIL_ALREADY_EXIST
+	}
+	return rpc.RegistrationResult_REGISTRATION_SUCCESS
+}
+
 func GetMD5Hash(text string) string {
 	hasher := md5.New()
 	hasher.Write([]byte(text))
 	return hex.EncodeToString(hasher.Sum(nil))
+}
+
+func (um *UserMgr) setUserById(uid int32, info *user) {
+	um.idMapLock.Lock()
+	defer um.idMapLock.Unlock()
+	um.idMap[uid] = info
+}
+
+func (um *UserMgr) setUserByUsername(username, password string, uid int32) {
+	um.loginMapLock.Lock()
+	defer um.loginMapLock.Unlock()
+	um.loginMap[username] = UserLoginInfo{uid: uid, password: password}
 }
