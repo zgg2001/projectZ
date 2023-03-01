@@ -23,8 +23,8 @@ type userRow struct {
 }
 
 type licenseRow struct {
-	Id          int32
 	License     string
+	Id          int32
 	CheckInTime int64
 }
 
@@ -106,7 +106,7 @@ func ReadLicenseTbl() ([]*licenseRow, error) {
 
 	for ret.Next() {
 		var d licenseRow
-		err := ret.Scan(&d.Id, &d.License, &d.CheckInTime)
+		err := ret.Scan(&d.License, &d.Id, &d.CheckInTime)
 		if err != nil {
 			return nil, err
 		}
@@ -160,6 +160,15 @@ func InsertUserTbl(username, password string, balance int32, nowTime int64) (int
 		return uid, err
 	}
 	return uid, nil
+}
+
+func InsertLicenseTbl(uid int32, license string, nowTime int64) error {
+	_, err := DB.Query(SqlInsertLicenseTbl, license, uid, nowTime)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	return nil
 }
 
 func InsertRecordTbl(license string, pid, sid int32, etime int64) {

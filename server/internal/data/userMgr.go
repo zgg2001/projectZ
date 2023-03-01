@@ -98,22 +98,6 @@ func (um *UserMgr) Init(pm *ParkingMgr) error {
 	return nil
 }
 
-func (um *UserMgr) AddUser(username, paasword string, uid, balance int32, nowTime int64) {
-	u := user{
-		id:           uid,
-		balance:      balance,
-		username:     username,
-		creationTime: nowTime,
-		lastModified: nowTime,
-		cars:         nil,
-		carMap:       make(map[string]*car),
-		carMapLock:   new(sync.RWMutex),
-	}
-	um.userArr = append(um.userArr, u)
-	um.setUserByUsername(username, paasword, uid)
-	um.setUserById(uid, &u)
-}
-
 func (um *UserMgr) GetUserByLicense(license string) (bool, *user) {
 	um.licenseMapLock.RLock()
 	defer um.licenseMapLock.RUnlock()
@@ -145,13 +129,56 @@ func (um *UserMgr) LoginAuth(username, password string) (int32, rpc.LoginResult)
 	return -1, rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
 }
 
-func (um *UserMgr) RegistrationAuth(username, password string) rpc.RegistrationResult {
+func (um *UserMgr) UserRegistrationAuth(username, password string) rpc.RegistrationResult {
 	um.loginMapLock.RLock()
 	defer um.loginMapLock.RUnlock()
 	if _, ok := um.loginMap[username]; ok {
 		return rpc.RegistrationResult_REGISTRATION_FAIL_ALREADY_EXIST
 	}
 	return rpc.RegistrationResult_REGISTRATION_SUCCESS
+}
+
+func (um *UserMgr) UserRegistration(username, paasword string, uid, balance int32, nowTime int64) {
+	u := user{
+		id:           uid,
+		balance:      balance,
+		username:     username,
+		creationTime: nowTime,
+		lastModified: nowTime,
+		cars:         nil,
+		carMap:       make(map[string]*car),
+		carMapLock:   new(sync.RWMutex),
+	}
+	um.userArr = append(um.userArr, u)
+	um.setUserByUsername(username, paasword, uid)
+	um.setUserById(uid, &u)
+}
+
+func (um *UserMgr) UserAddCarAuth(uid int32, license string) rpc.CarOperationResult {
+	ok, _ := um.GetUserByLicense(license)
+	if ok {
+		return rpc.CarOperationResult_OPERATION_ADD_FAIL_ALREADY_EXIST
+	}
+	_, err := um.GetUserById(uid)
+	if err != nil {
+		return rpc.CarOperationResult_OPERATION_ADD_FAIL_USER_NOT_EXIST
+	}
+	return rpc.CarOperationResult_OPERATION_ADD_SUCCESS
+}
+
+func (um *UserMgr) UserAddCar(uid int32, license string, nowTime int64) {
+	ok, _ := um.GetUserByLicense(license)
+	if ok {
+		return
+	}
+	uptr, err := um.GetUserById(uid)
+	if err != nil {
+		return
+	}
+	uptr.AddCar(license, nowTime)
+	um.licenseMapLock.Lock()
+	um.licenseMap[license] = uptr
+	um.licenseMapLock.Unlock()
 }
 
 func GetMD5Hash(text string) string {

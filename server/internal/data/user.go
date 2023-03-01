@@ -59,6 +59,20 @@ func (u *user) SetBalance(balance int32) {
 	atomic.StoreInt32(&u.balance, balance)
 }
 
+func (u *user) AddCar(license string, nowTime int64) {
+	u.carMapLock.Lock()
+	defer u.carMapLock.Unlock()
+	c := car{
+		license:         license,
+		parkingPtr:      nil,
+		parkingSpacePtr: nil,
+		checkInTime:     nowTime,
+		entryTime:       0,
+	}
+	u.cars = append(u.cars, c)
+	u.carMap[c.license] = &c
+}
+
 func (u *user) GetCarPtr(license string) (*car, error) {
 	u.carMapLock.RLock()
 	defer u.carMapLock.RUnlock()
