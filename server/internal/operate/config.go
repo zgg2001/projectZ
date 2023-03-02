@@ -64,3 +64,23 @@ func (ss *serverService) SqlAddCar(uid int32, license string, nowTime int64) {
 		ss.uMgr.UserAddCar(uid, license, nowTime)
 	}
 }
+
+func (ss *serverService) SqlDeleteCar(uid int32, license string) {
+	ss.funcChan <- func() {
+		err := data.DeleteLicenseTbl(license)
+		if err != nil {
+			log.Println(err)
+		}
+		ss.uMgr.UserDeleteCar(uid, license)
+	}
+}
+
+func (ss *serverService) SqlChangeCar(uid int32, license, newlicense string) {
+	ss.funcChan <- func() {
+		err := data.ChangeLicenseTbl(license, newlicense)
+		if err != nil {
+			log.Println(err)
+		}
+		ss.uMgr.UserChangeCar(uid, license, newlicense)
+	}
+}

@@ -22,7 +22,7 @@ type user struct {
 	username     string
 	creationTime int64
 	lastModified int64
-	cars         []car
+	cars         []*car
 	carMap       map[string]*car
 	carMapLock   *sync.RWMutex
 }
@@ -62,7 +62,7 @@ func (u *user) SetBalance(balance int32) {
 func (u *user) AddCar(license string, nowTime int64) {
 	u.carMapLock.Lock()
 	defer u.carMapLock.Unlock()
-	c := car{
+	c := &car{
 		license:         license,
 		parkingPtr:      nil,
 		parkingSpacePtr: nil,
@@ -70,10 +70,34 @@ func (u *user) AddCar(license string, nowTime int64) {
 		entryTime:       0,
 	}
 	u.cars = append(u.cars, c)
-	u.carMap[c.license] = &c
+	u.carMap[c.license] = c
 }
 
-func (u *user) GetCarPtr(license string) (*car, error) {
+func (u *user) DeleteCar(license string) {
+	u.carMapLock.Lock()
+	defer u.carMapLock.Unlock()
+	delete(u.carMap, license)
+	for i, cptr := range u.cars {
+		if cptr.license == license {
+			u.cars = append(u.cars[:i], u.cars[i+1:]...)
+			break
+		}
+	}
+}
+
+func (u *user) ChangeCar(license, newlicense string) {
+	u.carMapLock.Lock()
+	defer u.carMapLock.Unlock()
+	uptr, err := u.GetCarPtrCheckEntered(license)
+	if err != nil {
+		return
+	}
+	uptr.license = newlicense
+	u.carMap[newlicense] = uptr
+	delete(u.carMap, license)
+}
+
+func (u *user) GetCarPtrCheckEntered(license string) (*car, error) {
 	u.carMapLock.RLock()
 	defer u.carMapLock.RUnlock()
 	if cptr, ok := u.carMap[license]; ok {
@@ -88,7 +112,7 @@ func (u *user) GetCarPtr(license string) (*car, error) {
 func (u *user) GetCarPtrArr() []*car {
 	var ret []*car
 	for _, car := range u.cars {
-		ret = append(ret, &car)
+		ret = append(ret, car)
 	}
 	return ret
 }

@@ -165,8 +165,7 @@ func InsertUserTbl(username, password string, balance int32, nowTime int64) (int
 func InsertLicenseTbl(uid int32, license string, nowTime int64) error {
 	_, err := DB.Query(SqlInsertLicenseTbl, license, uid, nowTime)
 	if err != nil {
-		log.Println(err)
-		return nil
+		return err
 	}
 	return nil
 }
@@ -183,6 +182,22 @@ func InsertParkingRecordTbl(license string, pid, sid, state int32, time int64) {
 	if err != nil {
 		log.Println(err)
 	}
+}
+
+func DeleteLicenseTbl(license string) error {
+	_, err := DB.Exec(SqlDeleteLicenseTbl, license)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ChangeLicenseTbl(license, newlicense string) error {
+	_, err := DB.Exec(SqlUpdateLicenseTbl, newlicense, license)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func DeleteRecordTbl(license string) {

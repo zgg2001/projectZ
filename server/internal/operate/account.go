@@ -37,9 +37,16 @@ func (ss *serverService) CarOperation(ctx context.Context, request *rpc.CarOpera
 			ss.SqlAddCar(uid, license, nowTime)
 		}
 	case rpc.CarOperation_OPERATION_DELETE:
-
+		ret = ss.uMgr.UserDeleteCarAuth(uid, license)
+		if ret == rpc.CarOperationResult_OPERATION_DELETE_SUCCESS {
+			ss.SqlDeleteCar(uid, license)
+		}
 	case rpc.CarOperation_OPERATION_CHANGE:
-
+		newlicense := request.GetNewLicense()
+		ret = ss.uMgr.UserChangeCarAuth(uid, license)
+		if ret == rpc.CarOperationResult_OPERATION_CHANGE_SUCCESS {
+			ss.SqlChangeCar(uid, license, newlicense)
+		}
 	}
 	return &rpc.CarOperationResponse{Result: ret}, nil
 }
