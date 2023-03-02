@@ -2,7 +2,6 @@ package operate
 
 import (
 	"log"
-	"time"
 
 	"github.com/zgg2001/projectZ/server/internal/data"
 	"github.com/zgg2001/projectZ/server/pkg/rpc"
@@ -44,15 +43,44 @@ func (ss *serverService) DBMgrTaskQueueRunning() {
 	}
 }
 
-func (ss *serverService) RegisterUser(username, paasword string) {
+func (ss *serverService) SqlRegisterUser(username, paasword string, nowTime int64) {
 	ss.funcChan <- func() {
 		var balance int32 = 0
-		nowTime := time.Now().Unix()
 		changedPasswd := data.GetMD5Hash(paasword)
 		uid, err := data.InsertUserTbl(username, changedPasswd, balance, nowTime)
 		if err != nil {
 			log.Println(err)
 		}
-		ss.uMgr.AddUser(username, paasword, uid, balance, nowTime)
+		ss.uMgr.UserRegistration(username, paasword, uid, balance, nowTime)
+	}
+}
+
+func (ss *serverService) SqlAddCar(uid int32, license string, nowTime int64) {
+	ss.funcChan <- func() {
+		err := data.InsertLicenseTbl(uid, license, nowTime)
+		if err != nil {
+			log.Println(err)
+		}
+		ss.uMgr.UserAddCar(uid, license, nowTime)
+	}
+}
+
+func (ss *serverService) SqlDeleteCar(uid int32, license string) {
+	ss.funcChan <- func() {
+		err := data.DeleteLicenseTbl(license)
+		if err != nil {
+			log.Println(err)
+		}
+		ss.uMgr.UserDeleteCar(uid, license)
+	}
+}
+
+func (ss *serverService) SqlChangeCar(uid int32, license, newlicense string) {
+	ss.funcChan <- func() {
+		err := data.ChangeLicenseTbl(license, newlicense)
+		if err != nil {
+			log.Println(err)
+		}
+		ss.uMgr.UserChangeCar(uid, license, newlicense)
 	}
 }

@@ -51,10 +51,10 @@ const (
 		"`last_Modified` bigint unsigned DEFAULT '0', " +
 		"PRIMARY KEY (`id`));"
 	SqlCreateLicenseTbl = "CREATE TABLE `z_license` (" +
-		"`id` int unsigned NOT NULL DEFAULT '0'," +
 		"`license` varchar(255) NOT NULL DEFAULT '豫A88888'," +
+		"`id` int unsigned NOT NULL DEFAULT '0'," +
 		"`checkin_time` bigint unsigned DEFAULT '0', " +
-		"PRIMARY KEY (`id`));"
+		"PRIMARY KEY (`license`));"
 	SqlCreateRecordTbl = "CREATE TABLE `z_record` (" +
 		"`license` varchar(255) NOT NULL DEFAULT '豫A88888'," +
 		"`pid` int unsigned NOT NULL DEFAULT '0'," +
@@ -69,17 +69,26 @@ const (
 		"`time` bigint unsigned DEFAULT '0');"
 
 	SqlInsertUserTbl = "INSERT INTO " +
-		"z_user(username, password, balance, creation_time, last_Modified)" +
+		"z_user(username, password, balance, creation_time, last_Modified) " +
 		"VALUES (?, ?, ?, ?, ?);"
+	SqlInsertLicenseTbl = "INSERT INTO " +
+		"z_license(license, id, checkin_time) " +
+		"VALUES (?, ?, ?);"
 	SqlInsertRecordTbl = "INSERT INTO " +
-		"z_record(license, pid, sid, entry_time)" +
+		"z_record(license, pid, sid, entry_time) " +
 		"VALUES (?, ?, ?, ?);"
 	SqlInsertParkingRecordTbl = "INSERT INTO " +
-		"z_parking_record(license, pid, sid, state, time)" +
+		"z_parking_record(license, pid, sid, state, time) " +
 		"VALUES (?, ?, ?, ?, ?);"
 
-	SqlDeleteRecordTbl = "DELETE FROM mark_plan" +
+	SqlDeleteLicenseTbl = "DELETE FROM z_license " +
 		"WHERE license = ?;"
+	SqlDeleteRecordTbl = "DELETE FROM mark_plan " +
+		"WHERE license = ?;"
+
+	SqlUpdateLicenseTbl = "UPDATE z_license " +
+		"SET license=? " +
+		"WHERE license=?;"
 
 	SqlSelectRecordUsingLicenseTbl = "SELECT * FROM z_record WHERE license = ?"
 

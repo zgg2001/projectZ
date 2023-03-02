@@ -20,6 +20,26 @@ enum RegistrationResult {
     REGISTRATION_FAIL_ALREADY_EXIST = 1;
 }
 
+enum CarOperation {
+    OPERATION_ADD = 0;
+    OPERATION_DELETE = 1;
+    OPERATION_CHANGE = 2;
+}
+
+enum CarOperationResult {
+    OPERATION_ADD_SUCCESS = 0;
+    OPERATION_ADD_FAIL_ALREADY_EXIST = 1;
+    OPERATION_ADD_FAIL_USER_NOT_EXIST = 2;
+    OPERATION_DELETE_SUCCESS = 3;
+    OPERATION_DELETE_FAIL_ENTERED = 4;
+    OPERATION_DELETE_FAIL_NOT_EXIST = 5;
+    OPERATION_DELETE_FAIL_USER_NOT_EXIST = 6;
+    OPERATION_CHANGE_SUCCESS = 7;
+    OPERATION_CHANGE_FAIL_ENTERED = 8;
+    OPERATION_CHANGE_FAIL_NOT_EXIST = 9;
+    OPERATION_CHANGE_FAIL_USER_NOT_EXIST = 10;
+}
+
 message ParkingInfo {
     int32 p_id = 1;
     int32 temperature = 2;
@@ -82,6 +102,15 @@ message UserRegistrationRequest {
 message UserRegistrationResponse {
     RegistrationResult result = 1;
 }
+message CarOperationRequest {
+    CarOperation operation = 1;
+    int32 u_id = 2;
+    string license = 3;
+    optional string new_license = 4;
+}
+message CarOperationResponse {
+    CarOperationResult result = 1;
+}
 // get User data
 message GetUserDataRequest {
     int32 u_id = 1;
@@ -95,5 +124,6 @@ service ProjectService {
     rpc UploadParkingInfo(UploadInfoRequest) returns (UploadInfoResponse);
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
     rpc UserRegistration(UserRegistrationRequest) returns (UserRegistrationResponse);
+    rpc CarOperation(CarOperationRequest) returns (CarOperationResponse);
     rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
 }

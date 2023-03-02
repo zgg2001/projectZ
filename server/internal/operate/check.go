@@ -26,7 +26,7 @@ func (ss *serverService) LicencePlateCheck(con context.Context, request *rpc.LPC
 		// 未登记车辆
 		return &rpc.LPCheckResponse{Result: false, Balance: 1}, nil
 	}
-	cptr, err := uptr.GetCarPtr(license)
+	cptr, err := uptr.GetCarPtrCheckEntered(license)
 	if err != nil {
 		// 车辆登记数据错误
 		return &rpc.LPCheckResponse{Result: false, Balance: 0}, err

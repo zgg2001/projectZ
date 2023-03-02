@@ -23,8 +23,8 @@ type userRow struct {
 }
 
 type licenseRow struct {
-	Id          int32
 	License     string
+	Id          int32
 	CheckInTime int64
 }
 
@@ -106,7 +106,7 @@ func ReadLicenseTbl() ([]*licenseRow, error) {
 
 	for ret.Next() {
 		var d licenseRow
-		err := ret.Scan(&d.Id, &d.License, &d.CheckInTime)
+		err := ret.Scan(&d.License, &d.Id, &d.CheckInTime)
 		if err != nil {
 			return nil, err
 		}
@@ -162,6 +162,14 @@ func InsertUserTbl(username, password string, balance int32, nowTime int64) (int
 	return uid, nil
 }
 
+func InsertLicenseTbl(uid int32, license string, nowTime int64) error {
+	_, err := DB.Query(SqlInsertLicenseTbl, license, uid, nowTime)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func InsertRecordTbl(license string, pid, sid int32, etime int64) {
 	_, err := DB.Query(SqlInsertRecordTbl, license, pid, sid, etime)
 	if err != nil {
@@ -174,6 +182,22 @@ func InsertParkingRecordTbl(license string, pid, sid, state int32, time int64) {
 	if err != nil {
 		log.Println(err)
 	}
+}
+
+func DeleteLicenseTbl(license string) error {
+	_, err := DB.Exec(SqlDeleteLicenseTbl, license)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ChangeLicenseTbl(license, newlicense string) error {
+	_, err := DB.Exec(SqlUpdateLicenseTbl, newlicense, license)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func DeleteRecordTbl(license string) {
