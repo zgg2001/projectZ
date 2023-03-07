@@ -85,7 +85,7 @@ message UploadInfoResponse {
     int32 result = 1;
 }
 
-// client
+// android client
 // login & registration
 message UserLoginRequest {
     string username = 1;
@@ -118,6 +118,15 @@ message GetUserDataRequest {
 message GetUserDataResponse {
     repeated CarInfo car_info_arr = 1;
 }
+
+//windows client
+message AdminLoginRequest {
+    int32 p_id = 1;
+    string password = 2;
+}
+message AdminLoginResponse {
+    LoginResult result = 1;
+}
  
 service ProjectService {
     rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
@@ -125,5 +134,6 @@ service ProjectService {
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
     rpc UserRegistration(UserRegistrationRequest) returns (UserRegistrationResponse);
     rpc CarOperation(CarOperationRequest) returns (CarOperationResponse);
+    rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse);
     rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
 }

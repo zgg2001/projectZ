@@ -27,6 +27,7 @@ type ProjectServiceClient interface {
 	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	UserRegistration(ctx context.Context, in *UserRegistrationRequest, opts ...grpc.CallOption) (*UserRegistrationResponse, error)
 	CarOperation(ctx context.Context, in *CarOperationRequest, opts ...grpc.CallOption) (*CarOperationResponse, error)
+	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
 	GetUserData(ctx context.Context, in *GetUserDataRequest, opts ...grpc.CallOption) (*GetUserDataResponse, error)
 }
 
@@ -83,6 +84,15 @@ func (c *projectServiceClient) CarOperation(ctx context.Context, in *CarOperatio
 	return out, nil
 }
 
+func (c *projectServiceClient) AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error) {
+	out := new(AdminLoginResponse)
+	err := c.cc.Invoke(ctx, "/ProjectService/AdminLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *projectServiceClient) GetUserData(ctx context.Context, in *GetUserDataRequest, opts ...grpc.CallOption) (*GetUserDataResponse, error) {
 	out := new(GetUserDataResponse)
 	err := c.cc.Invoke(ctx, "/ProjectService/GetUserData", in, out, opts...)
@@ -101,6 +111,7 @@ type ProjectServiceServer interface {
 	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	UserRegistration(context.Context, *UserRegistrationRequest) (*UserRegistrationResponse, error)
 	CarOperation(context.Context, *CarOperationRequest) (*CarOperationResponse, error)
+	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
 	GetUserData(context.Context, *GetUserDataRequest) (*GetUserDataResponse, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
@@ -123,6 +134,9 @@ func (UnimplementedProjectServiceServer) UserRegistration(context.Context, *User
 }
 func (UnimplementedProjectServiceServer) CarOperation(context.Context, *CarOperationRequest) (*CarOperationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CarOperation not implemented")
+}
+func (UnimplementedProjectServiceServer) AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
 }
 func (UnimplementedProjectServiceServer) GetUserData(context.Context, *GetUserDataRequest) (*GetUserDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserData not implemented")
@@ -230,6 +244,24 @@ func _ProjectService_CarOperation_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_AdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).AdminLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ProjectService/AdminLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).AdminLogin(ctx, req.(*AdminLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProjectService_GetUserData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserDataRequest)
 	if err := dec(in); err != nil {
@@ -274,6 +306,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CarOperation",
 			Handler:    _ProjectService_CarOperation_Handler,
+		},
+		{
+			MethodName: "AdminLogin",
+			Handler:    _ProjectService_AdminLogin_Handler,
 		},
 		{
 			MethodName: "GetUserData",

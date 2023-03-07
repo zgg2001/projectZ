@@ -111,8 +111,6 @@ func (u *user) GetCarPtrCheckEntered(license string) (*car, error) {
 
 func (u *user) GetCarPtrArr() []*car {
 	var ret []*car
-	for _, car := range u.cars {
-		ret = append(ret, car)
-	}
+	ret = append(ret, u.cars...)
 	return ret
 }
