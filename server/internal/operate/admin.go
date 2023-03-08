@@ -7,5 +7,8 @@ import (
 )
 
 func (ss *serverService) AdminLogin(ctx context.Context, request *rpc.AdminLoginRequest) (*rpc.AdminLoginResponse, error) {
-	return &rpc.AdminLoginResponse{Result: rpc.LoginResult_LOGIN_SUCCESS}, nil
+	pid := request.GetPId()
+	password := request.GetPassword()
+	ret := ss.pMgr.LoginAuth(pid, password)
+	return &rpc.AdminLoginResponse{Result: ret}, nil
 }

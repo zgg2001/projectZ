@@ -9,9 +9,11 @@ import (
 )
 
 type ParkingMgr struct {
-	parkingArr []parking
-	idMap      map[int32]*parking
-	idMapLock  *sync.RWMutex
+	parkingArr   []parking
+	idMap        map[int32]*parking
+	idMapLock    *sync.RWMutex
+	loginMap     map[int32]string
+	loginMapLock *sync.RWMutex
 }
 
 func (pm *ParkingMgr) Init() error {
@@ -20,6 +22,8 @@ func (pm *ParkingMgr) Init() error {
 
 	pm.idMap = make(map[int32]*parking)
 	pm.idMapLock = new(sync.RWMutex)
+	pm.loginMap = make(map[int32]string)
+	pm.loginMapLock = new(sync.RWMutex)
 
 	// read and load parking
 	parkingRet, err := ReadParkingTbl()
@@ -80,4 +84,17 @@ func (pm *ParkingMgr) MgrGetParkingPtr(pid int32) (*parking, error) {
 		return nil, ErrPIdNotFound
 	}
 	return pptr, nil
+}
+
+func (pm *ParkingMgr) LoginAuth(pid int32, password string) rpc.LoginResult {
+	pm.loginMapLock.RLock()
+	defer pm.loginMapLock.RUnlock()
+	if password, ok := pm.loginMap[pid]; ok {
+		changedPasswd := GetMD5Hash(password)
+		if password == changedPasswd {
+			return rpc.LoginResult_LOGIN_SUCCESS
+		}
+		return rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
+	}
+	return rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
 }
