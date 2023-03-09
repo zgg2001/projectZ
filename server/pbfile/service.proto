@@ -127,6 +127,13 @@ message AdminLoginRequest {
 message AdminLoginResponse {
     LoginResult result = 1;
 }
+message AdminGetDataRequest {
+    int32 p_id = 1;
+}
+message AdminGetDataResponse {
+    ParkingInfo p_info = 1;
+    repeated ParkingSpaceInfo s_info_arr = 2;
+}
  
 service ProjectService {
     rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
@@ -135,5 +142,6 @@ service ProjectService {
     rpc UserRegistration(UserRegistrationRequest) returns (UserRegistrationResponse);
     rpc CarOperation(CarOperationRequest) returns (CarOperationResponse);
     rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse);
+    rpc AdminGetData(AdminGetDataRequest) returns (AdminGetDataResponse);
     rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
 }
