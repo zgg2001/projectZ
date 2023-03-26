@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/parking_server/pkg/rpc"
 )
 
 type ParkingMgr struct {
@@ -84,17 +84,4 @@ func (pm *ParkingMgr) MgrGetParkingPtr(pid int32) (*parking, error) {
 		return nil, ErrPIdNotFound
 	}
 	return pptr, nil
-}
-
-func (pm *ParkingMgr) LoginAuth(pid int32, password string) rpc.LoginResult {
-	pm.loginMapLock.RLock()
-	defer pm.loginMapLock.RUnlock()
-	if password, ok := pm.loginMap[pid]; ok {
-		changedPasswd := GetMD5Hash(password)
-		if password == changedPasswd {
-			return rpc.LoginResult_LOGIN_SUCCESS
-		}
-		return rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
-	}
-	return rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
 }

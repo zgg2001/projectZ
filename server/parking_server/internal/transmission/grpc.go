@@ -7,8 +7,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/zgg2001/projectZ/server/internal/operate"
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/parking_server/internal/operate"
+	"github.com/zgg2001/projectZ/server/parking_server/pkg/rpc"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

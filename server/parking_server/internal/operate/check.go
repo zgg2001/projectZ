@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/zgg2001/projectZ/server/internal/data"
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/parking_server/internal/data"
+	"github.com/zgg2001/projectZ/server/parking_server/pkg/rpc"
 )
 
 const (

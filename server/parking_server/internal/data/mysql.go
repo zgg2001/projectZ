@@ -138,36 +138,20 @@ func ReadRecordTbl() ([]*recordRow, error) {
 	return data, nil
 }
 
-func InsertUserTbl(username, password string, balance int32, nowTime int64) (int32, error) {
-
-	var uid int32 = -1
-
-	ret, err := DB.Query(SqlSelectNextPrimaryId, "z_user")
+func SelectRecordTbl(license string) (int64, error) {
+	ret, err := DB.Query(SqlSelectRecordUsingLicenseTbl, license)
 	if err != nil {
-		return uid, err
+		return 0, err
 	}
-	defer ret.Close()
-	for ret.Next() {
-		err := ret.Scan(&uid)
+	if ret.Next() {
+		var d recordRow
+		err := ret.Scan(&d.License, &d.PId, &d.SId, &d.EntryTime)
 		if err != nil {
-			return uid, err
+			return 0, err
 		}
+		return d.EntryTime, nil
 	}
-
-	_, err = DB.Query(SqlInsertUserTbl, username, password, balance, nowTime, nowTime)
-	if err != nil {
-		log.Println(err)
-		return uid, err
-	}
-	return uid, nil
-}
-
-func InsertLicenseTbl(uid int32, license string, nowTime int64) error {
-	_, err := DB.Query(SqlInsertLicenseTbl, license, uid, nowTime)
-	if err != nil {
-		return err
-	}
-	return nil
+	return 0, ErrParkingRecordNotFound
 }
 
 func InsertRecordTbl(license string, pid, sid int32, etime int64) {
@@ -184,43 +168,11 @@ func InsertParkingRecordTbl(license string, pid, sid, state int32, time int64) {
 	}
 }
 
-func DeleteLicenseTbl(license string) error {
-	_, err := DB.Exec(SqlDeleteLicenseTbl, license)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func ChangeLicenseTbl(license, newlicense string) error {
-	_, err := DB.Exec(SqlUpdateLicenseTbl, newlicense, license)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func DeleteRecordTbl(license string) {
 	_, err := DB.Exec(SqlDeleteRecordTbl, license)
 	if err != nil {
 		log.Println(err)
 	}
-}
-
-func SelectRecordTbl(license string) (int64, error) {
-	ret, err := DB.Query(SqlSelectRecordUsingLicenseTbl, license)
-	if err != nil {
-		return 0, err
-	}
-	if ret.Next() {
-		var d recordRow
-		err := ret.Scan(&d.License, &d.PId, &d.SId, &d.EntryTime)
-		if err != nil {
-			return 0, err
-		}
-		return d.EntryTime, nil
-	}
-	return 0, ErrParkingRecordNotFound
 }
 
 func connectDB() error {

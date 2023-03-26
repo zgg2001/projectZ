@@ -68,12 +68,6 @@ const (
 		"`state` TINYINT(1) NOT NULL DEFAULT '0'," +
 		"`time` bigint unsigned DEFAULT '0');"
 
-	SqlInsertUserTbl = "INSERT INTO " +
-		"z_user(username, password, balance, creation_time, last_Modified) " +
-		"VALUES (?, ?, ?, ?, ?);"
-	SqlInsertLicenseTbl = "INSERT INTO " +
-		"z_license(license, id, checkin_time) " +
-		"VALUES (?, ?, ?);"
 	SqlInsertRecordTbl = "INSERT INTO " +
 		"z_record(license, pid, sid, entry_time) " +
 		"VALUES (?, ?, ?, ?);"
@@ -81,21 +75,14 @@ const (
 		"z_parking_record(license, pid, sid, state, time) " +
 		"VALUES (?, ?, ?, ?, ?);"
 
-	SqlDeleteLicenseTbl = "DELETE FROM z_license " +
+	SqlDeleteRecordTbl = "DELETE FROM  z_record" +
 		"WHERE license = ?;"
-	SqlDeleteRecordTbl = "DELETE FROM mark_plan " +
-		"WHERE license = ?;"
-
-	SqlUpdateLicenseTbl = "UPDATE z_license " +
-		"SET license=? " +
-		"WHERE license=?;"
 
 	SqlSelectRecordUsingLicenseTbl = "SELECT * FROM z_record WHERE license = ?"
-
-	SqlSelectNextPrimaryId    = "SELECT AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME=?;"
-	SqlSelectParkingTbl       = "SELECT * FROM z_parking;"
-	SqlSelectUserTbl          = "SELECT * FROM z_user;"
-	SqlSelectLicenseTbl       = "SELECT * FROM z_license;"
-	SqlSelectRecordTbl        = "SELECT * FROM z_record;"
-	SqlSelectParkingRecordTbl = "SELECT * FROM z_parking_record;"
+	SqlSelectNextPrimaryId         = "SELECT AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME=?;"
+	SqlSelectParkingTbl            = "SELECT * FROM z_parking;"
+	SqlSelectUserTbl               = "SELECT * FROM z_user;"
+	SqlSelectLicenseTbl            = "SELECT * FROM z_license;"
+	SqlSelectRecordTbl             = "SELECT * FROM z_record;"
+	SqlSelectParkingRecordTbl      = "SELECT * FROM z_parking_record;"
 )

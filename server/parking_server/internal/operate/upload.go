@@ -3,7 +3,7 @@ package operate
 import (
 	"context"
 
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/parking_server/pkg/rpc"
 )
 
 func (ss *serverService) UploadParkingInfo(con context.Context, request *rpc.UploadInfoRequest) (*rpc.UploadInfoResponse, error) {
