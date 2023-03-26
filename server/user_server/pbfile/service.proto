@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+option go_package = "../pkg/rpc";
+
+enum Alarm {
+    ALARM_NO = 0;
+    ALARM_FIRE = 1;
+    ALARM_GAS = 2;
+    ALARM_FIRE_AND_GAS = 3;
+}
+
+enum LoginResult {
+    LOGIN_SUCCESS = 0;
+    LOGIN_FAIL_NOT_EXIST = 1;
+    LOGIN_FAIL_WRONG_PASSWORD = 2;
+}
+
+enum RegistrationResult {
+    REGISTRATION_SUCCESS = 0;
+    REGISTRATION_FAIL_ALREADY_EXIST = 1;
+}
+
+enum CarOperation {
+    OPERATION_ADD = 0;
+    OPERATION_DELETE = 1;
+    OPERATION_CHANGE = 2;
+}
+
+enum CarOperationResult {
+    OPERATION_ADD_SUCCESS = 0;
+    OPERATION_ADD_FAIL_ALREADY_EXIST = 1;
+    OPERATION_ADD_FAIL_USER_NOT_EXIST = 2;
+    OPERATION_DELETE_SUCCESS = 3;
+    OPERATION_DELETE_FAIL_ENTERED = 4;
+    OPERATION_DELETE_FAIL_NOT_EXIST = 5;
+    OPERATION_DELETE_FAIL_USER_NOT_EXIST = 6;
+    OPERATION_CHANGE_SUCCESS = 7;
+    OPERATION_CHANGE_FAIL_ENTERED = 8;
+    OPERATION_CHANGE_FAIL_NOT_EXIST = 9;
+    OPERATION_CHANGE_FAIL_USER_NOT_EXIST = 10;
+}
+
+message ParkingInfo {
+    int32 p_id = 1;
+    int32 temperature = 2;
+    int32 humidity = 3;
+    int32 weather = 4;
+}
+message ParkingSpaceInfo {
+    int32 s_id = 1;
+    int32 temperature = 2;
+    int32 humidity = 3;
+    Alarm alarm = 4;
+}
+message CarInfo {
+    int32 p_temperature = 1;
+    int32 p_humidity = 2;
+    int32 p_weather = 3;
+    string p_address = 4;
+    int32 s_id = 5;
+    int32 s_temperature = 6;
+    int32 s_humidity = 7;
+    Alarm s_alarm = 8;
+}
+
+// android client
+// login & registration
+message UserLoginRequest {
+    string username = 1;
+    string password = 2;
+}
+message UserLoginResponse {
+    LoginResult result = 1;
+    int32 u_id = 2;
+}
+message UserRegistrationRequest {
+    string username = 1;
+    string password = 2;
+}
+message UserRegistrationResponse {
+    RegistrationResult result = 1;
+}
+message CarOperationRequest {
+    CarOperation operation = 1;
+    int32 u_id = 2;
+    string license = 3;
+    optional string new_license = 4;
+}
+message CarOperationResponse {
+    CarOperationResult result = 1;
+}
+// get User data
+message GetUserDataRequest {
+    int32 u_id = 1;
+}
+message GetUserDataResponse {
+    repeated CarInfo car_info_arr = 1;
+}
+
+//windows client
+message AdminLoginRequest {
+    int32 p_id = 1;
+    string password = 2;
+}
+message AdminLoginResponse {
+    LoginResult result = 1;
+}
+message AdminGetDataRequest {
+    int32 p_id = 1;
+}
+message AdminGetDataResponse {
+    ParkingInfo p_info = 1;
+    repeated ParkingSpaceInfo s_info_arr = 2;
+}
+ 
+service ProjectService {
+    rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
+    rpc UserRegistration(UserRegistrationRequest) returns (UserRegistrationResponse);
+    rpc CarOperation(CarOperationRequest) returns (CarOperationResponse);
+    rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse);
+    rpc AdminGetData(AdminGetDataRequest) returns (AdminGetDataResponse);
+    rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
+}
