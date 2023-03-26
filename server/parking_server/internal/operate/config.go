@@ -13,18 +13,16 @@ type ServiceOperation interface {
 
 type serverService struct {
 	rpc.UnimplementedProjectServiceServer
-	pMgr     data.ParkingMgr
-	uMgr     data.UserMgr
 	funcChan chan func()
 }
 
-func (ss *serverService) Init() error {
+func (ss *serverService) DataInit() error {
 	ss.funcChan = make(chan func(), 22)
-	err := ss.pMgr.Init()
+	err := data.UserInit()
 	if err != nil {
 		return err
 	}
-	err = ss.uMgr.Init(&ss.pMgr)
+	err = data.ParkingInit()
 	if err != nil {
 		return err
 	}

@@ -3,6 +3,8 @@ package data
 import (
 	"database/sql"
 	"errors"
+
+	"github.com/go-redis/redis"
 )
 
 // mysql
@@ -11,8 +13,24 @@ const (
 	DataSourceName = "root:password@/projectZ"
 )
 
+// redis
+const (
+	RedisAddr = "localhost:7892"
+
+	ParingInfoPrefix         = "z-parking-info-"
+	ParingSpaceDataPrefix    = "z-parking-space-data-"
+	ParingSpaceLicensePrefix = "z-parking-space-License-"
+
+	UserInfoPrefix  = "z-user-info-"
+	UserLoginMapKey = "z-user-login-map"
+
+	LicenseInfoPrefix     = "z-license-info-"
+	LicenseSetByUIDPrefix = "z-license-set-by-uid"
+)
+
 var (
-	DB *sql.DB
+	MySqlClient *sql.DB
+	RedisClient *redis.Client
 
 	ErrTableNum error = errors.New("wrong number of tables")
 )

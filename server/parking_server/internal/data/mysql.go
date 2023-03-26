@@ -35,9 +35,9 @@ type recordRow struct {
 	EntryTime int64
 }
 
-func InitDB() error {
+func InitMySql() error {
 
-	err := connectDB()
+	err := connectMysql()
 	if err != nil {
 		return err
 	}
@@ -54,7 +54,7 @@ func ReadParkingTbl() ([]*parkingRow, error) {
 
 	var data []*parkingRow
 
-	ret, err := DB.Query(SqlSelectParkingTbl)
+	ret, err := MySqlClient.Query(SqlSelectParkingTbl)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func ReadUserTbl() ([]*userRow, error) {
 
 	var data []*userRow
 
-	ret, err := DB.Query(SqlSelectUserTbl)
+	ret, err := MySqlClient.Query(SqlSelectUserTbl)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +98,7 @@ func ReadLicenseTbl() ([]*licenseRow, error) {
 
 	var data []*licenseRow
 
-	ret, err := DB.Query(SqlSelectLicenseTbl)
+	ret, err := MySqlClient.Query(SqlSelectLicenseTbl)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +120,7 @@ func ReadRecordTbl() ([]*recordRow, error) {
 
 	var data []*recordRow
 
-	ret, err := DB.Query(SqlSelectRecordTbl)
+	ret, err := MySqlClient.Query(SqlSelectRecordTbl)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +139,7 @@ func ReadRecordTbl() ([]*recordRow, error) {
 }
 
 func SelectRecordTbl(license string) (int64, error) {
-	ret, err := DB.Query(SqlSelectRecordUsingLicenseTbl, license)
+	ret, err := MySqlClient.Query(SqlSelectRecordUsingLicenseTbl, license)
 	if err != nil {
 		return 0, err
 	}
@@ -155,43 +155,43 @@ func SelectRecordTbl(license string) (int64, error) {
 }
 
 func InsertRecordTbl(license string, pid, sid int32, etime int64) {
-	_, err := DB.Query(SqlInsertRecordTbl, license, pid, sid, etime)
+	_, err := MySqlClient.Query(SqlInsertRecordTbl, license, pid, sid, etime)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
 func InsertParkingRecordTbl(license string, pid, sid, state int32, time int64) {
-	_, err := DB.Query(SqlInsertParkingRecordTbl, license, pid, sid, state, time)
+	_, err := MySqlClient.Query(SqlInsertParkingRecordTbl, license, pid, sid, state, time)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
 func DeleteRecordTbl(license string) {
-	_, err := DB.Exec(SqlDeleteRecordTbl, license)
+	_, err := MySqlClient.Exec(SqlDeleteRecordTbl, license)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
-func connectDB() error {
+func connectMysql() error {
 
 	var err error
-	log.Println("Connect DB ...")
+	log.Println("Connect MySql ...")
 
-	DB, err = sql.Open(DriverName, DataSourceName)
+	MySqlClient, err = sql.Open(DriverName, DataSourceName)
 	if err != nil {
 		return err
 	}
 
-	err = DB.Ping()
+	err = MySqlClient.Ping()
 	if err != nil {
 		return err
 	}
 
-	DB.SetMaxOpenConns(50)
-	DB.SetMaxIdleConns(20)
+	MySqlClient.SetMaxOpenConns(50)
+	MySqlClient.SetMaxIdleConns(20)
 
 	return nil
 }
@@ -200,7 +200,7 @@ func checkTable() error {
 
 	log.Println("Check DB tables ...")
 
-	ret, err := DB.Query(SqlGetTableNum)
+	ret, err := MySqlClient.Query(SqlGetTableNum)
 	if err != nil {
 		return err
 	}
@@ -216,23 +216,23 @@ func checkTable() error {
 
 	if tableNum == 0 {
 		log.Println("Create DB tables ...")
-		_, err = DB.Exec(SqlCreateParkingTbl)
+		_, err = MySqlClient.Exec(SqlCreateParkingTbl)
 		if err != nil {
 			return err
 		}
-		_, err := DB.Exec(SqlCreateUserTbl)
+		_, err := MySqlClient.Exec(SqlCreateUserTbl)
 		if err != nil {
 			return err
 		}
-		_, err = DB.Exec(SqlCreateLicenseTbl)
+		_, err = MySqlClient.Exec(SqlCreateLicenseTbl)
 		if err != nil {
 			return err
 		}
-		_, err = DB.Exec(SqlCreateRecordTbl)
+		_, err = MySqlClient.Exec(SqlCreateRecordTbl)
 		if err != nil {
 			return err
 		}
-		_, err = DB.Exec(SqlCreateParkingRecordTbl)
+		_, err = MySqlClient.Exec(SqlCreateParkingRecordTbl)
 		if err != nil {
 			return err
 		}
