@@ -1,0 +1,3 @@
+insert into z_parking values (1, 2, "test parking");
+insert into z_user values (1, "zhj", 100, 0, 0);
+insert into z_license values (1, "沪AZ0001", 0);
