@@ -3,7 +3,7 @@ package operate
 import (
 	"context"
 
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
 )
 
 func (ss *serverService) AdminLogin(ctx context.Context, request *rpc.AdminLoginRequest) (*rpc.AdminLoginResponse, error) {

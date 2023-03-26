@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
 )
 
 func (ss *serverService) UserLogin(ctx context.Context, request *rpc.UserLoginRequest) (*rpc.UserLoginResponse, error) {

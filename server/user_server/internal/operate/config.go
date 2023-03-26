@@ -3,8 +3,8 @@ package operate
 import (
 	"log"
 
-	"github.com/zgg2001/projectZ/server/internal/data"
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/user_server/internal/data"
+	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
 )
 
 var ServerService = &serverService{}

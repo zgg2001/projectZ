@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	"github.com/zgg2001/projectZ/server/internal/data"
-	"github.com/zgg2001/projectZ/server/internal/operate"
-	"github.com/zgg2001/projectZ/server/internal/transmission"
+	"github.com/zgg2001/projectZ/server/user_server/internal/data"
+	"github.com/zgg2001/projectZ/server/user_server/internal/operate"
+	"github.com/zgg2001/projectZ/server/user_server/internal/transmission"
 )
 
 func main() {

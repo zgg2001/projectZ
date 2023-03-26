@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
 )
 
 func (ss *serverService) GetUserData(ctx context.Context, request *rpc.GetUserDataRequest) (*rpc.GetUserDataResponse, error) {

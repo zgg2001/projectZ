@@ -170,20 +170,6 @@ func InsertLicenseTbl(uid int32, license string, nowTime int64) error {
 	return nil
 }
 
-func InsertRecordTbl(license string, pid, sid int32, etime int64) {
-	_, err := DB.Query(SqlInsertRecordTbl, license, pid, sid, etime)
-	if err != nil {
-		log.Println(err)
-	}
-}
-
-func InsertParkingRecordTbl(license string, pid, sid, state int32, time int64) {
-	_, err := DB.Query(SqlInsertParkingRecordTbl, license, pid, sid, state, time)
-	if err != nil {
-		log.Println(err)
-	}
-}
-
 func DeleteLicenseTbl(license string) error {
 	_, err := DB.Exec(SqlDeleteLicenseTbl, license)
 	if err != nil {
@@ -198,29 +184,6 @@ func ChangeLicenseTbl(license, newlicense string) error {
 		return err
 	}
 	return nil
-}
-
-func DeleteRecordTbl(license string) {
-	_, err := DB.Exec(SqlDeleteRecordTbl, license)
-	if err != nil {
-		log.Println(err)
-	}
-}
-
-func SelectRecordTbl(license string) (int64, error) {
-	ret, err := DB.Query(SqlSelectRecordUsingLicenseTbl, license)
-	if err != nil {
-		return 0, err
-	}
-	if ret.Next() {
-		var d recordRow
-		err := ret.Scan(&d.License, &d.PId, &d.SId, &d.EntryTime)
-		if err != nil {
-			return 0, err
-		}
-		return d.EntryTime, nil
-	}
-	return 0, ErrParkingRecordNotFound
 }
 
 func connectDB() error {
@@ -262,29 +225,7 @@ func checkTable() error {
 		}
 	}
 
-	if tableNum == 0 {
-		log.Println("Create DB tables ...")
-		_, err = DB.Exec(SqlCreateParkingTbl)
-		if err != nil {
-			return err
-		}
-		_, err := DB.Exec(SqlCreateUserTbl)
-		if err != nil {
-			return err
-		}
-		_, err = DB.Exec(SqlCreateLicenseTbl)
-		if err != nil {
-			return err
-		}
-		_, err = DB.Exec(SqlCreateRecordTbl)
-		if err != nil {
-			return err
-		}
-		_, err = DB.Exec(SqlCreateParkingRecordTbl)
-		if err != nil {
-			return err
-		}
-	} else if tableNum != 5 {
+	if tableNum != 5 {
 		return ErrTableNum
 	}
 

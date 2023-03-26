@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/zgg2001/projectZ/server/pkg/rpc"
+	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
 )
 
 type ParkingMgr struct {

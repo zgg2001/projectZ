@@ -22,8 +22,6 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProjectServiceClient interface {
-	LicencePlateCheck(ctx context.Context, in *LPCheckRequest, opts ...grpc.CallOption) (*LPCheckResponse, error)
-	UploadParkingInfo(ctx context.Context, in *UploadInfoRequest, opts ...grpc.CallOption) (*UploadInfoResponse, error)
 	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	UserRegistration(ctx context.Context, in *UserRegistrationRequest, opts ...grpc.CallOption) (*UserRegistrationResponse, error)
 	CarOperation(ctx context.Context, in *CarOperationRequest, opts ...grpc.CallOption) (*CarOperationResponse, error)
@@ -38,24 +36,6 @@ type projectServiceClient struct {
 
 func NewProjectServiceClient(cc grpc.ClientConnInterface) ProjectServiceClient {
 	return &projectServiceClient{cc}
-}
-
-func (c *projectServiceClient) LicencePlateCheck(ctx context.Context, in *LPCheckRequest, opts ...grpc.CallOption) (*LPCheckResponse, error) {
-	out := new(LPCheckResponse)
-	err := c.cc.Invoke(ctx, "/ProjectService/LicencePlateCheck", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *projectServiceClient) UploadParkingInfo(ctx context.Context, in *UploadInfoRequest, opts ...grpc.CallOption) (*UploadInfoResponse, error) {
-	out := new(UploadInfoResponse)
-	err := c.cc.Invoke(ctx, "/ProjectService/UploadParkingInfo", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *projectServiceClient) UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error) {
@@ -116,8 +96,6 @@ func (c *projectServiceClient) GetUserData(ctx context.Context, in *GetUserDataR
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
 type ProjectServiceServer interface {
-	LicencePlateCheck(context.Context, *LPCheckRequest) (*LPCheckResponse, error)
-	UploadParkingInfo(context.Context, *UploadInfoRequest) (*UploadInfoResponse, error)
 	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	UserRegistration(context.Context, *UserRegistrationRequest) (*UserRegistrationResponse, error)
 	CarOperation(context.Context, *CarOperationRequest) (*CarOperationResponse, error)
@@ -131,12 +109,6 @@ type ProjectServiceServer interface {
 type UnimplementedProjectServiceServer struct {
 }
 
-func (UnimplementedProjectServiceServer) LicencePlateCheck(context.Context, *LPCheckRequest) (*LPCheckResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LicencePlateCheck not implemented")
-}
-func (UnimplementedProjectServiceServer) UploadParkingInfo(context.Context, *UploadInfoRequest) (*UploadInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UploadParkingInfo not implemented")
-}
 func (UnimplementedProjectServiceServer) UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
 }
@@ -166,42 +138,6 @@ type UnsafeProjectServiceServer interface {
 
 func RegisterProjectServiceServer(s grpc.ServiceRegistrar, srv ProjectServiceServer) {
 	s.RegisterService(&ProjectService_ServiceDesc, srv)
-}
-
-func _ProjectService_LicencePlateCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LPCheckRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProjectServiceServer).LicencePlateCheck(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/ProjectService/LicencePlateCheck",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProjectServiceServer).LicencePlateCheck(ctx, req.(*LPCheckRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ProjectService_UploadParkingInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UploadInfoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProjectServiceServer).UploadParkingInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/ProjectService/UploadParkingInfo",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProjectServiceServer).UploadParkingInfo(ctx, req.(*UploadInfoRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _ProjectService_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -319,14 +255,6 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "ProjectService",
 	HandlerType: (*ProjectServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "LicencePlateCheck",
-			Handler:    _ProjectService_LicencePlateCheck_Handler,
-		},
-		{
-			MethodName: "UploadParkingInfo",
-			Handler:    _ProjectService_UploadParkingInfo_Handler,
-		},
 		{
 			MethodName: "UserLogin",
 			Handler:    _ProjectService_UserLogin_Handler,

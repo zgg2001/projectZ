@@ -63,28 +63,6 @@ message CarInfo {
     Alarm s_alarm = 8;
 }
 
-// raspbery
-// license plate check
-message LPCheckRequest {
-    int32 model = 1;
-    int32 parking_id = 2;
-    int32 parking_space_id = 3;
-    string license = 4;
-}
-message LPCheckResponse {
-    bool result = 1;
-    int32 balance = 2;
-}
-
-// upload parking info
-message UploadInfoRequest {
-    ParkingInfo p_info = 1;
-    repeated ParkingSpaceInfo s_info_arr = 2;
-}
-message UploadInfoResponse {
-    int32 result = 1;
-}
-
 // android client
 // login & registration
 message UserLoginRequest {
@@ -136,8 +114,6 @@ message AdminGetDataResponse {
 }
  
 service ProjectService {
-    rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
-    rpc UploadParkingInfo(UploadInfoRequest) returns (UploadInfoResponse);
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
     rpc UserRegistration(UserRegistrationRequest) returns (UserRegistrationResponse);
     rpc CarOperation(CarOperationRequest) returns (CarOperationResponse);
