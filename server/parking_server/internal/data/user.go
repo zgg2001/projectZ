@@ -52,6 +52,7 @@ func GetUserByLicense(license string) (ok bool, uid string) {
 	if ok {
 		return
 	}
+	// Todo add mysql
 	return
 }
 
@@ -60,6 +61,7 @@ func GetBalanceByUid(uid string) int32 {
 	if ok {
 		return balance
 	}
+	// Todo add mysql
 	return 0
 }
 
@@ -68,5 +70,6 @@ func CheckCarIsEntered(license string) error {
 	if ok {
 		return nil
 	}
+	// Todo add mysql
 	return ErrParkingRecordDuplicateRecord
 }
