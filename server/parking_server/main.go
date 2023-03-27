@@ -22,7 +22,7 @@ func main() {
 	}
 
 	// service init
-	err = operate.ServerService.Init()
+	err = operate.ServerService.DataInit()
 	if err != nil {
 		log.Println("Server service init error:", err)
 		return

@@ -46,3 +46,27 @@ func UserInit() error {
 
 	return nil
 }
+
+func GetUserByLicense(license string) (ok bool, uid string) {
+	ok, uid = RedisGetUidByLicense(license)
+	if ok {
+		return
+	}
+	return
+}
+
+func GetBalanceByUid(uid string) int32 {
+	ok, balance := RedisGetBalanceByUid(uid)
+	if ok {
+		return balance
+	}
+	return 0
+}
+
+func CheckCarIsEntered(license string) error {
+	ok := RedisCheckCarIsEntered(license)
+	if ok {
+		return nil
+	}
+	return ErrParkingRecordDuplicateRecord
+}

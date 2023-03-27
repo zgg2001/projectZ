@@ -93,6 +93,10 @@ const (
 		"z_parking_record(license, pid, sid, state, time) " +
 		"VALUES (?, ?, ?, ?, ?);"
 
+	SqlUpdateUserBalanceTbl = "UPDATE z_user " +
+		"SET balance=? " +
+		"WHERE id =?;"
+
 	SqlDeleteRecordTbl = "DELETE FROM  z_record" +
 		"WHERE license = ?;"
 

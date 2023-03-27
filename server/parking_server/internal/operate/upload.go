@@ -10,19 +10,11 @@ func (ss *serverService) UploadParkingInfo(con context.Context, request *rpc.Upl
 
 	pInfo := request.PInfo
 	sInfo := request.SInfoArr
+	pid := pInfo.GetPId()
 
-	pPtr, err := ss.pMgr.MgrGetParkingPtr(pInfo.PId)
-	if err != nil {
-		return &rpc.UploadInfoResponse{Result: 0}, err
-	}
-	pPtr.UpdateParkingData(pInfo.GetTemperature(), pInfo.GetHumidity(), pInfo.GetWeather())
-
+	ss.UpdateParkingData(pid, pInfo.GetTemperature(), pInfo.GetHumidity(), pInfo.GetWeather())
 	for _, i := range sInfo {
-		sPtr, err := pPtr.GetParkingPtr(i.SId)
-		if err != nil {
-			return &rpc.UploadInfoResponse{Result: 0}, err
-		}
-		sPtr.UpdateParkingSpaceData(i.GetTemperature(), i.GetHumidity(), int32(i.GetAlarm()))
+		ss.UpdateParkingSpaceData(pid, i.SId, i.GetTemperature(), i.GetHumidity(), int32(i.GetAlarm()))
 	}
 
 	return &rpc.UploadInfoResponse{Result: 1}, nil
