@@ -1,39 +1,25 @@
 package data
 
-import "sync/atomic"
+import "github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
 
-type parking struct {
-	id              int32
-	parkingSpaceArr []parkingSpace
-	count           int32
-	temperature     int32
-	humidity        int32
-	weather         int32
-	address         string
-}
+// Todo fix logic
 
-func (p *parking) GetParkingPtr(sid int32) (*parkingSpace, error) {
-
-	var sptr *parkingSpace
-
-	if sid > p.count || sid <= 0 {
-		return nil, ErrSIdNotFound
+func ParkingLoginAuth(pid int32, password string) rpc.LoginResult {
+	ok, getPassword := parkingGetPasswordByUsername(pid)
+	if !ok {
+		return rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
 	}
-
-	sptr = &p.parkingSpaceArr[sid-1]
-	return sptr, nil
+	changedPasswd := GetMD5Hash(password)
+	if getPassword == changedPasswd {
+		return rpc.LoginResult_LOGIN_SUCCESS
+	}
+	return rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
 }
 
-func (p *parking) UpdateParkingData(temp, hum, weather int32) {
-	atomic.StoreInt32(&p.temperature, int32(temp))
-	atomic.StoreInt32(&p.humidity, int32(hum))
-	atomic.StoreInt32(&p.weather, int32(weather))
-}
-
-func (p *parking) GetParkingData() (temp, hum, weather int32, address string) {
-	temp = atomic.LoadInt32(&p.temperature)
-	hum = atomic.LoadInt32(&p.humidity)
-	weather = atomic.LoadInt32(&p.weather)
-	address = p.address
-	return
+func parkingGetPasswordByUsername(uid int32) (bool, string) {
+	/*ok, uid, password := RedisGetPasswordByUsername(uid)
+	if ok {
+		return true, password
+	}*/
+	return false, ""
 }

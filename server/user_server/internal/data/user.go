@@ -1,116 +1,116 @@
 package data
 
 import (
-	"sync"
-	"sync/atomic"
-	"unsafe"
+	"crypto/md5"
+	"encoding/hex"
+	"log"
 
 	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
 )
 
-type car struct {
-	license         string
-	parkingPtr      unsafe.Pointer // *parking
-	parkingSpacePtr unsafe.Pointer // *parkingSpace
-	checkInTime     int64
-	entryTime       int64
+func UserIsExists(username string) bool {
+	exist := RedisCheckUserIsExists(username)
+	// Todo add mysql
+	return exist
 }
 
-type user struct {
-	id           int32
-	balance      int32
-	username     string
-	creationTime int64
-	lastModified int64
-	cars         []*car
-	carMap       map[string]*car
-	carMapLock   *sync.RWMutex
+func UserIsExistsByUid(uid int32) bool {
+	exist := RedisCheckUserIsExistsByUid(uid)
+	// Todo add mysql
+	return exist
 }
 
-func (c *car) SetParkingSpace(pptr *parking, sptr *parkingSpace, etime int64) {
-	atomic.StorePointer(&c.parkingPtr, unsafe.Pointer(pptr))
-	atomic.StorePointer(&c.parkingSpacePtr, unsafe.Pointer(sptr))
-	atomic.StoreInt64(&c.entryTime, etime)
+func LicenseIsExists(license string) bool {
+	exist := RedisCheckLicenseIsExists(license)
+	// Todo add mysql
+	return exist
 }
 
-func (c *car) GetCarPtrArr() *rpc.CarInfo {
-	var pptr *parking = (*parking)(atomic.LoadPointer(&c.parkingPtr))
-	var sptr *parkingSpace = (*parkingSpace)(atomic.LoadPointer(&c.parkingSpacePtr))
-	temp, hum, weather, address := pptr.GetParkingData()
-	sid, stemp, shum, alarm := sptr.GetParkingSpaceData()
-	ret := &rpc.CarInfo{
-		PTemperature: temp,
-		PHumidity:    hum,
-		PWeather:     weather,
-		PAddress:     address,
-		SId:          sid,
-		STemperature: stemp,
-		SHumidity:    shum,
-		SAlarm:       rpc.Alarm(alarm),
+func CheckCarIsEntered(license string) (bool, error) {
+	ok := RedisCheckCarIsEntered(license)
+	if ok {
+		return true, nil
 	}
-	return ret
+	// Todo add mysql
+	return false, ErrParkingRecordDuplicateRecord
 }
 
-func (u *user) GetBalance() int32 {
-	return atomic.LoadInt32(&u.balance)
-}
-
-func (u *user) SetBalance(balance int32) {
-	atomic.StoreInt32(&u.balance, balance)
-}
-
-func (u *user) AddCar(license string, nowTime int64) {
-	u.carMapLock.Lock()
-	defer u.carMapLock.Unlock()
-	c := &car{
-		license:         license,
-		parkingPtr:      nil,
-		parkingSpacePtr: nil,
-		checkInTime:     nowTime,
-		entryTime:       0,
+func LoginAuth(username, password string) (int32, rpc.LoginResult) {
+	ok, uid, getPassword := getPasswordByUsername(username)
+	if !ok {
+		return -1, rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
 	}
-	u.cars = append(u.cars, c)
-	u.carMap[c.license] = c
-}
-
-func (u *user) DeleteCar(license string) {
-	u.carMapLock.Lock()
-	defer u.carMapLock.Unlock()
-	delete(u.carMap, license)
-	for i, cptr := range u.cars {
-		if cptr.license == license {
-			u.cars = append(u.cars[:i], u.cars[i+1:]...)
-			break
-		}
+	changedPasswd := GetMD5Hash(password)
+	if getPassword == changedPasswd {
+		return uid, rpc.LoginResult_LOGIN_SUCCESS
 	}
+	return -1, rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
 }
 
-func (u *user) ChangeCar(license, newlicense string) {
-	u.carMapLock.Lock()
-	defer u.carMapLock.Unlock()
-	uptr, err := u.GetCarPtrCheckEntered(license)
+func getPasswordByUsername(username string) (bool, int32, string) {
+	ok, uid, password := RedisGetPasswordByUsername(username)
+	if ok {
+		return true, uid, password
+	}
+	// Todo add mysql
+	return false, -1, ""
+}
+
+func UserRegistrationAuth(username string) rpc.RegistrationResult {
+	if exist := UserIsExists(username); exist {
+		return rpc.RegistrationResult_REGISTRATION_FAIL_ALREADY_EXIST
+	}
+	return rpc.RegistrationResult_REGISTRATION_SUCCESS
+}
+
+func UserAddCarAuth(uid int32, license string) rpc.CarOperationResult {
+	if exist := LicenseIsExists(license); exist {
+		return rpc.CarOperationResult_OPERATION_ADD_FAIL_ALREADY_EXIST
+	}
+	if exist := UserIsExistsByUid(uid); !exist {
+		return rpc.CarOperationResult_OPERATION_ADD_FAIL_USER_NOT_EXIST
+	}
+	return rpc.CarOperationResult_OPERATION_ADD_SUCCESS
+}
+
+func UserDeleteCarAuth(uid int32, license string) rpc.CarOperationResult {
+	if exist := LicenseIsExists(license); !exist {
+		return rpc.CarOperationResult_OPERATION_DELETE_FAIL_NOT_EXIST
+	}
+	if exist := UserIsExistsByUid(uid); !exist {
+		return rpc.CarOperationResult_OPERATION_DELETE_FAIL_USER_NOT_EXIST
+	}
+	if isEntered, _ := CheckCarIsEntered(license); isEntered {
+		return rpc.CarOperationResult_OPERATION_DELETE_FAIL_ENTERED
+	}
+	return rpc.CarOperationResult_OPERATION_DELETE_SUCCESS
+}
+
+func UserChangeCarAuth(uid int32, license string) rpc.CarOperationResult {
+	if exist := LicenseIsExists(license); !exist {
+		return rpc.CarOperationResult_OPERATION_CHANGE_FAIL_NOT_EXIST
+	}
+	if exist := UserIsExistsByUid(uid); !exist {
+		return rpc.CarOperationResult_OPERATION_CHANGE_FAIL_USER_NOT_EXIST
+	}
+	if isEntered, _ := CheckCarIsEntered(license); isEntered {
+		return rpc.CarOperationResult_OPERATION_CHANGE_FAIL_ENTERED
+	}
+	return rpc.CarOperationResult_OPERATION_CHANGE_SUCCESS
+}
+
+// 获取用户全部车牌
+func UserGetLicenseArr(uid int32) []string {
+	licenseArr, err := RedisGetLicensesByUID(uid)
 	if err != nil {
-		return
+		log.Print(err)
 	}
-	uptr.license = newlicense
-	u.carMap[newlicense] = uptr
-	delete(u.carMap, license)
+	// Todo add mysql
+	return licenseArr
 }
 
-func (u *user) GetCarPtrCheckEntered(license string) (*car, error) {
-	u.carMapLock.RLock()
-	defer u.carMapLock.RUnlock()
-	if cptr, ok := u.carMap[license]; ok {
-		if cptr.entryTime == 0 && cptr.parkingPtr == nil && cptr.parkingSpacePtr == nil {
-			return cptr, nil
-		}
-		return nil, ErrParkingRecordDuplicateRecord
-	}
-	return nil, ErrUserLicenseNotFound
-}
-
-func (u *user) GetCarPtrArr() []*car {
-	var ret []*car
-	ret = append(ret, u.cars...)
-	return ret
+func GetMD5Hash(text string) string {
+	hasher := md5.New()
+	hasher.Write([]byte(text))
+	return hex.EncodeToString(hasher.Sum(nil))
 }

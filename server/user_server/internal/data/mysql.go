@@ -7,13 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type parkingRow struct {
-	Id      int32
-	Count   int32
-	address string
-}
-
-type userRow struct {
+type UserRow struct {
 	Id           int32
 	Username     string
 	Password     string
@@ -22,22 +16,15 @@ type userRow struct {
 	LastModified int64
 }
 
-type licenseRow struct {
+type LicenseRow struct {
 	License     string
 	Id          int32
 	CheckInTime int64
 }
 
-type recordRow struct {
-	License   string
-	PId       int32
-	SId       int32
-	EntryTime int64
-}
+func InitMySql() error {
 
-func InitDB() error {
-
-	err := connectDB()
+	err := connectMysql()
 	if err != nil {
 		return err
 	}
@@ -50,99 +37,11 @@ func InitDB() error {
 	return nil
 }
 
-func ReadParkingTbl() ([]*parkingRow, error) {
-
-	var data []*parkingRow
-
-	ret, err := DB.Query(SqlSelectParkingTbl)
-	if err != nil {
-		return nil, err
-	}
-	defer ret.Close()
-
-	for ret.Next() {
-		var d parkingRow
-		err := ret.Scan(&d.Id, &d.Count, &d.address)
-		if err != nil {
-			return nil, err
-		}
-		data = append(data, &d)
-	}
-
-	return data, nil
-}
-
-func ReadUserTbl() ([]*userRow, error) {
-
-	var data []*userRow
-
-	ret, err := DB.Query(SqlSelectUserTbl)
-	if err != nil {
-		return nil, err
-	}
-	defer ret.Close()
-
-	for ret.Next() {
-		var d userRow
-		err := ret.Scan(&d.Id, &d.Username, &d.Password, &d.Balance, &d.CreationTime, &d.LastModified)
-		if err != nil {
-			return nil, err
-		}
-		data = append(data, &d)
-	}
-
-	return data, nil
-}
-
-func ReadLicenseTbl() ([]*licenseRow, error) {
-
-	var data []*licenseRow
-
-	ret, err := DB.Query(SqlSelectLicenseTbl)
-	if err != nil {
-		return nil, err
-	}
-	defer ret.Close()
-
-	for ret.Next() {
-		var d licenseRow
-		err := ret.Scan(&d.License, &d.Id, &d.CheckInTime)
-		if err != nil {
-			return nil, err
-		}
-		data = append(data, &d)
-	}
-
-	return data, nil
-}
-
-func ReadRecordTbl() ([]*recordRow, error) {
-
-	var data []*recordRow
-
-	ret, err := DB.Query(SqlSelectRecordTbl)
-	if err != nil {
-		return nil, err
-	}
-	defer ret.Close()
-
-	for ret.Next() {
-		var d recordRow
-		err := ret.Scan(&d.License, &d.PId, &d.SId, &d.EntryTime)
-		if err != nil {
-			return nil, err
-		}
-		data = append(data, &d)
-	}
-
-	return data, nil
-}
-
 func InsertUserTbl(username, password string, balance int32, nowTime int64) (int32, error) {
 
 	var uid int32 = -1
 
-	ret, err := DB.Query(SqlSelectNextPrimaryId, "z_user")
+	ret, err := MySqlClient.Query(SqlSelectNextPrimaryId, "z_user")
 	if err != nil {
 		return uid, err
 	}
@@ -154,7 +53,7 @@ func InsertUserTbl(username, password string, balance int32, nowTime int64) (int
 		}
 	}
 
-	_, err = DB.Query(SqlInsertUserTbl, username, password, balance, nowTime, nowTime)
+	_, err = MySqlClient.Query(SqlInsertUserTbl, username, password, balance, nowTime, nowTime)
 	if err != nil {
 		log.Println(err)
 		return uid, err
@@ -163,7 +62,7 @@ func InsertUserTbl(username, password string, balance int32, nowTime int64) (int
 }
 
 func InsertLicenseTbl(uid int32, license string, nowTime int64) error {
-	_, err := DB.Query(SqlInsertLicenseTbl, license, uid, nowTime)
+	_, err := MySqlClient.Query(SqlInsertLicenseTbl, license, uid, nowTime)
 	if err != nil {
 		return err
 	}
@@ -171,38 +70,36 @@ func InsertLicenseTbl(uid int32, license string, nowTime int64) error {
 }
 
 func DeleteLicenseTbl(license string) error {
-	_, err := DB.Exec(SqlDeleteLicenseTbl, license)
+	_, err := MySqlClient.Exec(SqlDeleteLicenseTbl, license)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func ChangeLicenseTbl(license, newlicense string) error {
-	_, err := DB.Exec(SqlUpdateLicenseTbl, newlicense, license)
+func ChangeLicenseTbl(license, newlicense string, checkInTime int64) error {
+	_, err := MySqlClient.Exec(SqlUpdateLicenseTbl, newlicense, checkInTime, license)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func connectDB() error {
+func connectMysql() error {
 
 	var err error
 	log.Println("Connect DB ...")
 
-	DB, err = sql.Open(DriverName, DataSourceName)
+	MySqlClient, err = sql.Open(DriverName, DataSourceName)
 	if err != nil {
 		return err
 	}
-
-	err = DB.Ping()
+	err = MySqlClient.Ping()
 	if err != nil {
 		return err
 	}
-
-	DB.SetMaxOpenConns(50)
-	DB.SetMaxIdleConns(20)
+	MySqlClient.SetMaxOpenConns(50)
+	MySqlClient.SetMaxIdleConns(20)
 
 	return nil
 }
@@ -211,7 +108,7 @@ func checkTable() error {
 
 	log.Println("Check DB tables ...")
 
-	ret, err := DB.Query(SqlGetTableNum)
+	ret, err := MySqlClient.Query(SqlGetTableNum)
 	if err != nil {
 		return err
 	}
@@ -224,7 +121,6 @@ func checkTable() error {
 			return err
 		}
 	}
-
 	if tableNum != 5 {
 		return ErrTableNum
 	}

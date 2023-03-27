@@ -3,6 +3,23 @@ package data
 import (
 	"database/sql"
 	"errors"
+
+	"github.com/go-redis/redis"
+)
+
+// redis
+const (
+	RedisAddr = "localhost:7892"
+
+	ParingInfoPrefix         = "z-parking-info-"
+	ParingSpaceDataPrefix    = "z-parking-space-data-"
+	ParingSpaceLicensePrefix = "z-parking-space-License-"
+
+	UserInfoPrefix  = "z-user-info-"
+	UserLoginMapKey = "z-user-login-map"
+
+	LicenseInfoPrefix     = "z-license-info-"
+	LicenseSetByUIDPrefix = "z-license-set-by-uid"
 )
 
 // mysql
@@ -12,14 +29,10 @@ const (
 )
 
 var (
-	DB *sql.DB
+	MySqlClient *sql.DB
+	RedisClient *redis.Client
 
 	ErrTableNum error = errors.New("wrong number of tables")
-)
-
-// data
-const (
-	startId int32 = 1
 )
 
 var (
@@ -48,13 +61,8 @@ const (
 		"WHERE license = ?;"
 
 	SqlUpdateLicenseTbl = "UPDATE z_license " +
-		"SET license=? " +
+		"SET license=?, checkin_time=? " +
 		"WHERE license=?;"
 
-	SqlSelectNextPrimaryId    = "SELECT AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME=?;"
-	SqlSelectParkingTbl       = "SELECT * FROM z_parking;"
-	SqlSelectUserTbl          = "SELECT * FROM z_user;"
-	SqlSelectLicenseTbl       = "SELECT * FROM z_license;"
-	SqlSelectRecordTbl        = "SELECT * FROM z_record;"
-	SqlSelectParkingRecordTbl = "SELECT * FROM z_parking_record;"
+	SqlSelectNextPrimaryId = "SELECT AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME=?;"
 )

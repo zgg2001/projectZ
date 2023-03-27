@@ -58,9 +58,7 @@ message CarInfo {
     int32 p_weather = 3;
     string p_address = 4;
     int32 s_id = 5;
-    int32 s_temperature = 6;
-    int32 s_humidity = 7;
-    Alarm s_alarm = 8;
+    string s_data = 6;
 }
 
 // android client
