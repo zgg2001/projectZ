@@ -159,7 +159,7 @@ func RedisSetParkingInfo(pid, temperature, humidity, weather int32) error {
 func RedisSetParkingSpaceInfo(pid, sid int32, data string) error {
 	strpid := strconv.Itoa(int(pid))
 	strsid := strconv.Itoa(int(sid))
-	key := ParingInfoPrefix + strpid
+	key := ParingSpaceDataPrefix + strpid
 	err := RedisClient.HSet(key, strsid, data).Err()
 	if err != nil {
 		return err
