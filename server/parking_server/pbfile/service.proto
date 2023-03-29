@@ -21,16 +21,6 @@ message ParkingSpaceInfo {
     int32 humidity = 3;
     Alarm alarm = 4;
 }
-message CarInfo {
-    int32 p_temperature = 1;
-    int32 p_humidity = 2;
-    int32 p_weather = 3;
-    string p_address = 4;
-    int32 s_id = 5;
-    int32 s_temperature = 6;
-    int32 s_humidity = 7;
-    Alarm s_alarm = 8;
-}
 
 // raspbery
 // license plate check

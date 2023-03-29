@@ -21,32 +21,25 @@ func (ss *serverService) LicencePlateCheck(con context.Context, request *rpc.LPC
 	sid := request.GetParkingSpaceId()
 
 	// find car
-	ok, uptr := ss.uMgr.GetUserByLicense(license)
+	ok, uid := data.GetUserByLicense(license)
 	if !ok {
 		// 未登记车辆
 		return &rpc.LPCheckResponse{Result: false, Balance: 1}, nil
 	}
-	cptr, err := uptr.GetCarPtrCheckEntered(license)
-	if err != nil {
-		// 车辆登记数据错误
-		return &rpc.LPCheckResponse{Result: false, Balance: 0}, err
-	}
-	balance := uptr.GetBalance()
+	balance := data.GetBalanceByUid(uid)
 	requestTime := time.Now().Unix()
 
 	if model == FrontCamera {
+		err := data.CheckCarIsEntered(license)
+		if err != nil {
+			// 车辆登记数据错误
+			return &rpc.LPCheckResponse{Result: false, Balance: 0}, err
+		}
 		if balance <= 0 {
 			// 余额不足
 			return &rpc.LPCheckResponse{Result: false, Balance: balance}, nil
 		}
-		pptr, sptr, err := ss.pMgr.MgrGetParkingPtrPair(pid, sid)
-		if err != nil {
-			// 请求id错误
-			return &rpc.LPCheckResponse{Result: false, Balance: 0}, err
-		}
-		cptr.SetParkingSpace(pptr, sptr, requestTime)
-		data.InsertRecordTbl(license, pid, sid, requestTime)
-		data.InsertParkingRecordTbl(license, pid, sid, FrontCamera, requestTime)
+		ss.SetParkingSpace(license, pid, sid, requestTime, FrontCamera)
 	} else {
 		// 消费校验
 		etime, err := data.SelectRecordTbl(license)
@@ -55,14 +48,12 @@ func (ss *serverService) LicencePlateCheck(con context.Context, request *rpc.LPC
 			return &rpc.LPCheckResponse{Result: false, Balance: 0}, err
 		}
 		balance = calculateBalance(balance, etime, requestTime)
-		uptr.SetBalance(balance)
 		if balance <= -50 {
 			// 余额不足
 			return &rpc.LPCheckResponse{Result: false, Balance: balance}, nil
 		}
-		cptr.SetParkingSpace(nil, nil, 0)
-		data.DeleteRecordTbl(license)
-		data.InsertParkingRecordTbl(license, pid, sid, RearCamera, requestTime)
+		ss.SetBalance(uid, balance)
+		ss.SetParkingSpace(license, -1, -1, 0, RearCamera)
 	}
 
 	return &rpc.LPCheckResponse{Result: true, Balance: balance}, nil

@@ -15,21 +15,11 @@ type ServiceOperation interface {
 
 type serverService struct {
 	rpc.UnimplementedProjectServiceServer
-	pMgr     data.ParkingMgr
-	uMgr     data.UserMgr
 	funcChan chan func()
 }
 
 func (ss *serverService) Init() error {
 	ss.funcChan = make(chan func(), 22)
-	err := ss.pMgr.Init()
-	if err != nil {
-		return err
-	}
-	err = ss.uMgr.Init(&ss.pMgr)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 
@@ -45,42 +35,61 @@ func (ss *serverService) DBMgrTaskQueueRunning() {
 
 func (ss *serverService) SqlRegisterUser(username, paasword string, nowTime int64) {
 	ss.funcChan <- func() {
+		// mysql
 		var balance int32 = 0
 		changedPasswd := data.GetMD5Hash(paasword)
 		uid, err := data.InsertUserTbl(username, changedPasswd, balance, nowTime)
 		if err != nil {
 			log.Println(err)
 		}
-		ss.uMgr.UserRegistration(username, paasword, uid, balance, nowTime)
+		// redis
+		data.RedisAddUser(&data.UserRow{
+			Id:           uid,
+			Username:     username,
+			Password:     changedPasswd,
+			Balance:      balance,
+			CreationTime: nowTime,
+			LastModified: nowTime,
+		})
 	}
 }
 
 func (ss *serverService) SqlAddCar(uid int32, license string, nowTime int64) {
+	// redis
+	data.RedisAddLicense(&data.LicenseRow{
+		License:     license,
+		Id:          uid,
+		CheckInTime: nowTime,
+	})
+	// mysql
 	ss.funcChan <- func() {
 		err := data.InsertLicenseTbl(uid, license, nowTime)
 		if err != nil {
 			log.Println(err)
 		}
-		ss.uMgr.UserAddCar(uid, license, nowTime)
 	}
 }
 
 func (ss *serverService) SqlDeleteCar(uid int32, license string) {
+	// redis
+	data.RedisDelLicense(uid, license)
+	// mysql
 	ss.funcChan <- func() {
 		err := data.DeleteLicenseTbl(license)
 		if err != nil {
 			log.Println(err)
 		}
-		ss.uMgr.UserDeleteCar(uid, license)
 	}
 }
 
-func (ss *serverService) SqlChangeCar(uid int32, license, newlicense string) {
+func (ss *serverService) SqlChangeCar(uid int32, license, newlicense string, nowTime int64) {
+	// redis
+	data.RedisUpdLicense(uid, license, newlicense, nowTime)
+	// mysql
 	ss.funcChan <- func() {
-		err := data.ChangeLicenseTbl(license, newlicense)
+		err := data.ChangeLicenseTbl(license, newlicense, nowTime)
 		if err != nil {
 			log.Println(err)
 		}
-		ss.uMgr.UserChangeCar(uid, license, newlicense)
 	}
 }

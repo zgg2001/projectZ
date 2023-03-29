@@ -3,6 +3,8 @@ package data
 import (
 	"database/sql"
 	"errors"
+
+	"github.com/go-redis/redis"
 )
 
 // mysql
@@ -11,15 +13,27 @@ const (
 	DataSourceName = "root:password@/projectZ"
 )
 
-var (
-	DB *sql.DB
+// redis
+const (
+	RedisAddr = "localhost:7892"
 
-	ErrTableNum error = errors.New("wrong number of tables")
+	ParkingInfoPrefix         = "z-parking-info-"
+	ParkingLoginMapKey        = "z-parking-login-map"
+	ParkingSpaceDataPrefix    = "z-parking-space-data-"
+	ParkingSpaceLicensePrefix = "z-parking-space-License-"
+
+	UserInfoPrefix  = "z-user-info-"
+	UserLoginMapKey = "z-user-login-map"
+
+	LicenseInfoPrefix     = "z-license-info-"
+	LicenseSetByUIDPrefix = "z-license-set-by-uid"
 )
 
-// data
-const (
-	startId int32 = 1
+var (
+	MySqlClient *sql.DB
+	RedisClient *redis.Client
+
+	ErrTableNum error = errors.New("wrong number of tables")
 )
 
 var (
@@ -39,6 +53,7 @@ const (
 
 	SqlCreateParkingTbl = "CREATE TABLE `z_parking` (" +
 		"`id` int unsigned NOT NULL DEFAULT '0'," +
+		"`password` varchar(255) DEFAULT NULL," +
 		"`count` int unsigned NOT NULL DEFAULT '0'," +
 		"`address` varchar(255) NOT NULL DEFAULT ''," +
 		"PRIMARY KEY (`id`));"
@@ -74,6 +89,10 @@ const (
 	SqlInsertParkingRecordTbl = "INSERT INTO " +
 		"z_parking_record(license, pid, sid, state, time) " +
 		"VALUES (?, ?, ?, ?, ?);"
+
+	SqlUpdateUserBalanceTbl = "UPDATE z_user " +
+		"SET balance=? " +
+		"WHERE id =?;"
 
 	SqlDeleteRecordTbl = "DELETE FROM  z_record" +
 		"WHERE license = ?;"

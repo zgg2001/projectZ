@@ -10,9 +10,14 @@ import (
 
 func main() {
 
-	err := data.InitDB()
+	err := data.InitRedis()
 	if err != nil {
-		log.Println("Database init error:", err)
+		log.Println("Redis init error:", err)
+		return
+	}
+	err = data.InitMySql()
+	if err != nil {
+		log.Println("Mysql init error:", err)
 		return
 	}
 

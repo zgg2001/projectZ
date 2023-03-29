@@ -40,27 +40,13 @@ enum CarOperationResult {
     OPERATION_CHANGE_FAIL_USER_NOT_EXIST = 10;
 }
 
-message ParkingInfo {
-    int32 p_id = 1;
-    int32 temperature = 2;
-    int32 humidity = 3;
-    int32 weather = 4;
-}
-message ParkingSpaceInfo {
-    int32 s_id = 1;
-    int32 temperature = 2;
-    int32 humidity = 3;
-    Alarm alarm = 4;
-}
 message CarInfo {
     int32 p_temperature = 1;
     int32 p_humidity = 2;
     int32 p_weather = 3;
     string p_address = 4;
     int32 s_id = 5;
-    int32 s_temperature = 6;
-    int32 s_humidity = 7;
-    Alarm s_alarm = 8;
+    string s_data = 6;
 }
 
 // android client
@@ -104,20 +90,13 @@ message AdminLoginRequest {
 }
 message AdminLoginResponse {
     LoginResult result = 1;
-}
-message AdminGetDataRequest {
-    int32 p_id = 1;
-}
-message AdminGetDataResponse {
-    ParkingInfo p_info = 1;
-    repeated ParkingSpaceInfo s_info_arr = 2;
+    int32 count = 2;
 }
  
 service ProjectService {
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
     rpc UserRegistration(UserRegistrationRequest) returns (UserRegistrationResponse);
     rpc CarOperation(CarOperationRequest) returns (CarOperationResponse);
-    rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse);
-    rpc AdminGetData(AdminGetDataRequest) returns (AdminGetDataResponse);
     rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
+    rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse);
 }
