@@ -17,9 +17,10 @@ const (
 const (
 	RedisAddr = "localhost:7892"
 
-	ParingInfoPrefix         = "z-parking-info-"
-	ParingSpaceDataPrefix    = "z-parking-space-data-"
-	ParingSpaceLicensePrefix = "z-parking-space-License-"
+	ParkingInfoPrefix         = "z-parking-info-"
+	ParkingLoginMapKey        = "z-parking-login-map"
+	ParkingSpaceDataPrefix    = "z-parking-space-data-"
+	ParkingSpaceLicensePrefix = "z-parking-space-License-"
 
 	UserInfoPrefix  = "z-user-info-"
 	UserLoginMapKey = "z-user-login-map"
@@ -33,11 +34,6 @@ var (
 	RedisClient *redis.Client
 
 	ErrTableNum error = errors.New("wrong number of tables")
-)
-
-// data
-const (
-	startId int32 = 1
 )
 
 var (
@@ -57,6 +53,7 @@ const (
 
 	SqlCreateParkingTbl = "CREATE TABLE `z_parking` (" +
 		"`id` int unsigned NOT NULL DEFAULT '0'," +
+		"`password` varchar(255) DEFAULT NULL," +
 		"`count` int unsigned NOT NULL DEFAULT '0'," +
 		"`address` varchar(255) NOT NULL DEFAULT ''," +
 		"PRIMARY KEY (`id`));"

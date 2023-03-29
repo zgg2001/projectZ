@@ -10,6 +10,6 @@ import (
 func (ss *serverService) AdminLogin(ctx context.Context, request *rpc.AdminLoginRequest) (*rpc.AdminLoginResponse, error) {
 	pid := request.GetPId()
 	password := request.GetPassword()
-	ret := data.ParkingLoginAuth(pid, password)
-	return &rpc.AdminLoginResponse{Result: ret}, nil
+	count, ret := data.ParkingLoginAuth(pid, password)
+	return &rpc.AdminLoginResponse{Result: ret, Count: count}, nil
 }

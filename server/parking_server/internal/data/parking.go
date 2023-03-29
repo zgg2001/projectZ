@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -15,7 +14,6 @@ func ParkingInit() error {
 		return err
 	}
 	for _, tempParking := range parkingRet {
-		fmt.Println(tempParking)
 		err = RedisAddParking(tempParking)
 		if err != nil {
 			return err

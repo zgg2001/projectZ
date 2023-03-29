@@ -31,7 +31,7 @@ func connectRedis() error {
 
 func RedisAddParking(p *ParkingRow) error {
 	strId := strconv.Itoa(int(p.Id))
-	key := ParingInfoPrefix + strId
+	key := ParkingInfoPrefix + strId
 	fields := map[string]interface{}{
 		"id":          p.Id,
 		"count":       p.Count,
@@ -48,12 +48,18 @@ func RedisAddParking(p *ParkingRow) error {
 	if err != nil {
 		return err
 	}
+	// parking login info
+	value := strconv.Itoa(int(p.Count)) + "@" + p.Password
+	err = RedisClient.HSet(ParkingLoginMapKey, strconv.Itoa(int(p.Id)), value).Err()
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 func redisAddParkingSpace(id string, count int32) error {
-	keyData := ParingSpaceDataPrefix + id
-	keyLicense := ParingSpaceLicensePrefix + id
+	keyData := ParkingSpaceDataPrefix + id
+	keyLicense := ParkingSpaceLicensePrefix + id
 	fields := map[string]interface{}{}
 	for i := int32(0); i < count; i++ {
 		fields[strconv.Itoa(int(i))] = ""
@@ -143,7 +149,7 @@ func RedisSetBalance(uid string, balance int32) error {
 
 func RedisSetParkingInfo(pid, temperature, humidity, weather int32) error {
 	strId := strconv.Itoa(int(pid))
-	key := ParingInfoPrefix + strId
+	key := ParkingInfoPrefix + strId
 	fields := map[string]interface{}{
 		"temperature": temperature,
 		"humidity":    humidity,
@@ -159,7 +165,7 @@ func RedisSetParkingInfo(pid, temperature, humidity, weather int32) error {
 func RedisSetParkingSpaceInfo(pid, sid int32, data string) error {
 	strpid := strconv.Itoa(int(pid))
 	strsid := strconv.Itoa(int(sid))
-	key := ParingSpaceDataPrefix + strpid
+	key := ParkingSpaceDataPrefix + strpid
 	err := RedisClient.HSet(key, strsid, data).Err()
 	if err != nil {
 		return err

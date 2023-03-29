@@ -11,9 +11,10 @@ import (
 const (
 	RedisAddr = "localhost:7892"
 
-	ParingInfoPrefix         = "z-parking-info-"
-	ParingSpaceDataPrefix    = "z-parking-space-data-"
-	ParingSpaceLicensePrefix = "z-parking-space-License-"
+	ParkingInfoPrefix         = "z-parking-info-"
+	ParkingLoginMapKey        = "z-parking-login-map"
+	ParkingSpaceDataPrefix    = "z-parking-space-data-"
+	ParkingSpaceLicensePrefix = "z-parking-space-License-"
 
 	UserInfoPrefix  = "z-user-info-"
 	UserLoginMapKey = "z-user-login-map"

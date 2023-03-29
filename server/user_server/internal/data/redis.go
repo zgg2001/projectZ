@@ -206,12 +206,12 @@ func RedisGetLicenseInfo(license string) *rpc.CarInfo {
 		return nil
 	}
 	sid, _ := strconv.Atoi(result["psid"])
-	keyParking := ParingInfoPrefix + result["pid"]
+	keyParking := ParkingInfoPrefix + result["pid"]
 	pTemperature, _ := RedisClient.HGet(keyParking, "temperature").Int()
 	pHumidity, _ := RedisClient.HGet(keyParking, "humidity").Int()
 	pWeather, _ := RedisClient.HGet(keyParking, "weather").Int()
 	pAddress, _ := RedisClient.HGet(keyParking, "address").Result()
-	sdata, _ := RedisClient.HGet(ParingSpaceDataPrefix+result["pid"], result["psid"]).Result()
+	sdata, _ := RedisClient.HGet(ParkingSpaceDataPrefix+result["pid"], result["psid"]).Result()
 	return &rpc.CarInfo{
 		PTemperature: int32(pTemperature),
 		PHumidity:    int32(pHumidity),
@@ -220,4 +220,18 @@ func RedisGetLicenseInfo(license string) *rpc.CarInfo {
 		SId:          int32(sid),
 		SData:        sdata,
 	}
+}
+
+func RedisGetParkingPasswordById(id int32) (bool, int32, string) {
+	value, err := RedisClient.HGet(ParkingLoginMapKey, strconv.Itoa(int(id))).Result()
+	if err != nil || len(value) == 0 {
+		return false, -1, ""
+	}
+	parts := strings.SplitN(value, "@", 2)
+	if len(parts) < 2 {
+		return false, -1, ""
+	}
+	count, _ := strconv.Atoi(parts[0])
+	password := parts[1]
+	return true, int32(count), password
 }

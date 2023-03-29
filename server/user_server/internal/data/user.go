@@ -1,8 +1,6 @@
 package data
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"log"
 
 	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
@@ -107,10 +105,4 @@ func UserGetLicenseArr(uid int32) []string {
 	}
 	// Todo add mysql
 	return licenseArr
-}
-
-func GetMD5Hash(text string) string {
-	hasher := md5.New()
-	hasher.Write([]byte(text))
-	return hex.EncodeToString(hasher.Sum(nil))
 }

@@ -1,25 +1,35 @@
 package data
 
-import "github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
+import (
+	"crypto/md5"
+	"encoding/hex"
 
-// Todo fix logic
+	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
+)
 
-func ParkingLoginAuth(pid int32, password string) rpc.LoginResult {
-	ok, getPassword := parkingGetPasswordByUsername(pid)
+func ParkingLoginAuth(id int32, password string) (int32, rpc.LoginResult) {
+	ok, count, getPassword := getParkingPasswordById(id)
 	if !ok {
-		return rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
+		return -1, rpc.LoginResult_LOGIN_FAIL_NOT_EXIST
 	}
 	changedPasswd := GetMD5Hash(password)
 	if getPassword == changedPasswd {
-		return rpc.LoginResult_LOGIN_SUCCESS
+		return count, rpc.LoginResult_LOGIN_SUCCESS
 	}
-	return rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
+	return -1, rpc.LoginResult_LOGIN_FAIL_WRONG_PASSWORD
 }
 
-func parkingGetPasswordByUsername(uid int32) (bool, string) {
-	/*ok, uid, password := RedisGetPasswordByUsername(uid)
+func getParkingPasswordById(id int32) (bool, int32, string) {
+	ok, count, password := RedisGetParkingPasswordById(id)
 	if ok {
-		return true, password
-	}*/
-	return false, ""
+		return true, count, password
+	}
+	// Todo add mysql
+	return false, -1, ""
+}
+
+func GetMD5Hash(text string) string {
+	hasher := md5.New()
+	hasher.Write([]byte(text))
+	return hex.EncodeToString(hasher.Sum(nil))
 }
