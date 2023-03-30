@@ -21,14 +21,11 @@
 #include <grpcpp/support/sync_stream.h>
 
 static const char* ProjectService_method_names[] = {
-  "/ProjectService/LicencePlateCheck",
-  "/ProjectService/UploadParkingInfo",
   "/ProjectService/UserLogin",
   "/ProjectService/UserRegistration",
   "/ProjectService/CarOperation",
-  "/ProjectService/AdminLogin",
-  "/ProjectService/AdminGetData",
   "/ProjectService/GetUserData",
+  "/ProjectService/AdminLogin",
 };
 
 std::unique_ptr< ProjectService::Stub> ProjectService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -38,61 +35,12 @@ std::unique_ptr< ProjectService::Stub> ProjectService::NewStub(const std::shared
 }
 
 ProjectService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
-  : channel_(channel), rpcmethod_LicencePlateCheck_(ProjectService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UploadParkingInfo_(ProjectService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UserLogin_(ProjectService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UserRegistration_(ProjectService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CarOperation_(ProjectService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AdminLogin_(ProjectService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AdminGetData_(ProjectService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetUserData_(ProjectService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  : channel_(channel), rpcmethod_UserLogin_(ProjectService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UserRegistration_(ProjectService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CarOperation_(ProjectService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetUserData_(ProjectService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AdminLogin_(ProjectService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
-
-::grpc::Status ProjectService::Stub::LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::LPCheckResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::LPCheckRequest, ::LPCheckResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_LicencePlateCheck_, context, request, response);
-}
-
-void ProjectService::Stub::async::LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::LPCheckRequest, ::LPCheckResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_LicencePlateCheck_, context, request, response, std::move(f));
-}
-
-void ProjectService::Stub::async::LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_LicencePlateCheck_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::LPCheckResponse>* ProjectService::Stub::PrepareAsyncLicencePlateCheckRaw(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::LPCheckResponse, ::LPCheckRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_LicencePlateCheck_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::LPCheckResponse>* ProjectService::Stub::AsyncLicencePlateCheckRaw(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncLicencePlateCheckRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
-::grpc::Status ProjectService::Stub::UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::UploadInfoResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::UploadInfoRequest, ::UploadInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UploadParkingInfo_, context, request, response);
-}
-
-void ProjectService::Stub::async::UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::UploadInfoRequest, ::UploadInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadParkingInfo_, context, request, response, std::move(f));
-}
-
-void ProjectService::Stub::async::UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadParkingInfo_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::UploadInfoResponse>* ProjectService::Stub::PrepareAsyncUploadParkingInfoRaw(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::UploadInfoResponse, ::UploadInfoRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_UploadParkingInfo_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::UploadInfoResponse>* ProjectService::Stub::AsyncUploadParkingInfoRaw(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncUploadParkingInfoRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
 
 ::grpc::Status ProjectService::Stub::UserLogin(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::UserLoginResponse* response) {
   return ::grpc::internal::BlockingUnaryCall< ::UserLoginRequest, ::UserLoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UserLogin_, context, request, response);
@@ -163,52 +111,6 @@ void ProjectService::Stub::async::CarOperation(::grpc::ClientContext* context, c
   return result;
 }
 
-::grpc::Status ProjectService::Stub::AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::AdminLoginResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::AdminLoginRequest, ::AdminLoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AdminLogin_, context, request, response);
-}
-
-void ProjectService::Stub::async::AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::AdminLoginRequest, ::AdminLoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AdminLogin_, context, request, response, std::move(f));
-}
-
-void ProjectService::Stub::async::AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AdminLogin_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* ProjectService::Stub::PrepareAsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::AdminLoginResponse, ::AdminLoginRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AdminLogin_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* ProjectService::Stub::AsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncAdminLoginRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
-::grpc::Status ProjectService::Stub::AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::AdminGetDataResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::AdminGetDataRequest, ::AdminGetDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AdminGetData_, context, request, response);
-}
-
-void ProjectService::Stub::async::AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::AdminGetDataRequest, ::AdminGetDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AdminGetData_, context, request, response, std::move(f));
-}
-
-void ProjectService::Stub::async::AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AdminGetData_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::AdminGetDataResponse>* ProjectService::Stub::PrepareAsyncAdminGetDataRaw(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::AdminGetDataResponse, ::AdminGetDataRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AdminGetData_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::AdminGetDataResponse>* ProjectService::Stub::AsyncAdminGetDataRaw(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncAdminGetDataRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
 ::grpc::Status ProjectService::Stub::GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::GetUserDataResponse* response) {
   return ::grpc::internal::BlockingUnaryCall< ::GetUserDataRequest, ::GetUserDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetUserData_, context, request, response);
 }
@@ -232,29 +134,32 @@ void ProjectService::Stub::async::GetUserData(::grpc::ClientContext* context, co
   return result;
 }
 
+::grpc::Status ProjectService::Stub::AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::AdminLoginResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::AdminLoginRequest, ::AdminLoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AdminLogin_, context, request, response);
+}
+
+void ProjectService::Stub::async::AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::AdminLoginRequest, ::AdminLoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AdminLogin_, context, request, response, std::move(f));
+}
+
+void ProjectService::Stub::async::AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AdminLogin_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* ProjectService::Stub::PrepareAsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::AdminLoginResponse, ::AdminLoginRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AdminLogin_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* ProjectService::Stub::AsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncAdminLoginRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ProjectService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ProjectService_method_names[0],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::LPCheckRequest, ::LPCheckResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](ProjectService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::LPCheckRequest* req,
-             ::LPCheckResponse* resp) {
-               return service->LicencePlateCheck(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ProjectService_method_names[1],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::UploadInfoRequest, ::UploadInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](ProjectService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::UploadInfoRequest* req,
-             ::UploadInfoResponse* resp) {
-               return service->UploadParkingInfo(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ProjectService_method_names[2],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::UserLoginRequest, ::UserLoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ProjectService::Service* service,
@@ -264,7 +169,7 @@ ProjectService::Service::Service() {
                return service->UserLogin(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ProjectService_method_names[3],
+      ProjectService_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::UserRegistrationRequest, ::UserRegistrationResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ProjectService::Service* service,
@@ -274,7 +179,7 @@ ProjectService::Service::Service() {
                return service->UserRegistration(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ProjectService_method_names[4],
+      ProjectService_method_names[2],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::CarOperationRequest, ::CarOperationResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ProjectService::Service* service,
@@ -284,27 +189,7 @@ ProjectService::Service::Service() {
                return service->CarOperation(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ProjectService_method_names[5],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::AdminLoginRequest, ::AdminLoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](ProjectService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::AdminLoginRequest* req,
-             ::AdminLoginResponse* resp) {
-               return service->AdminLogin(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ProjectService_method_names[6],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::AdminGetDataRequest, ::AdminGetDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](ProjectService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::AdminGetDataRequest* req,
-             ::AdminGetDataResponse* resp) {
-               return service->AdminGetData(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      ProjectService_method_names[7],
+      ProjectService_method_names[3],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::GetUserDataRequest, ::GetUserDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](ProjectService::Service* service,
@@ -313,23 +198,19 @@ ProjectService::Service::Service() {
              ::GetUserDataResponse* resp) {
                return service->GetUserData(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ProjectService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::AdminLoginRequest, ::AdminLoginResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ProjectService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::AdminLoginRequest* req,
+             ::AdminLoginResponse* resp) {
+               return service->AdminLogin(ctx, req, resp);
+             }, this)));
 }
 
 ProjectService::Service::~Service() {
-}
-
-::grpc::Status ProjectService::Service::LicencePlateCheck(::grpc::ServerContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status ProjectService::Service::UploadParkingInfo(::grpc::ServerContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
 ::grpc::Status ProjectService::Service::UserLogin(::grpc::ServerContext* context, const ::UserLoginRequest* request, ::UserLoginResponse* response) {
@@ -353,21 +234,14 @@ ProjectService::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status ProjectService::Service::AdminLogin(::grpc::ServerContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status ProjectService::Service::AdminGetData(::grpc::ServerContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
 ::grpc::Status ProjectService::Service::GetUserData(::grpc::ServerContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ProjectService::Service::AdminLogin(::grpc::ServerContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response) {
   (void) context;
   (void) request;
   (void) response;

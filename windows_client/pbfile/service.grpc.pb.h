@@ -33,20 +33,6 @@ class ProjectService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::LPCheckResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::LPCheckResponse>> AsyncLicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::LPCheckResponse>>(AsyncLicencePlateCheckRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::LPCheckResponse>> PrepareAsyncLicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::LPCheckResponse>>(PrepareAsyncLicencePlateCheckRaw(context, request, cq));
-    }
-    virtual ::grpc::Status UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::UploadInfoResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::UploadInfoResponse>> AsyncUploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::UploadInfoResponse>>(AsyncUploadParkingInfoRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::UploadInfoResponse>> PrepareAsyncUploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::UploadInfoResponse>>(PrepareAsyncUploadParkingInfoRaw(context, request, cq));
-    }
     virtual ::grpc::Status UserLogin(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::UserLoginResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::UserLoginResponse>> AsyncUserLogin(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::UserLoginResponse>>(AsyncUserLoginRaw(context, request, cq));
@@ -68,20 +54,6 @@ class ProjectService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::CarOperationResponse>> PrepareAsyncCarOperation(::grpc::ClientContext* context, const ::CarOperationRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::CarOperationResponse>>(PrepareAsyncCarOperationRaw(context, request, cq));
     }
-    virtual ::grpc::Status AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::AdminLoginResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>> AsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>>(AsyncAdminLoginRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>> PrepareAsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>>(PrepareAsyncAdminLoginRaw(context, request, cq));
-    }
-    virtual ::grpc::Status AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::AdminGetDataResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetDataResponse>> AsyncAdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetDataResponse>>(AsyncAdminGetDataRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetDataResponse>> PrepareAsyncAdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetDataResponse>>(PrepareAsyncAdminGetDataRaw(context, request, cq));
-    }
     virtual ::grpc::Status GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::GetUserDataResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GetUserDataResponse>> AsyncGetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GetUserDataResponse>>(AsyncGetUserDataRaw(context, request, cq));
@@ -89,64 +61,45 @@ class ProjectService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GetUserDataResponse>> PrepareAsyncGetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::GetUserDataResponse>>(PrepareAsyncGetUserDataRaw(context, request, cq));
     }
+    virtual ::grpc::Status AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::AdminLoginResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>> AsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>>(AsyncAdminLoginRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>> PrepareAsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>>(PrepareAsyncAdminLoginRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
-      virtual void LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      virtual void UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void UserLogin(::grpc::ClientContext* context, const ::UserLoginRequest* request, ::UserLoginResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void UserLogin(::grpc::ClientContext* context, const ::UserLoginRequest* request, ::UserLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void UserRegistration(::grpc::ClientContext* context, const ::UserRegistrationRequest* request, ::UserRegistrationResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void UserRegistration(::grpc::ClientContext* context, const ::UserRegistrationRequest* request, ::UserRegistrationResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void CarOperation(::grpc::ClientContext* context, const ::CarOperationRequest* request, ::CarOperationResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void CarOperation(::grpc::ClientContext* context, const ::CarOperationRequest* request, ::CarOperationResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      virtual void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      virtual void AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
     class async_interface* experimental_async() { return async(); }
    private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::LPCheckResponse>* AsyncLicencePlateCheckRaw(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::LPCheckResponse>* PrepareAsyncLicencePlateCheckRaw(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::UploadInfoResponse>* AsyncUploadParkingInfoRaw(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::UploadInfoResponse>* PrepareAsyncUploadParkingInfoRaw(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::UserLoginResponse>* AsyncUserLoginRaw(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::UserLoginResponse>* PrepareAsyncUserLoginRaw(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::UserRegistrationResponse>* AsyncUserRegistrationRaw(::grpc::ClientContext* context, const ::UserRegistrationRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::UserRegistrationResponse>* PrepareAsyncUserRegistrationRaw(::grpc::ClientContext* context, const ::UserRegistrationRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::CarOperationResponse>* AsyncCarOperationRaw(::grpc::ClientContext* context, const ::CarOperationRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::CarOperationResponse>* PrepareAsyncCarOperationRaw(::grpc::ClientContext* context, const ::CarOperationRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>* AsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>* PrepareAsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetDataResponse>* AsyncAdminGetDataRaw(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetDataResponse>* PrepareAsyncAdminGetDataRaw(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::GetUserDataResponse>* AsyncGetUserDataRaw(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::GetUserDataResponse>* PrepareAsyncGetUserDataRaw(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>* AsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>* PrepareAsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-    ::grpc::Status LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::LPCheckResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::LPCheckResponse>> AsyncLicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::LPCheckResponse>>(AsyncLicencePlateCheckRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::LPCheckResponse>> PrepareAsyncLicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::LPCheckResponse>>(PrepareAsyncLicencePlateCheckRaw(context, request, cq));
-    }
-    ::grpc::Status UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::UploadInfoResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::UploadInfoResponse>> AsyncUploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::UploadInfoResponse>>(AsyncUploadParkingInfoRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::UploadInfoResponse>> PrepareAsyncUploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::UploadInfoResponse>>(PrepareAsyncUploadParkingInfoRaw(context, request, cq));
-    }
     ::grpc::Status UserLogin(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::UserLoginResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::UserLoginResponse>> AsyncUserLogin(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::UserLoginResponse>>(AsyncUserLoginRaw(context, request, cq));
@@ -168,20 +121,6 @@ class ProjectService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::CarOperationResponse>> PrepareAsyncCarOperation(::grpc::ClientContext* context, const ::CarOperationRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::CarOperationResponse>>(PrepareAsyncCarOperationRaw(context, request, cq));
     }
-    ::grpc::Status AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::AdminLoginResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>> AsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>>(AsyncAdminLoginRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>> PrepareAsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>>(PrepareAsyncAdminLoginRaw(context, request, cq));
-    }
-    ::grpc::Status AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::AdminGetDataResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminGetDataResponse>> AsyncAdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminGetDataResponse>>(AsyncAdminGetDataRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminGetDataResponse>> PrepareAsyncAdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminGetDataResponse>>(PrepareAsyncAdminGetDataRaw(context, request, cq));
-    }
     ::grpc::Status GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::GetUserDataResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GetUserDataResponse>> AsyncGetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GetUserDataResponse>>(AsyncGetUserDataRaw(context, request, cq));
@@ -189,25 +128,26 @@ class ProjectService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GetUserDataResponse>> PrepareAsyncGetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::GetUserDataResponse>>(PrepareAsyncGetUserDataRaw(context, request, cq));
     }
+    ::grpc::Status AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::AdminLoginResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>> AsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>>(AsyncAdminLoginRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>> PrepareAsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>>(PrepareAsyncAdminLoginRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
-      void LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response, std::function<void(::grpc::Status)>) override;
-      void LicencePlateCheck(::grpc::ClientContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-      void UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response, std::function<void(::grpc::Status)>) override;
-      void UploadParkingInfo(::grpc::ClientContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void UserLogin(::grpc::ClientContext* context, const ::UserLoginRequest* request, ::UserLoginResponse* response, std::function<void(::grpc::Status)>) override;
       void UserLogin(::grpc::ClientContext* context, const ::UserLoginRequest* request, ::UserLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void UserRegistration(::grpc::ClientContext* context, const ::UserRegistrationRequest* request, ::UserRegistrationResponse* response, std::function<void(::grpc::Status)>) override;
       void UserRegistration(::grpc::ClientContext* context, const ::UserRegistrationRequest* request, ::UserRegistrationResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void CarOperation(::grpc::ClientContext* context, const ::CarOperationRequest* request, ::CarOperationResponse* response, std::function<void(::grpc::Status)>) override;
       void CarOperation(::grpc::ClientContext* context, const ::CarOperationRequest* request, ::CarOperationResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-      void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, std::function<void(::grpc::Status)>) override;
-      void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-      void AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response, std::function<void(::grpc::Status)>) override;
-      void AdminGetData(::grpc::ClientContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response, std::function<void(::grpc::Status)>) override;
       void GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, std::function<void(::grpc::Status)>) override;
+      void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -219,30 +159,21 @@ class ProjectService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::LPCheckResponse>* AsyncLicencePlateCheckRaw(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::LPCheckResponse>* PrepareAsyncLicencePlateCheckRaw(::grpc::ClientContext* context, const ::LPCheckRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::UploadInfoResponse>* AsyncUploadParkingInfoRaw(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::UploadInfoResponse>* PrepareAsyncUploadParkingInfoRaw(::grpc::ClientContext* context, const ::UploadInfoRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::UserLoginResponse>* AsyncUserLoginRaw(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::UserLoginResponse>* PrepareAsyncUserLoginRaw(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::UserRegistrationResponse>* AsyncUserRegistrationRaw(::grpc::ClientContext* context, const ::UserRegistrationRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::UserRegistrationResponse>* PrepareAsyncUserRegistrationRaw(::grpc::ClientContext* context, const ::UserRegistrationRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::CarOperationResponse>* AsyncCarOperationRaw(::grpc::ClientContext* context, const ::CarOperationRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::CarOperationResponse>* PrepareAsyncCarOperationRaw(::grpc::ClientContext* context, const ::CarOperationRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* AsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* PrepareAsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::AdminGetDataResponse>* AsyncAdminGetDataRaw(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::AdminGetDataResponse>* PrepareAsyncAdminGetDataRaw(::grpc::ClientContext* context, const ::AdminGetDataRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::GetUserDataResponse>* AsyncGetUserDataRaw(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::GetUserDataResponse>* PrepareAsyncGetUserDataRaw(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_LicencePlateCheck_;
-    const ::grpc::internal::RpcMethod rpcmethod_UploadParkingInfo_;
+    ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* AsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* PrepareAsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_UserLogin_;
     const ::grpc::internal::RpcMethod rpcmethod_UserRegistration_;
     const ::grpc::internal::RpcMethod rpcmethod_CarOperation_;
-    const ::grpc::internal::RpcMethod rpcmethod_AdminLogin_;
-    const ::grpc::internal::RpcMethod rpcmethod_AdminGetData_;
     const ::grpc::internal::RpcMethod rpcmethod_GetUserData_;
+    const ::grpc::internal::RpcMethod rpcmethod_AdminLogin_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -250,54 +181,11 @@ class ProjectService final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status LicencePlateCheck(::grpc::ServerContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response);
-    virtual ::grpc::Status UploadParkingInfo(::grpc::ServerContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response);
     virtual ::grpc::Status UserLogin(::grpc::ServerContext* context, const ::UserLoginRequest* request, ::UserLoginResponse* response);
     virtual ::grpc::Status UserRegistration(::grpc::ServerContext* context, const ::UserRegistrationRequest* request, ::UserRegistrationResponse* response);
     virtual ::grpc::Status CarOperation(::grpc::ServerContext* context, const ::CarOperationRequest* request, ::CarOperationResponse* response);
-    virtual ::grpc::Status AdminLogin(::grpc::ServerContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response);
-    virtual ::grpc::Status AdminGetData(::grpc::ServerContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response);
     virtual ::grpc::Status GetUserData(::grpc::ServerContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response);
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_LicencePlateCheck : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_LicencePlateCheck() {
-      ::grpc::Service::MarkMethodAsync(0);
-    }
-    ~WithAsyncMethod_LicencePlateCheck() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status LicencePlateCheck(::grpc::ServerContext* /*context*/, const ::LPCheckRequest* /*request*/, ::LPCheckResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestLicencePlateCheck(::grpc::ServerContext* context, ::LPCheckRequest* request, ::grpc::ServerAsyncResponseWriter< ::LPCheckResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_UploadParkingInfo : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_UploadParkingInfo() {
-      ::grpc::Service::MarkMethodAsync(1);
-    }
-    ~WithAsyncMethod_UploadParkingInfo() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status UploadParkingInfo(::grpc::ServerContext* /*context*/, const ::UploadInfoRequest* /*request*/, ::UploadInfoResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestUploadParkingInfo(::grpc::ServerContext* context, ::UploadInfoRequest* request, ::grpc::ServerAsyncResponseWriter< ::UploadInfoResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
-    }
+    virtual ::grpc::Status AdminLogin(::grpc::ServerContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_UserLogin : public BaseClass {
@@ -305,7 +193,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UserLogin() {
-      ::grpc::Service::MarkMethodAsync(2);
+      ::grpc::Service::MarkMethodAsync(0);
     }
     ~WithAsyncMethod_UserLogin() override {
       BaseClassMustBeDerivedFromService(this);
@@ -316,7 +204,7 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUserLogin(::grpc::ServerContext* context, ::UserLoginRequest* request, ::grpc::ServerAsyncResponseWriter< ::UserLoginResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -325,7 +213,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UserRegistration() {
-      ::grpc::Service::MarkMethodAsync(3);
+      ::grpc::Service::MarkMethodAsync(1);
     }
     ~WithAsyncMethod_UserRegistration() override {
       BaseClassMustBeDerivedFromService(this);
@@ -336,7 +224,7 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUserRegistration(::grpc::ServerContext* context, ::UserRegistrationRequest* request, ::grpc::ServerAsyncResponseWriter< ::UserRegistrationResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -345,7 +233,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_CarOperation() {
-      ::grpc::Service::MarkMethodAsync(4);
+      ::grpc::Service::MarkMethodAsync(2);
     }
     ~WithAsyncMethod_CarOperation() override {
       BaseClassMustBeDerivedFromService(this);
@@ -356,47 +244,7 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCarOperation(::grpc::ServerContext* context, ::CarOperationRequest* request, ::grpc::ServerAsyncResponseWriter< ::CarOperationResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_AdminLogin : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_AdminLogin() {
-      ::grpc::Service::MarkMethodAsync(5);
-    }
-    ~WithAsyncMethod_AdminLogin() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestAdminLogin(::grpc::ServerContext* context, ::AdminLoginRequest* request, ::grpc::ServerAsyncResponseWriter< ::AdminLoginResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_AdminGetData : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_AdminGetData() {
-      ::grpc::Service::MarkMethodAsync(6);
-    }
-    ~WithAsyncMethod_AdminGetData() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminGetData(::grpc::ServerContext* /*context*/, const ::AdminGetDataRequest* /*request*/, ::AdminGetDataResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestAdminGetData(::grpc::ServerContext* context, ::AdminGetDataRequest* request, ::grpc::ServerAsyncResponseWriter< ::AdminGetDataResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -405,7 +253,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetUserData() {
-      ::grpc::Service::MarkMethodAsync(7);
+      ::grpc::Service::MarkMethodAsync(3);
     }
     ~WithAsyncMethod_GetUserData() override {
       BaseClassMustBeDerivedFromService(this);
@@ -416,77 +264,43 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetUserData(::grpc::ServerContext* context, ::GetUserDataRequest* request, ::grpc::ServerAsyncResponseWriter< ::GetUserDataResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_LicencePlateCheck<WithAsyncMethod_UploadParkingInfo<WithAsyncMethod_UserLogin<WithAsyncMethod_UserRegistration<WithAsyncMethod_CarOperation<WithAsyncMethod_AdminLogin<WithAsyncMethod_AdminGetData<WithAsyncMethod_GetUserData<Service > > > > > > > > AsyncService;
   template <class BaseClass>
-  class WithCallbackMethod_LicencePlateCheck : public BaseClass {
+  class WithAsyncMethod_AdminLogin : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithCallbackMethod_LicencePlateCheck() {
-      ::grpc::Service::MarkMethodCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::LPCheckRequest, ::LPCheckResponse>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::LPCheckRequest* request, ::LPCheckResponse* response) { return this->LicencePlateCheck(context, request, response); }));}
-    void SetMessageAllocatorFor_LicencePlateCheck(
-        ::grpc::MessageAllocator< ::LPCheckRequest, ::LPCheckResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::LPCheckRequest, ::LPCheckResponse>*>(handler)
-              ->SetMessageAllocator(allocator);
+    WithAsyncMethod_AdminLogin() {
+      ::grpc::Service::MarkMethodAsync(4);
     }
-    ~WithCallbackMethod_LicencePlateCheck() override {
+    ~WithAsyncMethod_AdminLogin() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LicencePlateCheck(::grpc::ServerContext* /*context*/, const ::LPCheckRequest* /*request*/, ::LPCheckResponse* /*response*/) override {
+    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* LicencePlateCheck(
-      ::grpc::CallbackServerContext* /*context*/, const ::LPCheckRequest* /*request*/, ::LPCheckResponse* /*response*/)  { return nullptr; }
+    void RequestAdminLogin(::grpc::ServerContext* context, ::AdminLoginRequest* request, ::grpc::ServerAsyncResponseWriter< ::AdminLoginResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
   };
-  template <class BaseClass>
-  class WithCallbackMethod_UploadParkingInfo : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithCallbackMethod_UploadParkingInfo() {
-      ::grpc::Service::MarkMethodCallback(1,
-          new ::grpc::internal::CallbackUnaryHandler< ::UploadInfoRequest, ::UploadInfoResponse>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::UploadInfoRequest* request, ::UploadInfoResponse* response) { return this->UploadParkingInfo(context, request, response); }));}
-    void SetMessageAllocatorFor_UploadParkingInfo(
-        ::grpc::MessageAllocator< ::UploadInfoRequest, ::UploadInfoResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::UploadInfoRequest, ::UploadInfoResponse>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~WithCallbackMethod_UploadParkingInfo() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status UploadParkingInfo(::grpc::ServerContext* /*context*/, const ::UploadInfoRequest* /*request*/, ::UploadInfoResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual ::grpc::ServerUnaryReactor* UploadParkingInfo(
-      ::grpc::CallbackServerContext* /*context*/, const ::UploadInfoRequest* /*request*/, ::UploadInfoResponse* /*response*/)  { return nullptr; }
-  };
+  typedef WithAsyncMethod_UserLogin<WithAsyncMethod_UserRegistration<WithAsyncMethod_CarOperation<WithAsyncMethod_GetUserData<WithAsyncMethod_AdminLogin<Service > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_UserLogin : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_UserLogin() {
-      ::grpc::Service::MarkMethodCallback(2,
+      ::grpc::Service::MarkMethodCallback(0,
           new ::grpc::internal::CallbackUnaryHandler< ::UserLoginRequest, ::UserLoginResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::UserLoginRequest* request, ::UserLoginResponse* response) { return this->UserLogin(context, request, response); }));}
     void SetMessageAllocatorFor_UserLogin(
         ::grpc::MessageAllocator< ::UserLoginRequest, ::UserLoginResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::UserLoginRequest, ::UserLoginResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -507,13 +321,13 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_UserRegistration() {
-      ::grpc::Service::MarkMethodCallback(3,
+      ::grpc::Service::MarkMethodCallback(1,
           new ::grpc::internal::CallbackUnaryHandler< ::UserRegistrationRequest, ::UserRegistrationResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::UserRegistrationRequest* request, ::UserRegistrationResponse* response) { return this->UserRegistration(context, request, response); }));}
     void SetMessageAllocatorFor_UserRegistration(
         ::grpc::MessageAllocator< ::UserRegistrationRequest, ::UserRegistrationResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::UserRegistrationRequest, ::UserRegistrationResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -534,13 +348,13 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_CarOperation() {
-      ::grpc::Service::MarkMethodCallback(4,
+      ::grpc::Service::MarkMethodCallback(2,
           new ::grpc::internal::CallbackUnaryHandler< ::CarOperationRequest, ::CarOperationResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::CarOperationRequest* request, ::CarOperationResponse* response) { return this->CarOperation(context, request, response); }));}
     void SetMessageAllocatorFor_CarOperation(
         ::grpc::MessageAllocator< ::CarOperationRequest, ::CarOperationResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::CarOperationRequest, ::CarOperationResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -556,72 +370,18 @@ class ProjectService final {
       ::grpc::CallbackServerContext* /*context*/, const ::CarOperationRequest* /*request*/, ::CarOperationResponse* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithCallbackMethod_AdminLogin : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithCallbackMethod_AdminLogin() {
-      ::grpc::Service::MarkMethodCallback(5,
-          new ::grpc::internal::CallbackUnaryHandler< ::AdminLoginRequest, ::AdminLoginResponse>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response) { return this->AdminLogin(context, request, response); }));}
-    void SetMessageAllocatorFor_AdminLogin(
-        ::grpc::MessageAllocator< ::AdminLoginRequest, ::AdminLoginResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::AdminLoginRequest, ::AdminLoginResponse>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~WithCallbackMethod_AdminLogin() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual ::grpc::ServerUnaryReactor* AdminLogin(
-      ::grpc::CallbackServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/)  { return nullptr; }
-  };
-  template <class BaseClass>
-  class WithCallbackMethod_AdminGetData : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithCallbackMethod_AdminGetData() {
-      ::grpc::Service::MarkMethodCallback(6,
-          new ::grpc::internal::CallbackUnaryHandler< ::AdminGetDataRequest, ::AdminGetDataResponse>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::AdminGetDataRequest* request, ::AdminGetDataResponse* response) { return this->AdminGetData(context, request, response); }));}
-    void SetMessageAllocatorFor_AdminGetData(
-        ::grpc::MessageAllocator< ::AdminGetDataRequest, ::AdminGetDataResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::AdminGetDataRequest, ::AdminGetDataResponse>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~WithCallbackMethod_AdminGetData() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminGetData(::grpc::ServerContext* /*context*/, const ::AdminGetDataRequest* /*request*/, ::AdminGetDataResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual ::grpc::ServerUnaryReactor* AdminGetData(
-      ::grpc::CallbackServerContext* /*context*/, const ::AdminGetDataRequest* /*request*/, ::AdminGetDataResponse* /*response*/)  { return nullptr; }
-  };
-  template <class BaseClass>
   class WithCallbackMethod_GetUserData : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetUserData() {
-      ::grpc::Service::MarkMethodCallback(7,
+      ::grpc::Service::MarkMethodCallback(3,
           new ::grpc::internal::CallbackUnaryHandler< ::GetUserDataRequest, ::GetUserDataResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response) { return this->GetUserData(context, request, response); }));}
     void SetMessageAllocatorFor_GetUserData(
         ::grpc::MessageAllocator< ::GetUserDataRequest, ::GetUserDataResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::GetUserDataRequest, ::GetUserDataResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -636,49 +396,42 @@ class ProjectService final {
     virtual ::grpc::ServerUnaryReactor* GetUserData(
       ::grpc::CallbackServerContext* /*context*/, const ::GetUserDataRequest* /*request*/, ::GetUserDataResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_LicencePlateCheck<WithCallbackMethod_UploadParkingInfo<WithCallbackMethod_UserLogin<WithCallbackMethod_UserRegistration<WithCallbackMethod_CarOperation<WithCallbackMethod_AdminLogin<WithCallbackMethod_AdminGetData<WithCallbackMethod_GetUserData<Service > > > > > > > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_AdminLogin : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_AdminLogin() {
+      ::grpc::Service::MarkMethodCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::AdminLoginRequest, ::AdminLoginResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response) { return this->AdminLogin(context, request, response); }));}
+    void SetMessageAllocatorFor_AdminLogin(
+        ::grpc::MessageAllocator< ::AdminLoginRequest, ::AdminLoginResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::AdminLoginRequest, ::AdminLoginResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_AdminLogin() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AdminLogin(
+      ::grpc::CallbackServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_UserLogin<WithCallbackMethod_UserRegistration<WithCallbackMethod_CarOperation<WithCallbackMethod_GetUserData<WithCallbackMethod_AdminLogin<Service > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
-  template <class BaseClass>
-  class WithGenericMethod_LicencePlateCheck : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_LicencePlateCheck() {
-      ::grpc::Service::MarkMethodGeneric(0);
-    }
-    ~WithGenericMethod_LicencePlateCheck() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status LicencePlateCheck(::grpc::ServerContext* /*context*/, const ::LPCheckRequest* /*request*/, ::LPCheckResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_UploadParkingInfo : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_UploadParkingInfo() {
-      ::grpc::Service::MarkMethodGeneric(1);
-    }
-    ~WithGenericMethod_UploadParkingInfo() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status UploadParkingInfo(::grpc::ServerContext* /*context*/, const ::UploadInfoRequest* /*request*/, ::UploadInfoResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
   template <class BaseClass>
   class WithGenericMethod_UserLogin : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UserLogin() {
-      ::grpc::Service::MarkMethodGeneric(2);
+      ::grpc::Service::MarkMethodGeneric(0);
     }
     ~WithGenericMethod_UserLogin() override {
       BaseClassMustBeDerivedFromService(this);
@@ -695,7 +448,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UserRegistration() {
-      ::grpc::Service::MarkMethodGeneric(3);
+      ::grpc::Service::MarkMethodGeneric(1);
     }
     ~WithGenericMethod_UserRegistration() override {
       BaseClassMustBeDerivedFromService(this);
@@ -712,7 +465,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_CarOperation() {
-      ::grpc::Service::MarkMethodGeneric(4);
+      ::grpc::Service::MarkMethodGeneric(2);
     }
     ~WithGenericMethod_CarOperation() override {
       BaseClassMustBeDerivedFromService(this);
@@ -724,46 +477,12 @@ class ProjectService final {
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_AdminLogin : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_AdminLogin() {
-      ::grpc::Service::MarkMethodGeneric(5);
-    }
-    ~WithGenericMethod_AdminLogin() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_AdminGetData : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_AdminGetData() {
-      ::grpc::Service::MarkMethodGeneric(6);
-    }
-    ~WithGenericMethod_AdminGetData() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminGetData(::grpc::ServerContext* /*context*/, const ::AdminGetDataRequest* /*request*/, ::AdminGetDataResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
   class WithGenericMethod_GetUserData : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetUserData() {
-      ::grpc::Service::MarkMethodGeneric(7);
+      ::grpc::Service::MarkMethodGeneric(3);
     }
     ~WithGenericMethod_GetUserData() override {
       BaseClassMustBeDerivedFromService(this);
@@ -775,43 +494,20 @@ class ProjectService final {
     }
   };
   template <class BaseClass>
-  class WithRawMethod_LicencePlateCheck : public BaseClass {
+  class WithGenericMethod_AdminLogin : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawMethod_LicencePlateCheck() {
-      ::grpc::Service::MarkMethodRaw(0);
+    WithGenericMethod_AdminLogin() {
+      ::grpc::Service::MarkMethodGeneric(4);
     }
-    ~WithRawMethod_LicencePlateCheck() override {
+    ~WithGenericMethod_AdminLogin() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LicencePlateCheck(::grpc::ServerContext* /*context*/, const ::LPCheckRequest* /*request*/, ::LPCheckResponse* /*response*/) override {
+    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestLicencePlateCheck(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_UploadParkingInfo : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_UploadParkingInfo() {
-      ::grpc::Service::MarkMethodRaw(1);
-    }
-    ~WithRawMethod_UploadParkingInfo() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status UploadParkingInfo(::grpc::ServerContext* /*context*/, const ::UploadInfoRequest* /*request*/, ::UploadInfoResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestUploadParkingInfo(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -820,7 +516,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UserLogin() {
-      ::grpc::Service::MarkMethodRaw(2);
+      ::grpc::Service::MarkMethodRaw(0);
     }
     ~WithRawMethod_UserLogin() override {
       BaseClassMustBeDerivedFromService(this);
@@ -831,7 +527,7 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUserLogin(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -840,7 +536,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UserRegistration() {
-      ::grpc::Service::MarkMethodRaw(3);
+      ::grpc::Service::MarkMethodRaw(1);
     }
     ~WithRawMethod_UserRegistration() override {
       BaseClassMustBeDerivedFromService(this);
@@ -851,7 +547,7 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUserRegistration(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -860,7 +556,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_CarOperation() {
-      ::grpc::Service::MarkMethodRaw(4);
+      ::grpc::Service::MarkMethodRaw(2);
     }
     ~WithRawMethod_CarOperation() override {
       BaseClassMustBeDerivedFromService(this);
@@ -871,47 +567,7 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCarOperation(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_AdminLogin : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_AdminLogin() {
-      ::grpc::Service::MarkMethodRaw(5);
-    }
-    ~WithRawMethod_AdminLogin() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestAdminLogin(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_AdminGetData : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_AdminGetData() {
-      ::grpc::Service::MarkMethodRaw(6);
-    }
-    ~WithRawMethod_AdminGetData() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminGetData(::grpc::ServerContext* /*context*/, const ::AdminGetDataRequest* /*request*/, ::AdminGetDataResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestAdminGetData(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -920,7 +576,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetUserData() {
-      ::grpc::Service::MarkMethodRaw(7);
+      ::grpc::Service::MarkMethodRaw(3);
     }
     ~WithRawMethod_GetUserData() override {
       BaseClassMustBeDerivedFromService(this);
@@ -931,52 +587,28 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetUserData(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class WithRawCallbackMethod_LicencePlateCheck : public BaseClass {
+  class WithRawMethod_AdminLogin : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithRawCallbackMethod_LicencePlateCheck() {
-      ::grpc::Service::MarkMethodRawCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->LicencePlateCheck(context, request, response); }));
+    WithRawMethod_AdminLogin() {
+      ::grpc::Service::MarkMethodRaw(4);
     }
-    ~WithRawCallbackMethod_LicencePlateCheck() override {
+    ~WithRawMethod_AdminLogin() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LicencePlateCheck(::grpc::ServerContext* /*context*/, const ::LPCheckRequest* /*request*/, ::LPCheckResponse* /*response*/) override {
+    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual ::grpc::ServerUnaryReactor* LicencePlateCheck(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
-  };
-  template <class BaseClass>
-  class WithRawCallbackMethod_UploadParkingInfo : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawCallbackMethod_UploadParkingInfo() {
-      ::grpc::Service::MarkMethodRawCallback(1,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UploadParkingInfo(context, request, response); }));
+    void RequestAdminLogin(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
     }
-    ~WithRawCallbackMethod_UploadParkingInfo() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status UploadParkingInfo(::grpc::ServerContext* /*context*/, const ::UploadInfoRequest* /*request*/, ::UploadInfoResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual ::grpc::ServerUnaryReactor* UploadParkingInfo(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithRawCallbackMethod_UserLogin : public BaseClass {
@@ -984,7 +616,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_UserLogin() {
-      ::grpc::Service::MarkMethodRawCallback(2,
+      ::grpc::Service::MarkMethodRawCallback(0,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UserLogin(context, request, response); }));
@@ -1006,7 +638,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_UserRegistration() {
-      ::grpc::Service::MarkMethodRawCallback(3,
+      ::grpc::Service::MarkMethodRawCallback(1,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UserRegistration(context, request, response); }));
@@ -1028,7 +660,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_CarOperation() {
-      ::grpc::Service::MarkMethodRawCallback(4,
+      ::grpc::Service::MarkMethodRawCallback(2,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->CarOperation(context, request, response); }));
@@ -1045,56 +677,12 @@ class ProjectService final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithRawCallbackMethod_AdminLogin : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawCallbackMethod_AdminLogin() {
-      ::grpc::Service::MarkMethodRawCallback(5,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AdminLogin(context, request, response); }));
-    }
-    ~WithRawCallbackMethod_AdminLogin() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual ::grpc::ServerUnaryReactor* AdminLogin(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
-  };
-  template <class BaseClass>
-  class WithRawCallbackMethod_AdminGetData : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawCallbackMethod_AdminGetData() {
-      ::grpc::Service::MarkMethodRawCallback(6,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AdminGetData(context, request, response); }));
-    }
-    ~WithRawCallbackMethod_AdminGetData() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status AdminGetData(::grpc::ServerContext* /*context*/, const ::AdminGetDataRequest* /*request*/, ::AdminGetDataResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual ::grpc::ServerUnaryReactor* AdminGetData(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
-  };
-  template <class BaseClass>
   class WithRawCallbackMethod_GetUserData : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetUserData() {
-      ::grpc::Service::MarkMethodRawCallback(7,
+      ::grpc::Service::MarkMethodRawCallback(3,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetUserData(context, request, response); }));
@@ -1111,58 +699,26 @@ class ProjectService final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_LicencePlateCheck : public BaseClass {
+  class WithRawCallbackMethod_AdminLogin : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
-    WithStreamedUnaryMethod_LicencePlateCheck() {
-      ::grpc::Service::MarkMethodStreamed(0,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::LPCheckRequest, ::LPCheckResponse>(
-            [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
-                     ::LPCheckRequest, ::LPCheckResponse>* streamer) {
-                       return this->StreamedLicencePlateCheck(context,
-                         streamer);
-                  }));
+    WithRawCallbackMethod_AdminLogin() {
+      ::grpc::Service::MarkMethodRawCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AdminLogin(context, request, response); }));
     }
-    ~WithStreamedUnaryMethod_LicencePlateCheck() override {
+    ~WithRawCallbackMethod_AdminLogin() override {
       BaseClassMustBeDerivedFromService(this);
     }
-    // disable regular version of this method
-    ::grpc::Status LicencePlateCheck(::grpc::ServerContext* /*context*/, const ::LPCheckRequest* /*request*/, ::LPCheckResponse* /*response*/) override {
+    // disable synchronous version of this method
+    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedLicencePlateCheck(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::LPCheckRequest,::LPCheckResponse>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_UploadParkingInfo : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_UploadParkingInfo() {
-      ::grpc::Service::MarkMethodStreamed(1,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::UploadInfoRequest, ::UploadInfoResponse>(
-            [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
-                     ::UploadInfoRequest, ::UploadInfoResponse>* streamer) {
-                       return this->StreamedUploadParkingInfo(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_UploadParkingInfo() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status UploadParkingInfo(::grpc::ServerContext* /*context*/, const ::UploadInfoRequest* /*request*/, ::UploadInfoResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedUploadParkingInfo(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::UploadInfoRequest,::UploadInfoResponse>* server_unary_streamer) = 0;
+    virtual ::grpc::ServerUnaryReactor* AdminLogin(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_UserLogin : public BaseClass {
@@ -1170,7 +726,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UserLogin() {
-      ::grpc::Service::MarkMethodStreamed(2,
+      ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
           ::UserLoginRequest, ::UserLoginResponse>(
             [this](::grpc::ServerContext* context,
@@ -1197,7 +753,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UserRegistration() {
-      ::grpc::Service::MarkMethodStreamed(3,
+      ::grpc::Service::MarkMethodStreamed(1,
         new ::grpc::internal::StreamedUnaryHandler<
           ::UserRegistrationRequest, ::UserRegistrationResponse>(
             [this](::grpc::ServerContext* context,
@@ -1224,7 +780,7 @@ class ProjectService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_CarOperation() {
-      ::grpc::Service::MarkMethodStreamed(4,
+      ::grpc::Service::MarkMethodStreamed(2,
         new ::grpc::internal::StreamedUnaryHandler<
           ::CarOperationRequest, ::CarOperationResponse>(
             [this](::grpc::ServerContext* context,
@@ -1246,66 +802,12 @@ class ProjectService final {
     virtual ::grpc::Status StreamedCarOperation(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::CarOperationRequest,::CarOperationResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_AdminLogin : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_AdminLogin() {
-      ::grpc::Service::MarkMethodStreamed(5,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::AdminLoginRequest, ::AdminLoginResponse>(
-            [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
-                     ::AdminLoginRequest, ::AdminLoginResponse>* streamer) {
-                       return this->StreamedAdminLogin(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_AdminLogin() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedAdminLogin(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::AdminLoginRequest,::AdminLoginResponse>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_AdminGetData : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_AdminGetData() {
-      ::grpc::Service::MarkMethodStreamed(6,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::AdminGetDataRequest, ::AdminGetDataResponse>(
-            [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
-                     ::AdminGetDataRequest, ::AdminGetDataResponse>* streamer) {
-                       return this->StreamedAdminGetData(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_AdminGetData() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status AdminGetData(::grpc::ServerContext* /*context*/, const ::AdminGetDataRequest* /*request*/, ::AdminGetDataResponse* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedAdminGetData(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::AdminGetDataRequest,::AdminGetDataResponse>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
   class WithStreamedUnaryMethod_GetUserData : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetUserData() {
-      ::grpc::Service::MarkMethodStreamed(7,
+      ::grpc::Service::MarkMethodStreamed(3,
         new ::grpc::internal::StreamedUnaryHandler<
           ::GetUserDataRequest, ::GetUserDataResponse>(
             [this](::grpc::ServerContext* context,
@@ -1326,9 +828,36 @@ class ProjectService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedGetUserData(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::GetUserDataRequest,::GetUserDataResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_LicencePlateCheck<WithStreamedUnaryMethod_UploadParkingInfo<WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_UserRegistration<WithStreamedUnaryMethod_CarOperation<WithStreamedUnaryMethod_AdminLogin<WithStreamedUnaryMethod_AdminGetData<WithStreamedUnaryMethod_GetUserData<Service > > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_AdminLogin : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_AdminLogin() {
+      ::grpc::Service::MarkMethodStreamed(4,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::AdminLoginRequest, ::AdminLoginResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::AdminLoginRequest, ::AdminLoginResponse>* streamer) {
+                       return this->StreamedAdminLogin(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_AdminLogin() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedAdminLogin(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::AdminLoginRequest,::AdminLoginResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_UserRegistration<WithStreamedUnaryMethod_CarOperation<WithStreamedUnaryMethod_GetUserData<WithStreamedUnaryMethod_AdminLogin<Service > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_LicencePlateCheck<WithStreamedUnaryMethod_UploadParkingInfo<WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_UserRegistration<WithStreamedUnaryMethod_CarOperation<WithStreamedUnaryMethod_AdminLogin<WithStreamedUnaryMethod_AdminGetData<WithStreamedUnaryMethod_GetUserData<Service > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_UserRegistration<WithStreamedUnaryMethod_CarOperation<WithStreamedUnaryMethod_GetUserData<WithStreamedUnaryMethod_AdminLogin<Service > > > > > StreamedService;
 };
 
 

@@ -45,12 +45,6 @@ struct TableStruct_service_2eproto {
   static const uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_service_2eproto;
-class AdminGetDataRequest;
-struct AdminGetDataRequestDefaultTypeInternal;
-extern AdminGetDataRequestDefaultTypeInternal _AdminGetDataRequest_default_instance_;
-class AdminGetDataResponse;
-struct AdminGetDataResponseDefaultTypeInternal;
-extern AdminGetDataResponseDefaultTypeInternal _AdminGetDataResponse_default_instance_;
 class AdminLoginRequest;
 struct AdminLoginRequestDefaultTypeInternal;
 extern AdminLoginRequestDefaultTypeInternal _AdminLoginRequest_default_instance_;
@@ -72,24 +66,6 @@ extern GetUserDataRequestDefaultTypeInternal _GetUserDataRequest_default_instanc
 class GetUserDataResponse;
 struct GetUserDataResponseDefaultTypeInternal;
 extern GetUserDataResponseDefaultTypeInternal _GetUserDataResponse_default_instance_;
-class LPCheckRequest;
-struct LPCheckRequestDefaultTypeInternal;
-extern LPCheckRequestDefaultTypeInternal _LPCheckRequest_default_instance_;
-class LPCheckResponse;
-struct LPCheckResponseDefaultTypeInternal;
-extern LPCheckResponseDefaultTypeInternal _LPCheckResponse_default_instance_;
-class ParkingInfo;
-struct ParkingInfoDefaultTypeInternal;
-extern ParkingInfoDefaultTypeInternal _ParkingInfo_default_instance_;
-class ParkingSpaceInfo;
-struct ParkingSpaceInfoDefaultTypeInternal;
-extern ParkingSpaceInfoDefaultTypeInternal _ParkingSpaceInfo_default_instance_;
-class UploadInfoRequest;
-struct UploadInfoRequestDefaultTypeInternal;
-extern UploadInfoRequestDefaultTypeInternal _UploadInfoRequest_default_instance_;
-class UploadInfoResponse;
-struct UploadInfoResponseDefaultTypeInternal;
-extern UploadInfoResponseDefaultTypeInternal _UploadInfoResponse_default_instance_;
 class UserLoginRequest;
 struct UserLoginRequestDefaultTypeInternal;
 extern UserLoginRequestDefaultTypeInternal _UserLoginRequest_default_instance_;
@@ -103,8 +79,6 @@ class UserRegistrationResponse;
 struct UserRegistrationResponseDefaultTypeInternal;
 extern UserRegistrationResponseDefaultTypeInternal _UserRegistrationResponse_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
-template<> ::AdminGetDataRequest* Arena::CreateMaybeMessage<::AdminGetDataRequest>(Arena*);
-template<> ::AdminGetDataResponse* Arena::CreateMaybeMessage<::AdminGetDataResponse>(Arena*);
 template<> ::AdminLoginRequest* Arena::CreateMaybeMessage<::AdminLoginRequest>(Arena*);
 template<> ::AdminLoginResponse* Arena::CreateMaybeMessage<::AdminLoginResponse>(Arena*);
 template<> ::CarInfo* Arena::CreateMaybeMessage<::CarInfo>(Arena*);
@@ -112,12 +86,6 @@ template<> ::CarOperationRequest* Arena::CreateMaybeMessage<::CarOperationReques
 template<> ::CarOperationResponse* Arena::CreateMaybeMessage<::CarOperationResponse>(Arena*);
 template<> ::GetUserDataRequest* Arena::CreateMaybeMessage<::GetUserDataRequest>(Arena*);
 template<> ::GetUserDataResponse* Arena::CreateMaybeMessage<::GetUserDataResponse>(Arena*);
-template<> ::LPCheckRequest* Arena::CreateMaybeMessage<::LPCheckRequest>(Arena*);
-template<> ::LPCheckResponse* Arena::CreateMaybeMessage<::LPCheckResponse>(Arena*);
-template<> ::ParkingInfo* Arena::CreateMaybeMessage<::ParkingInfo>(Arena*);
-template<> ::ParkingSpaceInfo* Arena::CreateMaybeMessage<::ParkingSpaceInfo>(Arena*);
-template<> ::UploadInfoRequest* Arena::CreateMaybeMessage<::UploadInfoRequest>(Arena*);
-template<> ::UploadInfoResponse* Arena::CreateMaybeMessage<::UploadInfoResponse>(Arena*);
 template<> ::UserLoginRequest* Arena::CreateMaybeMessage<::UserLoginRequest>(Arena*);
 template<> ::UserLoginResponse* Arena::CreateMaybeMessage<::UserLoginResponse>(Arena*);
 template<> ::UserRegistrationRequest* Arena::CreateMaybeMessage<::UserRegistrationRequest>(Arena*);
@@ -264,368 +232,6 @@ inline bool CarOperationResult_Parse(
 }
 // ===================================================================
 
-class ParkingInfo final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ParkingInfo) */ {
- public:
-  inline ParkingInfo() : ParkingInfo(nullptr) {}
-  ~ParkingInfo() override;
-  explicit PROTOBUF_CONSTEXPR ParkingInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  ParkingInfo(const ParkingInfo& from);
-  ParkingInfo(ParkingInfo&& from) noexcept
-    : ParkingInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline ParkingInfo& operator=(const ParkingInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ParkingInfo& operator=(ParkingInfo&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ParkingInfo& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ParkingInfo* internal_default_instance() {
-    return reinterpret_cast<const ParkingInfo*>(
-               &_ParkingInfo_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(ParkingInfo& a, ParkingInfo& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(ParkingInfo* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ParkingInfo* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ParkingInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<ParkingInfo>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const ParkingInfo& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const ParkingInfo& from) {
-    ParkingInfo::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(ParkingInfo* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ParkingInfo";
-  }
-  protected:
-  explicit ParkingInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kPIdFieldNumber = 1,
-    kTemperatureFieldNumber = 2,
-    kHumidityFieldNumber = 3,
-    kWeatherFieldNumber = 4,
-  };
-  // int32 p_id = 1;
-  void clear_p_id();
-  int32_t p_id() const;
-  void set_p_id(int32_t value);
-  private:
-  int32_t _internal_p_id() const;
-  void _internal_set_p_id(int32_t value);
-  public:
-
-  // int32 temperature = 2;
-  void clear_temperature();
-  int32_t temperature() const;
-  void set_temperature(int32_t value);
-  private:
-  int32_t _internal_temperature() const;
-  void _internal_set_temperature(int32_t value);
-  public:
-
-  // int32 humidity = 3;
-  void clear_humidity();
-  int32_t humidity() const;
-  void set_humidity(int32_t value);
-  private:
-  int32_t _internal_humidity() const;
-  void _internal_set_humidity(int32_t value);
-  public:
-
-  // int32 weather = 4;
-  void clear_weather();
-  int32_t weather() const;
-  void set_weather(int32_t value);
-  private:
-  int32_t _internal_weather() const;
-  void _internal_set_weather(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:ParkingInfo)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    int32_t p_id_;
-    int32_t temperature_;
-    int32_t humidity_;
-    int32_t weather_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_service_2eproto;
-};
-// -------------------------------------------------------------------
-
-class ParkingSpaceInfo final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ParkingSpaceInfo) */ {
- public:
-  inline ParkingSpaceInfo() : ParkingSpaceInfo(nullptr) {}
-  ~ParkingSpaceInfo() override;
-  explicit PROTOBUF_CONSTEXPR ParkingSpaceInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  ParkingSpaceInfo(const ParkingSpaceInfo& from);
-  ParkingSpaceInfo(ParkingSpaceInfo&& from) noexcept
-    : ParkingSpaceInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline ParkingSpaceInfo& operator=(const ParkingSpaceInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ParkingSpaceInfo& operator=(ParkingSpaceInfo&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ParkingSpaceInfo& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ParkingSpaceInfo* internal_default_instance() {
-    return reinterpret_cast<const ParkingSpaceInfo*>(
-               &_ParkingSpaceInfo_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(ParkingSpaceInfo& a, ParkingSpaceInfo& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(ParkingSpaceInfo* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ParkingSpaceInfo* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ParkingSpaceInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<ParkingSpaceInfo>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const ParkingSpaceInfo& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const ParkingSpaceInfo& from) {
-    ParkingSpaceInfo::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(ParkingSpaceInfo* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ParkingSpaceInfo";
-  }
-  protected:
-  explicit ParkingSpaceInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kSIdFieldNumber = 1,
-    kTemperatureFieldNumber = 2,
-    kHumidityFieldNumber = 3,
-    kAlarmFieldNumber = 4,
-  };
-  // int32 s_id = 1;
-  void clear_s_id();
-  int32_t s_id() const;
-  void set_s_id(int32_t value);
-  private:
-  int32_t _internal_s_id() const;
-  void _internal_set_s_id(int32_t value);
-  public:
-
-  // int32 temperature = 2;
-  void clear_temperature();
-  int32_t temperature() const;
-  void set_temperature(int32_t value);
-  private:
-  int32_t _internal_temperature() const;
-  void _internal_set_temperature(int32_t value);
-  public:
-
-  // int32 humidity = 3;
-  void clear_humidity();
-  int32_t humidity() const;
-  void set_humidity(int32_t value);
-  private:
-  int32_t _internal_humidity() const;
-  void _internal_set_humidity(int32_t value);
-  public:
-
-  // .Alarm alarm = 4;
-  void clear_alarm();
-  ::Alarm alarm() const;
-  void set_alarm(::Alarm value);
-  private:
-  ::Alarm _internal_alarm() const;
-  void _internal_set_alarm(::Alarm value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:ParkingSpaceInfo)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    int32_t s_id_;
-    int32_t temperature_;
-    int32_t humidity_;
-    int alarm_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_service_2eproto;
-};
-// -------------------------------------------------------------------
-
 class CarInfo final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CarInfo) */ {
  public:
@@ -674,7 +280,7 @@ class CarInfo final :
                &_CarInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    0;
 
   friend void swap(CarInfo& a, CarInfo& b) {
     a.Swap(&b);
@@ -748,13 +354,11 @@ class CarInfo final :
 
   enum : int {
     kPAddressFieldNumber = 4,
+    kSDataFieldNumber = 6,
     kPTemperatureFieldNumber = 1,
     kPHumidityFieldNumber = 2,
     kPWeatherFieldNumber = 3,
     kSIdFieldNumber = 5,
-    kSTemperatureFieldNumber = 6,
-    kSHumidityFieldNumber = 7,
-    kSAlarmFieldNumber = 8,
   };
   // string p_address = 4;
   void clear_p_address();
@@ -768,6 +372,20 @@ class CarInfo final :
   const std::string& _internal_p_address() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_p_address(const std::string& value);
   std::string* _internal_mutable_p_address();
+  public:
+
+  // string s_data = 6;
+  void clear_s_data();
+  const std::string& s_data() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_s_data(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_s_data();
+  PROTOBUF_NODISCARD std::string* release_s_data();
+  void set_allocated_s_data(std::string* s_data);
+  private:
+  const std::string& _internal_s_data() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_s_data(const std::string& value);
+  std::string* _internal_mutable_s_data();
   public:
 
   // int32 p_temperature = 1;
@@ -806,33 +424,6 @@ class CarInfo final :
   void _internal_set_s_id(int32_t value);
   public:
 
-  // int32 s_temperature = 6;
-  void clear_s_temperature();
-  int32_t s_temperature() const;
-  void set_s_temperature(int32_t value);
-  private:
-  int32_t _internal_s_temperature() const;
-  void _internal_set_s_temperature(int32_t value);
-  public:
-
-  // int32 s_humidity = 7;
-  void clear_s_humidity();
-  int32_t s_humidity() const;
-  void set_s_humidity(int32_t value);
-  private:
-  int32_t _internal_s_humidity() const;
-  void _internal_set_s_humidity(int32_t value);
-  public:
-
-  // .Alarm s_alarm = 8;
-  void clear_s_alarm();
-  ::Alarm s_alarm() const;
-  void set_s_alarm(::Alarm value);
-  private:
-  ::Alarm _internal_s_alarm() const;
-  void _internal_set_s_alarm(::Alarm value);
-  public:
-
   // @@protoc_insertion_point(class_scope:CarInfo)
  private:
   class _Internal;
@@ -842,683 +433,11 @@ class CarInfo final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr p_address_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr s_data_;
     int32_t p_temperature_;
     int32_t p_humidity_;
     int32_t p_weather_;
     int32_t s_id_;
-    int32_t s_temperature_;
-    int32_t s_humidity_;
-    int s_alarm_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_service_2eproto;
-};
-// -------------------------------------------------------------------
-
-class LPCheckRequest final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:LPCheckRequest) */ {
- public:
-  inline LPCheckRequest() : LPCheckRequest(nullptr) {}
-  ~LPCheckRequest() override;
-  explicit PROTOBUF_CONSTEXPR LPCheckRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  LPCheckRequest(const LPCheckRequest& from);
-  LPCheckRequest(LPCheckRequest&& from) noexcept
-    : LPCheckRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline LPCheckRequest& operator=(const LPCheckRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline LPCheckRequest& operator=(LPCheckRequest&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const LPCheckRequest& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const LPCheckRequest* internal_default_instance() {
-    return reinterpret_cast<const LPCheckRequest*>(
-               &_LPCheckRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    3;
-
-  friend void swap(LPCheckRequest& a, LPCheckRequest& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(LPCheckRequest* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(LPCheckRequest* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  LPCheckRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<LPCheckRequest>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const LPCheckRequest& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const LPCheckRequest& from) {
-    LPCheckRequest::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(LPCheckRequest* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "LPCheckRequest";
-  }
-  protected:
-  explicit LPCheckRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kLicenseFieldNumber = 4,
-    kModelFieldNumber = 1,
-    kParkingIdFieldNumber = 2,
-    kParkingSpaceIdFieldNumber = 3,
-  };
-  // string license = 4;
-  void clear_license();
-  const std::string& license() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_license(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_license();
-  PROTOBUF_NODISCARD std::string* release_license();
-  void set_allocated_license(std::string* license);
-  private:
-  const std::string& _internal_license() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_license(const std::string& value);
-  std::string* _internal_mutable_license();
-  public:
-
-  // int32 model = 1;
-  void clear_model();
-  int32_t model() const;
-  void set_model(int32_t value);
-  private:
-  int32_t _internal_model() const;
-  void _internal_set_model(int32_t value);
-  public:
-
-  // int32 parking_id = 2;
-  void clear_parking_id();
-  int32_t parking_id() const;
-  void set_parking_id(int32_t value);
-  private:
-  int32_t _internal_parking_id() const;
-  void _internal_set_parking_id(int32_t value);
-  public:
-
-  // int32 parking_space_id = 3;
-  void clear_parking_space_id();
-  int32_t parking_space_id() const;
-  void set_parking_space_id(int32_t value);
-  private:
-  int32_t _internal_parking_space_id() const;
-  void _internal_set_parking_space_id(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:LPCheckRequest)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr license_;
-    int32_t model_;
-    int32_t parking_id_;
-    int32_t parking_space_id_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_service_2eproto;
-};
-// -------------------------------------------------------------------
-
-class LPCheckResponse final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:LPCheckResponse) */ {
- public:
-  inline LPCheckResponse() : LPCheckResponse(nullptr) {}
-  ~LPCheckResponse() override;
-  explicit PROTOBUF_CONSTEXPR LPCheckResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  LPCheckResponse(const LPCheckResponse& from);
-  LPCheckResponse(LPCheckResponse&& from) noexcept
-    : LPCheckResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline LPCheckResponse& operator=(const LPCheckResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline LPCheckResponse& operator=(LPCheckResponse&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const LPCheckResponse& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const LPCheckResponse* internal_default_instance() {
-    return reinterpret_cast<const LPCheckResponse*>(
-               &_LPCheckResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    4;
-
-  friend void swap(LPCheckResponse& a, LPCheckResponse& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(LPCheckResponse* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(LPCheckResponse* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  LPCheckResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<LPCheckResponse>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const LPCheckResponse& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const LPCheckResponse& from) {
-    LPCheckResponse::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(LPCheckResponse* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "LPCheckResponse";
-  }
-  protected:
-  explicit LPCheckResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kResultFieldNumber = 1,
-    kBalanceFieldNumber = 2,
-  };
-  // bool result = 1;
-  void clear_result();
-  bool result() const;
-  void set_result(bool value);
-  private:
-  bool _internal_result() const;
-  void _internal_set_result(bool value);
-  public:
-
-  // int32 balance = 2;
-  void clear_balance();
-  int32_t balance() const;
-  void set_balance(int32_t value);
-  private:
-  int32_t _internal_balance() const;
-  void _internal_set_balance(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:LPCheckResponse)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    bool result_;
-    int32_t balance_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_service_2eproto;
-};
-// -------------------------------------------------------------------
-
-class UploadInfoRequest final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UploadInfoRequest) */ {
- public:
-  inline UploadInfoRequest() : UploadInfoRequest(nullptr) {}
-  ~UploadInfoRequest() override;
-  explicit PROTOBUF_CONSTEXPR UploadInfoRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  UploadInfoRequest(const UploadInfoRequest& from);
-  UploadInfoRequest(UploadInfoRequest&& from) noexcept
-    : UploadInfoRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline UploadInfoRequest& operator=(const UploadInfoRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline UploadInfoRequest& operator=(UploadInfoRequest&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const UploadInfoRequest& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const UploadInfoRequest* internal_default_instance() {
-    return reinterpret_cast<const UploadInfoRequest*>(
-               &_UploadInfoRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    5;
-
-  friend void swap(UploadInfoRequest& a, UploadInfoRequest& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(UploadInfoRequest* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(UploadInfoRequest* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  UploadInfoRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<UploadInfoRequest>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const UploadInfoRequest& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const UploadInfoRequest& from) {
-    UploadInfoRequest::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(UploadInfoRequest* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "UploadInfoRequest";
-  }
-  protected:
-  explicit UploadInfoRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kSInfoArrFieldNumber = 2,
-    kPInfoFieldNumber = 1,
-  };
-  // repeated .ParkingSpaceInfo s_info_arr = 2;
-  int s_info_arr_size() const;
-  private:
-  int _internal_s_info_arr_size() const;
-  public:
-  void clear_s_info_arr();
-  ::ParkingSpaceInfo* mutable_s_info_arr(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo >*
-      mutable_s_info_arr();
-  private:
-  const ::ParkingSpaceInfo& _internal_s_info_arr(int index) const;
-  ::ParkingSpaceInfo* _internal_add_s_info_arr();
-  public:
-  const ::ParkingSpaceInfo& s_info_arr(int index) const;
-  ::ParkingSpaceInfo* add_s_info_arr();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo >&
-      s_info_arr() const;
-
-  // .ParkingInfo p_info = 1;
-  bool has_p_info() const;
-  private:
-  bool _internal_has_p_info() const;
-  public:
-  void clear_p_info();
-  const ::ParkingInfo& p_info() const;
-  PROTOBUF_NODISCARD ::ParkingInfo* release_p_info();
-  ::ParkingInfo* mutable_p_info();
-  void set_allocated_p_info(::ParkingInfo* p_info);
-  private:
-  const ::ParkingInfo& _internal_p_info() const;
-  ::ParkingInfo* _internal_mutable_p_info();
-  public:
-  void unsafe_arena_set_allocated_p_info(
-      ::ParkingInfo* p_info);
-  ::ParkingInfo* unsafe_arena_release_p_info();
-
-  // @@protoc_insertion_point(class_scope:UploadInfoRequest)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo > s_info_arr_;
-    ::ParkingInfo* p_info_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_service_2eproto;
-};
-// -------------------------------------------------------------------
-
-class UploadInfoResponse final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UploadInfoResponse) */ {
- public:
-  inline UploadInfoResponse() : UploadInfoResponse(nullptr) {}
-  ~UploadInfoResponse() override;
-  explicit PROTOBUF_CONSTEXPR UploadInfoResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  UploadInfoResponse(const UploadInfoResponse& from);
-  UploadInfoResponse(UploadInfoResponse&& from) noexcept
-    : UploadInfoResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline UploadInfoResponse& operator=(const UploadInfoResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline UploadInfoResponse& operator=(UploadInfoResponse&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const UploadInfoResponse& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const UploadInfoResponse* internal_default_instance() {
-    return reinterpret_cast<const UploadInfoResponse*>(
-               &_UploadInfoResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    6;
-
-  friend void swap(UploadInfoResponse& a, UploadInfoResponse& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(UploadInfoResponse* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(UploadInfoResponse* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  UploadInfoResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<UploadInfoResponse>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const UploadInfoResponse& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const UploadInfoResponse& from) {
-    UploadInfoResponse::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(UploadInfoResponse* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "UploadInfoResponse";
-  }
-  protected:
-  explicit UploadInfoResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kResultFieldNumber = 1,
-  };
-  // int32 result = 1;
-  void clear_result();
-  int32_t result() const;
-  void set_result(int32_t value);
-  private:
-  int32_t _internal_result() const;
-  void _internal_set_result(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:UploadInfoResponse)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    int32_t result_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1574,7 +493,7 @@ class UserLoginRequest final :
                &_UserLoginRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    1;
 
   friend void swap(UserLoginRequest& a, UserLoginRequest& b) {
     a.Swap(&b);
@@ -1743,7 +662,7 @@ class UserLoginResponse final :
                &_UserLoginResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    2;
 
   friend void swap(UserLoginResponse& a, UserLoginResponse& b) {
     a.Swap(&b);
@@ -1902,7 +821,7 @@ class UserRegistrationRequest final :
                &_UserRegistrationRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    3;
 
   friend void swap(UserRegistrationRequest& a, UserRegistrationRequest& b) {
     a.Swap(&b);
@@ -2071,7 +990,7 @@ class UserRegistrationResponse final :
                &_UserRegistrationResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    4;
 
   friend void swap(UserRegistrationResponse& a, UserRegistrationResponse& b) {
     a.Swap(&b);
@@ -2219,7 +1138,7 @@ class CarOperationRequest final :
                &_CarOperationRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    5;
 
   friend void swap(CarOperationRequest& a, CarOperationRequest& b) {
     a.Swap(&b);
@@ -2415,7 +1334,7 @@ class CarOperationResponse final :
                &_CarOperationResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    6;
 
   friend void swap(CarOperationResponse& a, CarOperationResponse& b) {
     a.Swap(&b);
@@ -2563,7 +1482,7 @@ class GetUserDataRequest final :
                &_GetUserDataRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    7;
 
   friend void swap(GetUserDataRequest& a, GetUserDataRequest& b) {
     a.Swap(&b);
@@ -2711,7 +1630,7 @@ class GetUserDataResponse final :
                &_GetUserDataResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    8;
 
   friend void swap(GetUserDataResponse& a, GetUserDataResponse& b) {
     a.Swap(&b);
@@ -2868,7 +1787,7 @@ class AdminLoginRequest final :
                &_AdminLoginRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    9;
 
   friend void swap(AdminLoginRequest& a, AdminLoginRequest& b) {
     a.Swap(&b);
@@ -3032,7 +1951,7 @@ class AdminLoginResponse final :
                &_AdminLoginResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    10;
 
   friend void swap(AdminLoginResponse& a, AdminLoginResponse& b) {
     a.Swap(&b);
@@ -3106,6 +2025,7 @@ class AdminLoginResponse final :
 
   enum : int {
     kResultFieldNumber = 1,
+    kCountFieldNumber = 2,
   };
   // .LoginResult result = 1;
   void clear_result();
@@ -3114,6 +2034,15 @@ class AdminLoginResponse final :
   private:
   ::LoginResult _internal_result() const;
   void _internal_set_result(::LoginResult value);
+  public:
+
+  // int32 count = 2;
+  void clear_count();
+  int32_t count() const;
+  void set_count(int32_t value);
+  private:
+  int32_t _internal_count() const;
+  void _internal_set_count(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:AdminLoginResponse)
@@ -3125,331 +2054,7 @@ class AdminLoginResponse final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     int result_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_service_2eproto;
-};
-// -------------------------------------------------------------------
-
-class AdminGetDataRequest final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AdminGetDataRequest) */ {
- public:
-  inline AdminGetDataRequest() : AdminGetDataRequest(nullptr) {}
-  ~AdminGetDataRequest() override;
-  explicit PROTOBUF_CONSTEXPR AdminGetDataRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  AdminGetDataRequest(const AdminGetDataRequest& from);
-  AdminGetDataRequest(AdminGetDataRequest&& from) noexcept
-    : AdminGetDataRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline AdminGetDataRequest& operator=(const AdminGetDataRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline AdminGetDataRequest& operator=(AdminGetDataRequest&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const AdminGetDataRequest& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const AdminGetDataRequest* internal_default_instance() {
-    return reinterpret_cast<const AdminGetDataRequest*>(
-               &_AdminGetDataRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    17;
-
-  friend void swap(AdminGetDataRequest& a, AdminGetDataRequest& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(AdminGetDataRequest* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(AdminGetDataRequest* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  AdminGetDataRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<AdminGetDataRequest>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const AdminGetDataRequest& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const AdminGetDataRequest& from) {
-    AdminGetDataRequest::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(AdminGetDataRequest* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AdminGetDataRequest";
-  }
-  protected:
-  explicit AdminGetDataRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kPIdFieldNumber = 1,
-  };
-  // int32 p_id = 1;
-  void clear_p_id();
-  int32_t p_id() const;
-  void set_p_id(int32_t value);
-  private:
-  int32_t _internal_p_id() const;
-  void _internal_set_p_id(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:AdminGetDataRequest)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    int32_t p_id_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_service_2eproto;
-};
-// -------------------------------------------------------------------
-
-class AdminGetDataResponse final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AdminGetDataResponse) */ {
- public:
-  inline AdminGetDataResponse() : AdminGetDataResponse(nullptr) {}
-  ~AdminGetDataResponse() override;
-  explicit PROTOBUF_CONSTEXPR AdminGetDataResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  AdminGetDataResponse(const AdminGetDataResponse& from);
-  AdminGetDataResponse(AdminGetDataResponse&& from) noexcept
-    : AdminGetDataResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline AdminGetDataResponse& operator=(const AdminGetDataResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline AdminGetDataResponse& operator=(AdminGetDataResponse&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const AdminGetDataResponse& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const AdminGetDataResponse* internal_default_instance() {
-    return reinterpret_cast<const AdminGetDataResponse*>(
-               &_AdminGetDataResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    18;
-
-  friend void swap(AdminGetDataResponse& a, AdminGetDataResponse& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(AdminGetDataResponse* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(AdminGetDataResponse* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  AdminGetDataResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<AdminGetDataResponse>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const AdminGetDataResponse& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const AdminGetDataResponse& from) {
-    AdminGetDataResponse::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(AdminGetDataResponse* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AdminGetDataResponse";
-  }
-  protected:
-  explicit AdminGetDataResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kSInfoArrFieldNumber = 2,
-    kPInfoFieldNumber = 1,
-  };
-  // repeated .ParkingSpaceInfo s_info_arr = 2;
-  int s_info_arr_size() const;
-  private:
-  int _internal_s_info_arr_size() const;
-  public:
-  void clear_s_info_arr();
-  ::ParkingSpaceInfo* mutable_s_info_arr(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo >*
-      mutable_s_info_arr();
-  private:
-  const ::ParkingSpaceInfo& _internal_s_info_arr(int index) const;
-  ::ParkingSpaceInfo* _internal_add_s_info_arr();
-  public:
-  const ::ParkingSpaceInfo& s_info_arr(int index) const;
-  ::ParkingSpaceInfo* add_s_info_arr();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo >&
-      s_info_arr() const;
-
-  // .ParkingInfo p_info = 1;
-  bool has_p_info() const;
-  private:
-  bool _internal_has_p_info() const;
-  public:
-  void clear_p_info();
-  const ::ParkingInfo& p_info() const;
-  PROTOBUF_NODISCARD ::ParkingInfo* release_p_info();
-  ::ParkingInfo* mutable_p_info();
-  void set_allocated_p_info(::ParkingInfo* p_info);
-  private:
-  const ::ParkingInfo& _internal_p_info() const;
-  ::ParkingInfo* _internal_mutable_p_info();
-  public:
-  void unsafe_arena_set_allocated_p_info(
-      ::ParkingInfo* p_info);
-  ::ParkingInfo* unsafe_arena_release_p_info();
-
-  // @@protoc_insertion_point(class_scope:AdminGetDataResponse)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo > s_info_arr_;
-    ::ParkingInfo* p_info_;
+    int32_t count_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3464,174 +2069,6 @@ class AdminGetDataResponse final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ParkingInfo
-
-// int32 p_id = 1;
-inline void ParkingInfo::clear_p_id() {
-  _impl_.p_id_ = 0;
-}
-inline int32_t ParkingInfo::_internal_p_id() const {
-  return _impl_.p_id_;
-}
-inline int32_t ParkingInfo::p_id() const {
-  // @@protoc_insertion_point(field_get:ParkingInfo.p_id)
-  return _internal_p_id();
-}
-inline void ParkingInfo::_internal_set_p_id(int32_t value) {
-  
-  _impl_.p_id_ = value;
-}
-inline void ParkingInfo::set_p_id(int32_t value) {
-  _internal_set_p_id(value);
-  // @@protoc_insertion_point(field_set:ParkingInfo.p_id)
-}
-
-// int32 temperature = 2;
-inline void ParkingInfo::clear_temperature() {
-  _impl_.temperature_ = 0;
-}
-inline int32_t ParkingInfo::_internal_temperature() const {
-  return _impl_.temperature_;
-}
-inline int32_t ParkingInfo::temperature() const {
-  // @@protoc_insertion_point(field_get:ParkingInfo.temperature)
-  return _internal_temperature();
-}
-inline void ParkingInfo::_internal_set_temperature(int32_t value) {
-  
-  _impl_.temperature_ = value;
-}
-inline void ParkingInfo::set_temperature(int32_t value) {
-  _internal_set_temperature(value);
-  // @@protoc_insertion_point(field_set:ParkingInfo.temperature)
-}
-
-// int32 humidity = 3;
-inline void ParkingInfo::clear_humidity() {
-  _impl_.humidity_ = 0;
-}
-inline int32_t ParkingInfo::_internal_humidity() const {
-  return _impl_.humidity_;
-}
-inline int32_t ParkingInfo::humidity() const {
-  // @@protoc_insertion_point(field_get:ParkingInfo.humidity)
-  return _internal_humidity();
-}
-inline void ParkingInfo::_internal_set_humidity(int32_t value) {
-  
-  _impl_.humidity_ = value;
-}
-inline void ParkingInfo::set_humidity(int32_t value) {
-  _internal_set_humidity(value);
-  // @@protoc_insertion_point(field_set:ParkingInfo.humidity)
-}
-
-// int32 weather = 4;
-inline void ParkingInfo::clear_weather() {
-  _impl_.weather_ = 0;
-}
-inline int32_t ParkingInfo::_internal_weather() const {
-  return _impl_.weather_;
-}
-inline int32_t ParkingInfo::weather() const {
-  // @@protoc_insertion_point(field_get:ParkingInfo.weather)
-  return _internal_weather();
-}
-inline void ParkingInfo::_internal_set_weather(int32_t value) {
-  
-  _impl_.weather_ = value;
-}
-inline void ParkingInfo::set_weather(int32_t value) {
-  _internal_set_weather(value);
-  // @@protoc_insertion_point(field_set:ParkingInfo.weather)
-}
-
-// -------------------------------------------------------------------
-
-// ParkingSpaceInfo
-
-// int32 s_id = 1;
-inline void ParkingSpaceInfo::clear_s_id() {
-  _impl_.s_id_ = 0;
-}
-inline int32_t ParkingSpaceInfo::_internal_s_id() const {
-  return _impl_.s_id_;
-}
-inline int32_t ParkingSpaceInfo::s_id() const {
-  // @@protoc_insertion_point(field_get:ParkingSpaceInfo.s_id)
-  return _internal_s_id();
-}
-inline void ParkingSpaceInfo::_internal_set_s_id(int32_t value) {
-  
-  _impl_.s_id_ = value;
-}
-inline void ParkingSpaceInfo::set_s_id(int32_t value) {
-  _internal_set_s_id(value);
-  // @@protoc_insertion_point(field_set:ParkingSpaceInfo.s_id)
-}
-
-// int32 temperature = 2;
-inline void ParkingSpaceInfo::clear_temperature() {
-  _impl_.temperature_ = 0;
-}
-inline int32_t ParkingSpaceInfo::_internal_temperature() const {
-  return _impl_.temperature_;
-}
-inline int32_t ParkingSpaceInfo::temperature() const {
-  // @@protoc_insertion_point(field_get:ParkingSpaceInfo.temperature)
-  return _internal_temperature();
-}
-inline void ParkingSpaceInfo::_internal_set_temperature(int32_t value) {
-  
-  _impl_.temperature_ = value;
-}
-inline void ParkingSpaceInfo::set_temperature(int32_t value) {
-  _internal_set_temperature(value);
-  // @@protoc_insertion_point(field_set:ParkingSpaceInfo.temperature)
-}
-
-// int32 humidity = 3;
-inline void ParkingSpaceInfo::clear_humidity() {
-  _impl_.humidity_ = 0;
-}
-inline int32_t ParkingSpaceInfo::_internal_humidity() const {
-  return _impl_.humidity_;
-}
-inline int32_t ParkingSpaceInfo::humidity() const {
-  // @@protoc_insertion_point(field_get:ParkingSpaceInfo.humidity)
-  return _internal_humidity();
-}
-inline void ParkingSpaceInfo::_internal_set_humidity(int32_t value) {
-  
-  _impl_.humidity_ = value;
-}
-inline void ParkingSpaceInfo::set_humidity(int32_t value) {
-  _internal_set_humidity(value);
-  // @@protoc_insertion_point(field_set:ParkingSpaceInfo.humidity)
-}
-
-// .Alarm alarm = 4;
-inline void ParkingSpaceInfo::clear_alarm() {
-  _impl_.alarm_ = 0;
-}
-inline ::Alarm ParkingSpaceInfo::_internal_alarm() const {
-  return static_cast< ::Alarm >(_impl_.alarm_);
-}
-inline ::Alarm ParkingSpaceInfo::alarm() const {
-  // @@protoc_insertion_point(field_get:ParkingSpaceInfo.alarm)
-  return _internal_alarm();
-}
-inline void ParkingSpaceInfo::_internal_set_alarm(::Alarm value) {
-  
-  _impl_.alarm_ = value;
-}
-inline void ParkingSpaceInfo::set_alarm(::Alarm value) {
-  _internal_set_alarm(value);
-  // @@protoc_insertion_point(field_set:ParkingSpaceInfo.alarm)
-}
-
-// -------------------------------------------------------------------
-
 // CarInfo
 
 // int32 p_temperature = 1;
@@ -3764,380 +2201,54 @@ inline void CarInfo::set_s_id(int32_t value) {
   // @@protoc_insertion_point(field_set:CarInfo.s_id)
 }
 
-// int32 s_temperature = 6;
-inline void CarInfo::clear_s_temperature() {
-  _impl_.s_temperature_ = 0;
+// string s_data = 6;
+inline void CarInfo::clear_s_data() {
+  _impl_.s_data_.ClearToEmpty();
 }
-inline int32_t CarInfo::_internal_s_temperature() const {
-  return _impl_.s_temperature_;
-}
-inline int32_t CarInfo::s_temperature() const {
-  // @@protoc_insertion_point(field_get:CarInfo.s_temperature)
-  return _internal_s_temperature();
-}
-inline void CarInfo::_internal_set_s_temperature(int32_t value) {
-  
-  _impl_.s_temperature_ = value;
-}
-inline void CarInfo::set_s_temperature(int32_t value) {
-  _internal_set_s_temperature(value);
-  // @@protoc_insertion_point(field_set:CarInfo.s_temperature)
-}
-
-// int32 s_humidity = 7;
-inline void CarInfo::clear_s_humidity() {
-  _impl_.s_humidity_ = 0;
-}
-inline int32_t CarInfo::_internal_s_humidity() const {
-  return _impl_.s_humidity_;
-}
-inline int32_t CarInfo::s_humidity() const {
-  // @@protoc_insertion_point(field_get:CarInfo.s_humidity)
-  return _internal_s_humidity();
-}
-inline void CarInfo::_internal_set_s_humidity(int32_t value) {
-  
-  _impl_.s_humidity_ = value;
-}
-inline void CarInfo::set_s_humidity(int32_t value) {
-  _internal_set_s_humidity(value);
-  // @@protoc_insertion_point(field_set:CarInfo.s_humidity)
-}
-
-// .Alarm s_alarm = 8;
-inline void CarInfo::clear_s_alarm() {
-  _impl_.s_alarm_ = 0;
-}
-inline ::Alarm CarInfo::_internal_s_alarm() const {
-  return static_cast< ::Alarm >(_impl_.s_alarm_);
-}
-inline ::Alarm CarInfo::s_alarm() const {
-  // @@protoc_insertion_point(field_get:CarInfo.s_alarm)
-  return _internal_s_alarm();
-}
-inline void CarInfo::_internal_set_s_alarm(::Alarm value) {
-  
-  _impl_.s_alarm_ = value;
-}
-inline void CarInfo::set_s_alarm(::Alarm value) {
-  _internal_set_s_alarm(value);
-  // @@protoc_insertion_point(field_set:CarInfo.s_alarm)
-}
-
-// -------------------------------------------------------------------
-
-// LPCheckRequest
-
-// int32 model = 1;
-inline void LPCheckRequest::clear_model() {
-  _impl_.model_ = 0;
-}
-inline int32_t LPCheckRequest::_internal_model() const {
-  return _impl_.model_;
-}
-inline int32_t LPCheckRequest::model() const {
-  // @@protoc_insertion_point(field_get:LPCheckRequest.model)
-  return _internal_model();
-}
-inline void LPCheckRequest::_internal_set_model(int32_t value) {
-  
-  _impl_.model_ = value;
-}
-inline void LPCheckRequest::set_model(int32_t value) {
-  _internal_set_model(value);
-  // @@protoc_insertion_point(field_set:LPCheckRequest.model)
-}
-
-// int32 parking_id = 2;
-inline void LPCheckRequest::clear_parking_id() {
-  _impl_.parking_id_ = 0;
-}
-inline int32_t LPCheckRequest::_internal_parking_id() const {
-  return _impl_.parking_id_;
-}
-inline int32_t LPCheckRequest::parking_id() const {
-  // @@protoc_insertion_point(field_get:LPCheckRequest.parking_id)
-  return _internal_parking_id();
-}
-inline void LPCheckRequest::_internal_set_parking_id(int32_t value) {
-  
-  _impl_.parking_id_ = value;
-}
-inline void LPCheckRequest::set_parking_id(int32_t value) {
-  _internal_set_parking_id(value);
-  // @@protoc_insertion_point(field_set:LPCheckRequest.parking_id)
-}
-
-// int32 parking_space_id = 3;
-inline void LPCheckRequest::clear_parking_space_id() {
-  _impl_.parking_space_id_ = 0;
-}
-inline int32_t LPCheckRequest::_internal_parking_space_id() const {
-  return _impl_.parking_space_id_;
-}
-inline int32_t LPCheckRequest::parking_space_id() const {
-  // @@protoc_insertion_point(field_get:LPCheckRequest.parking_space_id)
-  return _internal_parking_space_id();
-}
-inline void LPCheckRequest::_internal_set_parking_space_id(int32_t value) {
-  
-  _impl_.parking_space_id_ = value;
-}
-inline void LPCheckRequest::set_parking_space_id(int32_t value) {
-  _internal_set_parking_space_id(value);
-  // @@protoc_insertion_point(field_set:LPCheckRequest.parking_space_id)
-}
-
-// string license = 4;
-inline void LPCheckRequest::clear_license() {
-  _impl_.license_.ClearToEmpty();
-}
-inline const std::string& LPCheckRequest::license() const {
-  // @@protoc_insertion_point(field_get:LPCheckRequest.license)
-  return _internal_license();
+inline const std::string& CarInfo::s_data() const {
+  // @@protoc_insertion_point(field_get:CarInfo.s_data)
+  return _internal_s_data();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void LPCheckRequest::set_license(ArgT0&& arg0, ArgT... args) {
+void CarInfo::set_s_data(ArgT0&& arg0, ArgT... args) {
  
- _impl_.license_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:LPCheckRequest.license)
+ _impl_.s_data_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:CarInfo.s_data)
 }
-inline std::string* LPCheckRequest::mutable_license() {
-  std::string* _s = _internal_mutable_license();
-  // @@protoc_insertion_point(field_mutable:LPCheckRequest.license)
+inline std::string* CarInfo::mutable_s_data() {
+  std::string* _s = _internal_mutable_s_data();
+  // @@protoc_insertion_point(field_mutable:CarInfo.s_data)
   return _s;
 }
-inline const std::string& LPCheckRequest::_internal_license() const {
-  return _impl_.license_.Get();
+inline const std::string& CarInfo::_internal_s_data() const {
+  return _impl_.s_data_.Get();
 }
-inline void LPCheckRequest::_internal_set_license(const std::string& value) {
+inline void CarInfo::_internal_set_s_data(const std::string& value) {
   
-  _impl_.license_.Set(value, GetArenaForAllocation());
+  _impl_.s_data_.Set(value, GetArenaForAllocation());
 }
-inline std::string* LPCheckRequest::_internal_mutable_license() {
+inline std::string* CarInfo::_internal_mutable_s_data() {
   
-  return _impl_.license_.Mutable(GetArenaForAllocation());
+  return _impl_.s_data_.Mutable(GetArenaForAllocation());
 }
-inline std::string* LPCheckRequest::release_license() {
-  // @@protoc_insertion_point(field_release:LPCheckRequest.license)
-  return _impl_.license_.Release();
+inline std::string* CarInfo::release_s_data() {
+  // @@protoc_insertion_point(field_release:CarInfo.s_data)
+  return _impl_.s_data_.Release();
 }
-inline void LPCheckRequest::set_allocated_license(std::string* license) {
-  if (license != nullptr) {
+inline void CarInfo::set_allocated_s_data(std::string* s_data) {
+  if (s_data != nullptr) {
     
   } else {
     
   }
-  _impl_.license_.SetAllocated(license, GetArenaForAllocation());
+  _impl_.s_data_.SetAllocated(s_data, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.license_.IsDefault()) {
-    _impl_.license_.Set("", GetArenaForAllocation());
+  if (_impl_.s_data_.IsDefault()) {
+    _impl_.s_data_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:LPCheckRequest.license)
-}
-
-// -------------------------------------------------------------------
-
-// LPCheckResponse
-
-// bool result = 1;
-inline void LPCheckResponse::clear_result() {
-  _impl_.result_ = false;
-}
-inline bool LPCheckResponse::_internal_result() const {
-  return _impl_.result_;
-}
-inline bool LPCheckResponse::result() const {
-  // @@protoc_insertion_point(field_get:LPCheckResponse.result)
-  return _internal_result();
-}
-inline void LPCheckResponse::_internal_set_result(bool value) {
-  
-  _impl_.result_ = value;
-}
-inline void LPCheckResponse::set_result(bool value) {
-  _internal_set_result(value);
-  // @@protoc_insertion_point(field_set:LPCheckResponse.result)
-}
-
-// int32 balance = 2;
-inline void LPCheckResponse::clear_balance() {
-  _impl_.balance_ = 0;
-}
-inline int32_t LPCheckResponse::_internal_balance() const {
-  return _impl_.balance_;
-}
-inline int32_t LPCheckResponse::balance() const {
-  // @@protoc_insertion_point(field_get:LPCheckResponse.balance)
-  return _internal_balance();
-}
-inline void LPCheckResponse::_internal_set_balance(int32_t value) {
-  
-  _impl_.balance_ = value;
-}
-inline void LPCheckResponse::set_balance(int32_t value) {
-  _internal_set_balance(value);
-  // @@protoc_insertion_point(field_set:LPCheckResponse.balance)
-}
-
-// -------------------------------------------------------------------
-
-// UploadInfoRequest
-
-// .ParkingInfo p_info = 1;
-inline bool UploadInfoRequest::_internal_has_p_info() const {
-  return this != internal_default_instance() && _impl_.p_info_ != nullptr;
-}
-inline bool UploadInfoRequest::has_p_info() const {
-  return _internal_has_p_info();
-}
-inline void UploadInfoRequest::clear_p_info() {
-  if (GetArenaForAllocation() == nullptr && _impl_.p_info_ != nullptr) {
-    delete _impl_.p_info_;
-  }
-  _impl_.p_info_ = nullptr;
-}
-inline const ::ParkingInfo& UploadInfoRequest::_internal_p_info() const {
-  const ::ParkingInfo* p = _impl_.p_info_;
-  return p != nullptr ? *p : reinterpret_cast<const ::ParkingInfo&>(
-      ::_ParkingInfo_default_instance_);
-}
-inline const ::ParkingInfo& UploadInfoRequest::p_info() const {
-  // @@protoc_insertion_point(field_get:UploadInfoRequest.p_info)
-  return _internal_p_info();
-}
-inline void UploadInfoRequest::unsafe_arena_set_allocated_p_info(
-    ::ParkingInfo* p_info) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.p_info_);
-  }
-  _impl_.p_info_ = p_info;
-  if (p_info) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:UploadInfoRequest.p_info)
-}
-inline ::ParkingInfo* UploadInfoRequest::release_p_info() {
-  
-  ::ParkingInfo* temp = _impl_.p_info_;
-  _impl_.p_info_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::ParkingInfo* UploadInfoRequest::unsafe_arena_release_p_info() {
-  // @@protoc_insertion_point(field_release:UploadInfoRequest.p_info)
-  
-  ::ParkingInfo* temp = _impl_.p_info_;
-  _impl_.p_info_ = nullptr;
-  return temp;
-}
-inline ::ParkingInfo* UploadInfoRequest::_internal_mutable_p_info() {
-  
-  if (_impl_.p_info_ == nullptr) {
-    auto* p = CreateMaybeMessage<::ParkingInfo>(GetArenaForAllocation());
-    _impl_.p_info_ = p;
-  }
-  return _impl_.p_info_;
-}
-inline ::ParkingInfo* UploadInfoRequest::mutable_p_info() {
-  ::ParkingInfo* _msg = _internal_mutable_p_info();
-  // @@protoc_insertion_point(field_mutable:UploadInfoRequest.p_info)
-  return _msg;
-}
-inline void UploadInfoRequest::set_allocated_p_info(::ParkingInfo* p_info) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.p_info_;
-  }
-  if (p_info) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(p_info);
-    if (message_arena != submessage_arena) {
-      p_info = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, p_info, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.p_info_ = p_info;
-  // @@protoc_insertion_point(field_set_allocated:UploadInfoRequest.p_info)
-}
-
-// repeated .ParkingSpaceInfo s_info_arr = 2;
-inline int UploadInfoRequest::_internal_s_info_arr_size() const {
-  return _impl_.s_info_arr_.size();
-}
-inline int UploadInfoRequest::s_info_arr_size() const {
-  return _internal_s_info_arr_size();
-}
-inline void UploadInfoRequest::clear_s_info_arr() {
-  _impl_.s_info_arr_.Clear();
-}
-inline ::ParkingSpaceInfo* UploadInfoRequest::mutable_s_info_arr(int index) {
-  // @@protoc_insertion_point(field_mutable:UploadInfoRequest.s_info_arr)
-  return _impl_.s_info_arr_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo >*
-UploadInfoRequest::mutable_s_info_arr() {
-  // @@protoc_insertion_point(field_mutable_list:UploadInfoRequest.s_info_arr)
-  return &_impl_.s_info_arr_;
-}
-inline const ::ParkingSpaceInfo& UploadInfoRequest::_internal_s_info_arr(int index) const {
-  return _impl_.s_info_arr_.Get(index);
-}
-inline const ::ParkingSpaceInfo& UploadInfoRequest::s_info_arr(int index) const {
-  // @@protoc_insertion_point(field_get:UploadInfoRequest.s_info_arr)
-  return _internal_s_info_arr(index);
-}
-inline ::ParkingSpaceInfo* UploadInfoRequest::_internal_add_s_info_arr() {
-  return _impl_.s_info_arr_.Add();
-}
-inline ::ParkingSpaceInfo* UploadInfoRequest::add_s_info_arr() {
-  ::ParkingSpaceInfo* _add = _internal_add_s_info_arr();
-  // @@protoc_insertion_point(field_add:UploadInfoRequest.s_info_arr)
-  return _add;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo >&
-UploadInfoRequest::s_info_arr() const {
-  // @@protoc_insertion_point(field_list:UploadInfoRequest.s_info_arr)
-  return _impl_.s_info_arr_;
-}
-
-// -------------------------------------------------------------------
-
-// UploadInfoResponse
-
-// int32 result = 1;
-inline void UploadInfoResponse::clear_result() {
-  _impl_.result_ = 0;
-}
-inline int32_t UploadInfoResponse::_internal_result() const {
-  return _impl_.result_;
-}
-inline int32_t UploadInfoResponse::result() const {
-  // @@protoc_insertion_point(field_get:UploadInfoResponse.result)
-  return _internal_result();
-}
-inline void UploadInfoResponse::_internal_set_result(int32_t value) {
-  
-  _impl_.result_ = value;
-}
-inline void UploadInfoResponse::set_result(int32_t value) {
-  _internal_set_result(value);
-  // @@protoc_insertion_point(field_set:UploadInfoResponse.result)
+  // @@protoc_insertion_point(field_set_allocated:CarInfo.s_data)
 }
 
 // -------------------------------------------------------------------
@@ -4768,183 +2879,29 @@ inline void AdminLoginResponse::set_result(::LoginResult value) {
   // @@protoc_insertion_point(field_set:AdminLoginResponse.result)
 }
 
-// -------------------------------------------------------------------
-
-// AdminGetDataRequest
-
-// int32 p_id = 1;
-inline void AdminGetDataRequest::clear_p_id() {
-  _impl_.p_id_ = 0;
+// int32 count = 2;
+inline void AdminLoginResponse::clear_count() {
+  _impl_.count_ = 0;
 }
-inline int32_t AdminGetDataRequest::_internal_p_id() const {
-  return _impl_.p_id_;
+inline int32_t AdminLoginResponse::_internal_count() const {
+  return _impl_.count_;
 }
-inline int32_t AdminGetDataRequest::p_id() const {
-  // @@protoc_insertion_point(field_get:AdminGetDataRequest.p_id)
-  return _internal_p_id();
+inline int32_t AdminLoginResponse::count() const {
+  // @@protoc_insertion_point(field_get:AdminLoginResponse.count)
+  return _internal_count();
 }
-inline void AdminGetDataRequest::_internal_set_p_id(int32_t value) {
+inline void AdminLoginResponse::_internal_set_count(int32_t value) {
   
-  _impl_.p_id_ = value;
+  _impl_.count_ = value;
 }
-inline void AdminGetDataRequest::set_p_id(int32_t value) {
-  _internal_set_p_id(value);
-  // @@protoc_insertion_point(field_set:AdminGetDataRequest.p_id)
-}
-
-// -------------------------------------------------------------------
-
-// AdminGetDataResponse
-
-// .ParkingInfo p_info = 1;
-inline bool AdminGetDataResponse::_internal_has_p_info() const {
-  return this != internal_default_instance() && _impl_.p_info_ != nullptr;
-}
-inline bool AdminGetDataResponse::has_p_info() const {
-  return _internal_has_p_info();
-}
-inline void AdminGetDataResponse::clear_p_info() {
-  if (GetArenaForAllocation() == nullptr && _impl_.p_info_ != nullptr) {
-    delete _impl_.p_info_;
-  }
-  _impl_.p_info_ = nullptr;
-}
-inline const ::ParkingInfo& AdminGetDataResponse::_internal_p_info() const {
-  const ::ParkingInfo* p = _impl_.p_info_;
-  return p != nullptr ? *p : reinterpret_cast<const ::ParkingInfo&>(
-      ::_ParkingInfo_default_instance_);
-}
-inline const ::ParkingInfo& AdminGetDataResponse::p_info() const {
-  // @@protoc_insertion_point(field_get:AdminGetDataResponse.p_info)
-  return _internal_p_info();
-}
-inline void AdminGetDataResponse::unsafe_arena_set_allocated_p_info(
-    ::ParkingInfo* p_info) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.p_info_);
-  }
-  _impl_.p_info_ = p_info;
-  if (p_info) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:AdminGetDataResponse.p_info)
-}
-inline ::ParkingInfo* AdminGetDataResponse::release_p_info() {
-  
-  ::ParkingInfo* temp = _impl_.p_info_;
-  _impl_.p_info_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::ParkingInfo* AdminGetDataResponse::unsafe_arena_release_p_info() {
-  // @@protoc_insertion_point(field_release:AdminGetDataResponse.p_info)
-  
-  ::ParkingInfo* temp = _impl_.p_info_;
-  _impl_.p_info_ = nullptr;
-  return temp;
-}
-inline ::ParkingInfo* AdminGetDataResponse::_internal_mutable_p_info() {
-  
-  if (_impl_.p_info_ == nullptr) {
-    auto* p = CreateMaybeMessage<::ParkingInfo>(GetArenaForAllocation());
-    _impl_.p_info_ = p;
-  }
-  return _impl_.p_info_;
-}
-inline ::ParkingInfo* AdminGetDataResponse::mutable_p_info() {
-  ::ParkingInfo* _msg = _internal_mutable_p_info();
-  // @@protoc_insertion_point(field_mutable:AdminGetDataResponse.p_info)
-  return _msg;
-}
-inline void AdminGetDataResponse::set_allocated_p_info(::ParkingInfo* p_info) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.p_info_;
-  }
-  if (p_info) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(p_info);
-    if (message_arena != submessage_arena) {
-      p_info = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, p_info, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.p_info_ = p_info;
-  // @@protoc_insertion_point(field_set_allocated:AdminGetDataResponse.p_info)
-}
-
-// repeated .ParkingSpaceInfo s_info_arr = 2;
-inline int AdminGetDataResponse::_internal_s_info_arr_size() const {
-  return _impl_.s_info_arr_.size();
-}
-inline int AdminGetDataResponse::s_info_arr_size() const {
-  return _internal_s_info_arr_size();
-}
-inline void AdminGetDataResponse::clear_s_info_arr() {
-  _impl_.s_info_arr_.Clear();
-}
-inline ::ParkingSpaceInfo* AdminGetDataResponse::mutable_s_info_arr(int index) {
-  // @@protoc_insertion_point(field_mutable:AdminGetDataResponse.s_info_arr)
-  return _impl_.s_info_arr_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo >*
-AdminGetDataResponse::mutable_s_info_arr() {
-  // @@protoc_insertion_point(field_mutable_list:AdminGetDataResponse.s_info_arr)
-  return &_impl_.s_info_arr_;
-}
-inline const ::ParkingSpaceInfo& AdminGetDataResponse::_internal_s_info_arr(int index) const {
-  return _impl_.s_info_arr_.Get(index);
-}
-inline const ::ParkingSpaceInfo& AdminGetDataResponse::s_info_arr(int index) const {
-  // @@protoc_insertion_point(field_get:AdminGetDataResponse.s_info_arr)
-  return _internal_s_info_arr(index);
-}
-inline ::ParkingSpaceInfo* AdminGetDataResponse::_internal_add_s_info_arr() {
-  return _impl_.s_info_arr_.Add();
-}
-inline ::ParkingSpaceInfo* AdminGetDataResponse::add_s_info_arr() {
-  ::ParkingSpaceInfo* _add = _internal_add_s_info_arr();
-  // @@protoc_insertion_point(field_add:AdminGetDataResponse.s_info_arr)
-  return _add;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ParkingSpaceInfo >&
-AdminGetDataResponse::s_info_arr() const {
-  // @@protoc_insertion_point(field_list:AdminGetDataResponse.s_info_arr)
-  return _impl_.s_info_arr_;
+inline void AdminLoginResponse::set_count(int32_t value) {
+  _internal_set_count(value);
+  // @@protoc_insertion_point(field_set:AdminLoginResponse.count)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -4,6 +4,9 @@
 #include <windows.h>
 
 #include <QWidget>
+#include <QPushButton>
+#include <QLabel>
+#include <QPainter>
 
 #include <string>
 #include <fstream>
@@ -26,11 +29,17 @@ public:
 
 private:
     std::string read_file(std::string file_path);
+    void Widget::rpc_test();
+
+    void paintEvent(QPaintEvent *);//重写函数
 
 private:
     int _WIDTH;
     int _HEIGHT;
 
     std::unique_ptr<ProjectService::Stub> _stub;
+
+    std::vector<QPushButton*> _parking_space_buttons;
+    std::vector<QLabel*> _parking_space_labels;
 };
 #endif // WIDGET_H
