@@ -37,6 +37,9 @@ if(ANDROID)
 else()
   add_executable(windows_client
     main.cpp
+    dialog.ui
+    dialog.h
+    dialog.cpp
     widget.cpp
     widget.h
     pbfile/service.pb.h
