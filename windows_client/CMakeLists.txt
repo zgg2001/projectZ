@@ -23,10 +23,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
 #    endif()
 #endif()
-
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 find_package(protobuf CONFIG REQUIRED)
+find_package(eclipse-paho-mqtt-c CONFIG REQUIRED)
 
 if(ANDROID)
   add_library(windows_client SHARED
@@ -52,4 +52,4 @@ endif()
 target_link_libraries(windows_client PRIVATE Qt5::Widgets)
 target_link_libraries(windows_client PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
 target_link_libraries(windows_client PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
-
+target_link_libraries(windows_client PRIVATE eclipse-paho-mqtt-c::paho-mqtt3a eclipse-paho-mqtt-c::paho-mqtt3c eclipse-paho-mqtt-c::paho-mqtt3as eclipse-paho-mqtt-c::paho-mqtt3cs)

@@ -1,5 +1,6 @@
 #include "dialog.h"
 #include "ui_dialog.h"
+#include <QDebug>
 
 using namespace std;
 
@@ -24,16 +25,25 @@ Dialog::~Dialog()
 
 void Dialog::on_pushButton_2_clicked()
 {
+    bool ok = false;
     int pid = ui->lineEdit->text().toInt();
     string password = ui->lineEdit_2->text().toStdString();
     string mqtt_ip = ui->lineEdit_3->text().toStdString();
 
     // mqtt check
+    ok = mqtt_check(mqtt_ip);
+    if(!ok)
+    {
+        QMessageBox::information(nullptr, "Error", "Please check if the mqtt IP is correct!", QMessageBox::Yes, QMessageBox::Yes);
+        return;
+    }
 
     // rpc login
     int count = 0;
     LoginResult result = LOGIN_FAIL_NOT_EXIST;
-    rpc_login(pid, password, count, result);
+    ok = rpc_login(pid, password, count, result);
+    if(!ok)
+        return;
     if(result == LOGIN_SUCCESS)
     {
         this->hide();
@@ -49,7 +59,33 @@ void Dialog::on_pushButton_2_clicked()
     }
 }
 
-void Dialog::rpc_login(int pid, string password, int& count, LoginResult& result)
+bool Dialog::mqtt_check(string ip)
+{
+    string addr = ip + MQTT_PORT;
+    MQTTClient client;
+    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    int rc;
+
+    if ((rc = MQTTClient_create(&client, addr.c_str(), "windows_client",
+            MQTTCLIENT_PERSISTENCE_NONE, nullptr)) != MQTTCLIENT_SUCCESS)
+    {
+        rc = EXIT_FAILURE;
+        return false;
+    }
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+    conn_opts.username = MQTT_USERNAME;
+    conn_opts.password = MQTT_PASSWORD;
+    if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
+    {
+        rc = EXIT_FAILURE;
+        return false;
+    }
+
+    return true;
+}
+
+bool Dialog::rpc_login(int pid, string password, int& count, LoginResult& result)
 {
     ClientContext context;
     AdminLoginRequest request;
@@ -59,8 +95,17 @@ void Dialog::rpc_login(int pid, string password, int& count, LoginResult& result
     request.set_password(password);
 
     Status status = _stub->AdminLogin(&context, request, &response);
-    count = response.count();
-    result = response.result();
+    if(status.ok())
+    {
+        count = response.count();
+        result = response.result();
+        return true;
+    }
+    else
+    {
+        QMessageBox::information(nullptr, "Error", QString::fromStdString(status.error_message()), QMessageBox::Yes, QMessageBox::Yes);
+        return false;
+    }
 }
 
 void Dialog::closeEvent(QCloseEvent *event)
