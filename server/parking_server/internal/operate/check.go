@@ -53,7 +53,7 @@ func (ss *serverService) LicencePlateCheck(con context.Context, request *rpc.LPC
 			return &rpc.LPCheckResponse{Result: false, Balance: balance}, nil
 		}
 		ss.SetBalance(uid, balance)
-		ss.SetParkingSpace(license, -1, -1, 0, RearCamera)
+		ss.SetParkingSpace(license, pid, sid, 0, RearCamera)
 	}
 
 	return &rpc.LPCheckResponse{Result: true, Balance: balance}, nil

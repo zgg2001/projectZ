@@ -251,3 +251,54 @@ func checkTable() error {
 
 	return nil
 }
+
+func MySqlGetUidByLicense(license string) (ok bool, uid string) {
+	ret, err := MySqlClient.Query(SqlSelectUidByLicense, license)
+	if err != nil {
+		return false, ""
+	}
+	if ret.Next() {
+		var str string
+		err := ret.Scan(&str)
+		if err != nil {
+			return false, str
+		}
+		return true, str
+	}
+	return false, ""
+}
+
+func MySqlGetBalanceByUid(uid string) (bool, int32) {
+	ret, err := MySqlClient.Query(SqlSelectBalanceByUid, uid)
+	if err != nil {
+		return false, 0
+	}
+	if ret.Next() {
+		var balance int32
+		err := ret.Scan(&balance)
+		if err != nil {
+			return false, 0
+		}
+		return true, balance
+	}
+	return false, 0
+}
+
+func MySqlCheckCarIsEntered(license string) bool {
+	ret, err := MySqlClient.Query(SqlSelectRecordByLicense, license)
+	if err != nil {
+		return false
+	}
+	if ret.Next() {
+		var r RecordRow
+		err := ret.Scan(&r.License, &r.PId, &r.SId, &r.EntryTime)
+		if err != nil {
+			return false
+		}
+		if r.PId >= 0 && r.SId >= 0 && r.EntryTime > 0 {
+			return true
+		}
+		return false
+	}
+	return false
+}

@@ -124,6 +124,20 @@ func RedisAddLicense(l *LicenseRow) error {
 }
 
 func RedisAddRecord(r *RecordRow) error {
+	// license map
+	tempLicense := ""
+	if r.EntryTime != 0 {
+		tempLicense = r.License
+	}
+	keyLicense := ParkingSpaceLicensePrefix + strconv.Itoa(int(r.PId))
+	err := RedisClient.HSet(keyLicense, strconv.Itoa(int(r.SId)), tempLicense).Err()
+	if err != nil {
+		return err
+	}
+	if r.EntryTime == 0 {
+		r.PId = -1
+		r.SId = -1
+	}
 	// license info
 	keyInfo := LicenseInfoPrefix + r.License
 	fields := map[string]interface{}{
@@ -131,7 +145,7 @@ func RedisAddRecord(r *RecordRow) error {
 		"psid":      r.SId,
 		"entryTime": r.EntryTime,
 	}
-	err := RedisClient.HMSet(keyInfo, fields).Err()
+	err = RedisClient.HMSet(keyInfo, fields).Err()
 	if err != nil {
 		return err
 	}

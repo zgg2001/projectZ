@@ -65,5 +65,9 @@ const (
 		"SET license=?, checkin_time=? " +
 		"WHERE license=?;"
 
-	SqlSelectNextPrimaryId = "SELECT AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME=?;"
+	SqlSelectNextPrimaryId          = "SELECT AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME=?;"
+	SqlSelectParkingPasswordByPid   = "select password,count from z_parking where id = ?;"
+	SqlSelectParkingSpaceInfo       = "select license,entry_time from z_record where pid = ? and sid = ?;"
+	SqlSelectRecordByLicense        = "select * from z_record where license = ?;"
+	SqlSelectUserPasswordByUsername = "select id,password from z_user where username = ?;"
 )

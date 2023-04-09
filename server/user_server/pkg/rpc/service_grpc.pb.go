@@ -27,6 +27,7 @@ type ProjectServiceClient interface {
 	CarOperation(ctx context.Context, in *CarOperationRequest, opts ...grpc.CallOption) (*CarOperationResponse, error)
 	GetUserData(ctx context.Context, in *GetUserDataRequest, opts ...grpc.CallOption) (*GetUserDataResponse, error)
 	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
+	AdminGetSpaceInfo(ctx context.Context, in *AdminGetSpaceInfoRequest, opts ...grpc.CallOption) (*AdminGetSpaceInfoResponse, error)
 }
 
 type projectServiceClient struct {
@@ -82,6 +83,15 @@ func (c *projectServiceClient) AdminLogin(ctx context.Context, in *AdminLoginReq
 	return out, nil
 }
 
+func (c *projectServiceClient) AdminGetSpaceInfo(ctx context.Context, in *AdminGetSpaceInfoRequest, opts ...grpc.CallOption) (*AdminGetSpaceInfoResponse, error) {
+	out := new(AdminGetSpaceInfoResponse)
+	err := c.cc.Invoke(ctx, "/ProjectService/AdminGetSpaceInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -91,6 +101,7 @@ type ProjectServiceServer interface {
 	CarOperation(context.Context, *CarOperationRequest) (*CarOperationResponse, error)
 	GetUserData(context.Context, *GetUserDataRequest) (*GetUserDataResponse, error)
 	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
+	AdminGetSpaceInfo(context.Context, *AdminGetSpaceInfoRequest) (*AdminGetSpaceInfoResponse, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -112,6 +123,9 @@ func (UnimplementedProjectServiceServer) GetUserData(context.Context, *GetUserDa
 }
 func (UnimplementedProjectServiceServer) AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
+}
+func (UnimplementedProjectServiceServer) AdminGetSpaceInfo(context.Context, *AdminGetSpaceInfoRequest) (*AdminGetSpaceInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminGetSpaceInfo not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -216,6 +230,24 @@ func _ProjectService_AdminLogin_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_AdminGetSpaceInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminGetSpaceInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).AdminGetSpaceInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ProjectService/AdminGetSpaceInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).AdminGetSpaceInfo(ctx, req.(*AdminGetSpaceInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +274,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AdminLogin",
 			Handler:    _ProjectService_AdminLogin_Handler,
+		},
+		{
+			MethodName: "AdminGetSpaceInfo",
+			Handler:    _ProjectService_AdminGetSpaceInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

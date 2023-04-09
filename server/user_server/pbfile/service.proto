@@ -92,6 +92,15 @@ message AdminLoginResponse {
     LoginResult result = 1;
     int32 count = 2;
 }
+message AdminGetSpaceInfoRequest {
+    int32 p_id = 1;
+    int32 s_id = 2;
+}
+message AdminGetSpaceInfoResponse {
+    bool is_use = 1;
+    string license = 2;
+    int64 entrytime = 3;
+}
  
 service ProjectService {
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
@@ -99,4 +108,5 @@ service ProjectService {
     rpc CarOperation(CarOperationRequest) returns (CarOperationResponse);
     rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
     rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse);
+    rpc AdminGetSpaceInfo(AdminGetSpaceInfoRequest) returns (AdminGetSpaceInfoResponse);
 }

@@ -235,3 +235,17 @@ func RedisGetParkingPasswordById(id int32) (bool, int32, string) {
 	password := parts[1]
 	return true, int32(count), password
 }
+
+func RedisParkingGetSpaceInfo(pid, sid int32) (bool, string, int64) {
+	keyLicense := ParkingSpaceLicensePrefix + strconv.Itoa(int(pid))
+	license, err := RedisClient.HGet(keyLicense, strconv.Itoa(int(sid))).Result()
+	if err != nil || len(license) == 0 {
+		return false, "", 0
+	}
+	keyInfo := LicenseInfoPrefix + license
+	entryTime, err := RedisClient.HGet(keyInfo, "entryTime").Int64()
+	if err != nil || entryTime == 0 {
+		return false, "", 0
+	}
+	return true, license, entryTime
+}
