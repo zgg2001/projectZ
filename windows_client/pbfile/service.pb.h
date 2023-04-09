@@ -45,6 +45,12 @@ struct TableStruct_service_2eproto {
   static const uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_service_2eproto;
+class AdminGetSpaceInfoRequest;
+struct AdminGetSpaceInfoRequestDefaultTypeInternal;
+extern AdminGetSpaceInfoRequestDefaultTypeInternal _AdminGetSpaceInfoRequest_default_instance_;
+class AdminGetSpaceInfoResponse;
+struct AdminGetSpaceInfoResponseDefaultTypeInternal;
+extern AdminGetSpaceInfoResponseDefaultTypeInternal _AdminGetSpaceInfoResponse_default_instance_;
 class AdminLoginRequest;
 struct AdminLoginRequestDefaultTypeInternal;
 extern AdminLoginRequestDefaultTypeInternal _AdminLoginRequest_default_instance_;
@@ -79,6 +85,8 @@ class UserRegistrationResponse;
 struct UserRegistrationResponseDefaultTypeInternal;
 extern UserRegistrationResponseDefaultTypeInternal _UserRegistrationResponse_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
+template<> ::AdminGetSpaceInfoRequest* Arena::CreateMaybeMessage<::AdminGetSpaceInfoRequest>(Arena*);
+template<> ::AdminGetSpaceInfoResponse* Arena::CreateMaybeMessage<::AdminGetSpaceInfoResponse>(Arena*);
 template<> ::AdminLoginRequest* Arena::CreateMaybeMessage<::AdminLoginRequest>(Arena*);
 template<> ::AdminLoginResponse* Arena::CreateMaybeMessage<::AdminLoginResponse>(Arena*);
 template<> ::CarInfo* Arena::CreateMaybeMessage<::CarInfo>(Arena*);
@@ -2060,6 +2068,340 @@ class AdminLoginResponse final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_service_2eproto;
 };
+// -------------------------------------------------------------------
+
+class AdminGetSpaceInfoRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AdminGetSpaceInfoRequest) */ {
+ public:
+  inline AdminGetSpaceInfoRequest() : AdminGetSpaceInfoRequest(nullptr) {}
+  ~AdminGetSpaceInfoRequest() override;
+  explicit PROTOBUF_CONSTEXPR AdminGetSpaceInfoRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  AdminGetSpaceInfoRequest(const AdminGetSpaceInfoRequest& from);
+  AdminGetSpaceInfoRequest(AdminGetSpaceInfoRequest&& from) noexcept
+    : AdminGetSpaceInfoRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline AdminGetSpaceInfoRequest& operator=(const AdminGetSpaceInfoRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline AdminGetSpaceInfoRequest& operator=(AdminGetSpaceInfoRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const AdminGetSpaceInfoRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const AdminGetSpaceInfoRequest* internal_default_instance() {
+    return reinterpret_cast<const AdminGetSpaceInfoRequest*>(
+               &_AdminGetSpaceInfoRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(AdminGetSpaceInfoRequest& a, AdminGetSpaceInfoRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(AdminGetSpaceInfoRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(AdminGetSpaceInfoRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  AdminGetSpaceInfoRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<AdminGetSpaceInfoRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const AdminGetSpaceInfoRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const AdminGetSpaceInfoRequest& from) {
+    AdminGetSpaceInfoRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AdminGetSpaceInfoRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "AdminGetSpaceInfoRequest";
+  }
+  protected:
+  explicit AdminGetSpaceInfoRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPIdFieldNumber = 1,
+    kSIdFieldNumber = 2,
+  };
+  // int32 p_id = 1;
+  void clear_p_id();
+  int32_t p_id() const;
+  void set_p_id(int32_t value);
+  private:
+  int32_t _internal_p_id() const;
+  void _internal_set_p_id(int32_t value);
+  public:
+
+  // int32 s_id = 2;
+  void clear_s_id();
+  int32_t s_id() const;
+  void set_s_id(int32_t value);
+  private:
+  int32_t _internal_s_id() const;
+  void _internal_set_s_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:AdminGetSpaceInfoRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t p_id_;
+    int32_t s_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_service_2eproto;
+};
+// -------------------------------------------------------------------
+
+class AdminGetSpaceInfoResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AdminGetSpaceInfoResponse) */ {
+ public:
+  inline AdminGetSpaceInfoResponse() : AdminGetSpaceInfoResponse(nullptr) {}
+  ~AdminGetSpaceInfoResponse() override;
+  explicit PROTOBUF_CONSTEXPR AdminGetSpaceInfoResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  AdminGetSpaceInfoResponse(const AdminGetSpaceInfoResponse& from);
+  AdminGetSpaceInfoResponse(AdminGetSpaceInfoResponse&& from) noexcept
+    : AdminGetSpaceInfoResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline AdminGetSpaceInfoResponse& operator=(const AdminGetSpaceInfoResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline AdminGetSpaceInfoResponse& operator=(AdminGetSpaceInfoResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const AdminGetSpaceInfoResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const AdminGetSpaceInfoResponse* internal_default_instance() {
+    return reinterpret_cast<const AdminGetSpaceInfoResponse*>(
+               &_AdminGetSpaceInfoResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(AdminGetSpaceInfoResponse& a, AdminGetSpaceInfoResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(AdminGetSpaceInfoResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(AdminGetSpaceInfoResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  AdminGetSpaceInfoResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<AdminGetSpaceInfoResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const AdminGetSpaceInfoResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const AdminGetSpaceInfoResponse& from) {
+    AdminGetSpaceInfoResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AdminGetSpaceInfoResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "AdminGetSpaceInfoResponse";
+  }
+  protected:
+  explicit AdminGetSpaceInfoResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kLicenseFieldNumber = 2,
+    kEntrytimeFieldNumber = 3,
+    kIsUseFieldNumber = 1,
+  };
+  // string license = 2;
+  void clear_license();
+  const std::string& license() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_license(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_license();
+  PROTOBUF_NODISCARD std::string* release_license();
+  void set_allocated_license(std::string* license);
+  private:
+  const std::string& _internal_license() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_license(const std::string& value);
+  std::string* _internal_mutable_license();
+  public:
+
+  // int64 entrytime = 3;
+  void clear_entrytime();
+  int64_t entrytime() const;
+  void set_entrytime(int64_t value);
+  private:
+  int64_t _internal_entrytime() const;
+  void _internal_set_entrytime(int64_t value);
+  public:
+
+  // bool is_use = 1;
+  void clear_is_use();
+  bool is_use() const;
+  void set_is_use(bool value);
+  private:
+  bool _internal_is_use() const;
+  void _internal_set_is_use(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:AdminGetSpaceInfoResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr license_;
+    int64_t entrytime_;
+    bool is_use_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_service_2eproto;
+};
 // ===================================================================
 
 
@@ -2899,9 +3241,151 @@ inline void AdminLoginResponse::set_count(int32_t value) {
   // @@protoc_insertion_point(field_set:AdminLoginResponse.count)
 }
 
+// -------------------------------------------------------------------
+
+// AdminGetSpaceInfoRequest
+
+// int32 p_id = 1;
+inline void AdminGetSpaceInfoRequest::clear_p_id() {
+  _impl_.p_id_ = 0;
+}
+inline int32_t AdminGetSpaceInfoRequest::_internal_p_id() const {
+  return _impl_.p_id_;
+}
+inline int32_t AdminGetSpaceInfoRequest::p_id() const {
+  // @@protoc_insertion_point(field_get:AdminGetSpaceInfoRequest.p_id)
+  return _internal_p_id();
+}
+inline void AdminGetSpaceInfoRequest::_internal_set_p_id(int32_t value) {
+  
+  _impl_.p_id_ = value;
+}
+inline void AdminGetSpaceInfoRequest::set_p_id(int32_t value) {
+  _internal_set_p_id(value);
+  // @@protoc_insertion_point(field_set:AdminGetSpaceInfoRequest.p_id)
+}
+
+// int32 s_id = 2;
+inline void AdminGetSpaceInfoRequest::clear_s_id() {
+  _impl_.s_id_ = 0;
+}
+inline int32_t AdminGetSpaceInfoRequest::_internal_s_id() const {
+  return _impl_.s_id_;
+}
+inline int32_t AdminGetSpaceInfoRequest::s_id() const {
+  // @@protoc_insertion_point(field_get:AdminGetSpaceInfoRequest.s_id)
+  return _internal_s_id();
+}
+inline void AdminGetSpaceInfoRequest::_internal_set_s_id(int32_t value) {
+  
+  _impl_.s_id_ = value;
+}
+inline void AdminGetSpaceInfoRequest::set_s_id(int32_t value) {
+  _internal_set_s_id(value);
+  // @@protoc_insertion_point(field_set:AdminGetSpaceInfoRequest.s_id)
+}
+
+// -------------------------------------------------------------------
+
+// AdminGetSpaceInfoResponse
+
+// bool is_use = 1;
+inline void AdminGetSpaceInfoResponse::clear_is_use() {
+  _impl_.is_use_ = false;
+}
+inline bool AdminGetSpaceInfoResponse::_internal_is_use() const {
+  return _impl_.is_use_;
+}
+inline bool AdminGetSpaceInfoResponse::is_use() const {
+  // @@protoc_insertion_point(field_get:AdminGetSpaceInfoResponse.is_use)
+  return _internal_is_use();
+}
+inline void AdminGetSpaceInfoResponse::_internal_set_is_use(bool value) {
+  
+  _impl_.is_use_ = value;
+}
+inline void AdminGetSpaceInfoResponse::set_is_use(bool value) {
+  _internal_set_is_use(value);
+  // @@protoc_insertion_point(field_set:AdminGetSpaceInfoResponse.is_use)
+}
+
+// string license = 2;
+inline void AdminGetSpaceInfoResponse::clear_license() {
+  _impl_.license_.ClearToEmpty();
+}
+inline const std::string& AdminGetSpaceInfoResponse::license() const {
+  // @@protoc_insertion_point(field_get:AdminGetSpaceInfoResponse.license)
+  return _internal_license();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AdminGetSpaceInfoResponse::set_license(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.license_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:AdminGetSpaceInfoResponse.license)
+}
+inline std::string* AdminGetSpaceInfoResponse::mutable_license() {
+  std::string* _s = _internal_mutable_license();
+  // @@protoc_insertion_point(field_mutable:AdminGetSpaceInfoResponse.license)
+  return _s;
+}
+inline const std::string& AdminGetSpaceInfoResponse::_internal_license() const {
+  return _impl_.license_.Get();
+}
+inline void AdminGetSpaceInfoResponse::_internal_set_license(const std::string& value) {
+  
+  _impl_.license_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AdminGetSpaceInfoResponse::_internal_mutable_license() {
+  
+  return _impl_.license_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AdminGetSpaceInfoResponse::release_license() {
+  // @@protoc_insertion_point(field_release:AdminGetSpaceInfoResponse.license)
+  return _impl_.license_.Release();
+}
+inline void AdminGetSpaceInfoResponse::set_allocated_license(std::string* license) {
+  if (license != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.license_.SetAllocated(license, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.license_.IsDefault()) {
+    _impl_.license_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:AdminGetSpaceInfoResponse.license)
+}
+
+// int64 entrytime = 3;
+inline void AdminGetSpaceInfoResponse::clear_entrytime() {
+  _impl_.entrytime_ = int64_t{0};
+}
+inline int64_t AdminGetSpaceInfoResponse::_internal_entrytime() const {
+  return _impl_.entrytime_;
+}
+inline int64_t AdminGetSpaceInfoResponse::entrytime() const {
+  // @@protoc_insertion_point(field_get:AdminGetSpaceInfoResponse.entrytime)
+  return _internal_entrytime();
+}
+inline void AdminGetSpaceInfoResponse::_internal_set_entrytime(int64_t value) {
+  
+  _impl_.entrytime_ = value;
+}
+inline void AdminGetSpaceInfoResponse::set_entrytime(int64_t value) {
+  _internal_set_entrytime(value);
+  // @@protoc_insertion_point(field_set:AdminGetSpaceInfoResponse.entrytime)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

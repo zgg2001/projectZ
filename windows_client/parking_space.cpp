@@ -5,3 +5,9 @@ parking_space::parking_space(int id):
 {
 
 }
+
+void parking_space::set_license_and_entrytime(std::string license, long long entrytime)
+{
+    _license = license;
+    _entrytime = entrytime;
+}

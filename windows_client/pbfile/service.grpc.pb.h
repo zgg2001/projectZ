@@ -68,6 +68,13 @@ class ProjectService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>> PrepareAsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>>(PrepareAsyncAdminLoginRaw(context, request, cq));
     }
+    virtual ::grpc::Status AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::AdminGetSpaceInfoResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetSpaceInfoResponse>> AsyncAdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetSpaceInfoResponse>>(AsyncAdminGetSpaceInfoRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetSpaceInfoResponse>> PrepareAsyncAdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetSpaceInfoResponse>>(PrepareAsyncAdminGetSpaceInfoRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -81,6 +88,8 @@ class ProjectService final {
       virtual void GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -96,6 +105,8 @@ class ProjectService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::GetUserDataResponse>* PrepareAsyncGetUserDataRaw(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>* AsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminLoginResponse>* PrepareAsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetSpaceInfoResponse>* AsyncAdminGetSpaceInfoRaw(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::AdminGetSpaceInfoResponse>* PrepareAsyncAdminGetSpaceInfoRaw(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -135,6 +146,13 @@ class ProjectService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>> PrepareAsyncAdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>>(PrepareAsyncAdminLoginRaw(context, request, cq));
     }
+    ::grpc::Status AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::AdminGetSpaceInfoResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminGetSpaceInfoResponse>> AsyncAdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminGetSpaceInfoResponse>>(AsyncAdminGetSpaceInfoRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminGetSpaceInfoResponse>> PrepareAsyncAdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::AdminGetSpaceInfoResponse>>(PrepareAsyncAdminGetSpaceInfoRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -148,6 +166,8 @@ class ProjectService final {
       void GetUserData(::grpc::ClientContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, std::function<void(::grpc::Status)>) override;
       void AdminLogin(::grpc::ClientContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response, std::function<void(::grpc::Status)>) override;
+      void AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -169,11 +189,14 @@ class ProjectService final {
     ::grpc::ClientAsyncResponseReader< ::GetUserDataResponse>* PrepareAsyncGetUserDataRaw(::grpc::ClientContext* context, const ::GetUserDataRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* AsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::AdminLoginResponse>* PrepareAsyncAdminLoginRaw(::grpc::ClientContext* context, const ::AdminLoginRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::AdminGetSpaceInfoResponse>* AsyncAdminGetSpaceInfoRaw(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::AdminGetSpaceInfoResponse>* PrepareAsyncAdminGetSpaceInfoRaw(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_UserLogin_;
     const ::grpc::internal::RpcMethod rpcmethod_UserRegistration_;
     const ::grpc::internal::RpcMethod rpcmethod_CarOperation_;
     const ::grpc::internal::RpcMethod rpcmethod_GetUserData_;
     const ::grpc::internal::RpcMethod rpcmethod_AdminLogin_;
+    const ::grpc::internal::RpcMethod rpcmethod_AdminGetSpaceInfo_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -186,6 +209,7 @@ class ProjectService final {
     virtual ::grpc::Status CarOperation(::grpc::ServerContext* context, const ::CarOperationRequest* request, ::CarOperationResponse* response);
     virtual ::grpc::Status GetUserData(::grpc::ServerContext* context, const ::GetUserDataRequest* request, ::GetUserDataResponse* response);
     virtual ::grpc::Status AdminLogin(::grpc::ServerContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response);
+    virtual ::grpc::Status AdminGetSpaceInfo(::grpc::ServerContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_UserLogin : public BaseClass {
@@ -287,7 +311,27 @@ class ProjectService final {
       ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_UserLogin<WithAsyncMethod_UserRegistration<WithAsyncMethod_CarOperation<WithAsyncMethod_GetUserData<WithAsyncMethod_AdminLogin<Service > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_AdminGetSpaceInfo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_AdminGetSpaceInfo() {
+      ::grpc::Service::MarkMethodAsync(5);
+    }
+    ~WithAsyncMethod_AdminGetSpaceInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AdminGetSpaceInfo(::grpc::ServerContext* /*context*/, const ::AdminGetSpaceInfoRequest* /*request*/, ::AdminGetSpaceInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAdminGetSpaceInfo(::grpc::ServerContext* context, ::AdminGetSpaceInfoRequest* request, ::grpc::ServerAsyncResponseWriter< ::AdminGetSpaceInfoResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_UserLogin<WithAsyncMethod_UserRegistration<WithAsyncMethod_CarOperation<WithAsyncMethod_GetUserData<WithAsyncMethod_AdminLogin<WithAsyncMethod_AdminGetSpaceInfo<Service > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_UserLogin : public BaseClass {
    private:
@@ -423,7 +467,34 @@ class ProjectService final {
     virtual ::grpc::ServerUnaryReactor* AdminLogin(
       ::grpc::CallbackServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_UserLogin<WithCallbackMethod_UserRegistration<WithCallbackMethod_CarOperation<WithCallbackMethod_GetUserData<WithCallbackMethod_AdminLogin<Service > > > > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_AdminGetSpaceInfo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_AdminGetSpaceInfo() {
+      ::grpc::Service::MarkMethodCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::AdminGetSpaceInfoRequest, ::AdminGetSpaceInfoResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response) { return this->AdminGetSpaceInfo(context, request, response); }));}
+    void SetMessageAllocatorFor_AdminGetSpaceInfo(
+        ::grpc::MessageAllocator< ::AdminGetSpaceInfoRequest, ::AdminGetSpaceInfoResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::AdminGetSpaceInfoRequest, ::AdminGetSpaceInfoResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_AdminGetSpaceInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AdminGetSpaceInfo(::grpc::ServerContext* /*context*/, const ::AdminGetSpaceInfoRequest* /*request*/, ::AdminGetSpaceInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AdminGetSpaceInfo(
+      ::grpc::CallbackServerContext* /*context*/, const ::AdminGetSpaceInfoRequest* /*request*/, ::AdminGetSpaceInfoResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_UserLogin<WithCallbackMethod_UserRegistration<WithCallbackMethod_CarOperation<WithCallbackMethod_GetUserData<WithCallbackMethod_AdminLogin<WithCallbackMethod_AdminGetSpaceInfo<Service > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_UserLogin : public BaseClass {
@@ -506,6 +577,23 @@ class ProjectService final {
     }
     // disable synchronous version of this method
     ::grpc::Status AdminLogin(::grpc::ServerContext* /*context*/, const ::AdminLoginRequest* /*request*/, ::AdminLoginResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_AdminGetSpaceInfo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_AdminGetSpaceInfo() {
+      ::grpc::Service::MarkMethodGeneric(5);
+    }
+    ~WithGenericMethod_AdminGetSpaceInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AdminGetSpaceInfo(::grpc::ServerContext* /*context*/, const ::AdminGetSpaceInfoRequest* /*request*/, ::AdminGetSpaceInfoResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -608,6 +696,26 @@ class ProjectService final {
     }
     void RequestAdminLogin(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_AdminGetSpaceInfo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_AdminGetSpaceInfo() {
+      ::grpc::Service::MarkMethodRaw(5);
+    }
+    ~WithRawMethod_AdminGetSpaceInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AdminGetSpaceInfo(::grpc::ServerContext* /*context*/, const ::AdminGetSpaceInfoRequest* /*request*/, ::AdminGetSpaceInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAdminGetSpaceInfo(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -718,6 +826,28 @@ class ProjectService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* AdminLogin(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_AdminGetSpaceInfo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_AdminGetSpaceInfo() {
+      ::grpc::Service::MarkMethodRawCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AdminGetSpaceInfo(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_AdminGetSpaceInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AdminGetSpaceInfo(::grpc::ServerContext* /*context*/, const ::AdminGetSpaceInfoRequest* /*request*/, ::AdminGetSpaceInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AdminGetSpaceInfo(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -855,9 +985,36 @@ class ProjectService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedAdminLogin(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::AdminLoginRequest,::AdminLoginResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_UserRegistration<WithStreamedUnaryMethod_CarOperation<WithStreamedUnaryMethod_GetUserData<WithStreamedUnaryMethod_AdminLogin<Service > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_AdminGetSpaceInfo : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_AdminGetSpaceInfo() {
+      ::grpc::Service::MarkMethodStreamed(5,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::AdminGetSpaceInfoRequest, ::AdminGetSpaceInfoResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::AdminGetSpaceInfoRequest, ::AdminGetSpaceInfoResponse>* streamer) {
+                       return this->StreamedAdminGetSpaceInfo(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_AdminGetSpaceInfo() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status AdminGetSpaceInfo(::grpc::ServerContext* /*context*/, const ::AdminGetSpaceInfoRequest* /*request*/, ::AdminGetSpaceInfoResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedAdminGetSpaceInfo(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::AdminGetSpaceInfoRequest,::AdminGetSpaceInfoResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_UserRegistration<WithStreamedUnaryMethod_CarOperation<WithStreamedUnaryMethod_GetUserData<WithStreamedUnaryMethod_AdminLogin<WithStreamedUnaryMethod_AdminGetSpaceInfo<Service > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_UserRegistration<WithStreamedUnaryMethod_CarOperation<WithStreamedUnaryMethod_GetUserData<WithStreamedUnaryMethod_AdminLogin<Service > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_UserLogin<WithStreamedUnaryMethod_UserRegistration<WithStreamedUnaryMethod_CarOperation<WithStreamedUnaryMethod_GetUserData<WithStreamedUnaryMethod_AdminLogin<WithStreamedUnaryMethod_AdminGetSpaceInfo<Service > > > > > > StreamedService;
 };
 
 

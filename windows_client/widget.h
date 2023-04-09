@@ -42,6 +42,10 @@ public:
     void init_parking();
 
 private:
+    // rpc
+    bool rpc_get_space_info(int pid, int sid, std::string& license, long long& entrytime);
+
+private:
     void paintEvent(QPaintEvent *);//重写函数
 
 private:

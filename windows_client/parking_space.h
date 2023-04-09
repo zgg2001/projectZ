@@ -10,6 +10,7 @@ public:
 
 public:
     parking_space(int id);
+    void set_license_and_entrytime(std::string license, long long entrytime);
 
 private:
     bool _use = false;
@@ -17,7 +18,7 @@ private:
     int _temperature = 0;
     int _humidity = 0;
     Alarm _alarm = ALARM_NO;
-    long long _entryTime = 0;
+    long long _entrytime = 0;
     std::string _license = "";
 };
 

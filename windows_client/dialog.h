@@ -33,6 +33,7 @@ private slots:
 private:
     Ui::Dialog *ui;
     Widget _w;
+    // rpc
     std::unique_ptr<ProjectService::Stub> _stub;
 };
 

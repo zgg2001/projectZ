@@ -177,7 +177,36 @@ struct AdminLoginResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AdminLoginResponseDefaultTypeInternal _AdminLoginResponse_default_instance_;
-static ::_pb::Metadata file_level_metadata_service_2eproto[11];
+PROTOBUF_CONSTEXPR AdminGetSpaceInfoRequest::AdminGetSpaceInfoRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.p_id_)*/0
+  , /*decltype(_impl_.s_id_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct AdminGetSpaceInfoRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AdminGetSpaceInfoRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AdminGetSpaceInfoRequestDefaultTypeInternal() {}
+  union {
+    AdminGetSpaceInfoRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AdminGetSpaceInfoRequestDefaultTypeInternal _AdminGetSpaceInfoRequest_default_instance_;
+PROTOBUF_CONSTEXPR AdminGetSpaceInfoResponse::AdminGetSpaceInfoResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.license_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.entrytime_)*/int64_t{0}
+  , /*decltype(_impl_.is_use_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct AdminGetSpaceInfoResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AdminGetSpaceInfoResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AdminGetSpaceInfoResponseDefaultTypeInternal() {}
+  union {
+    AdminGetSpaceInfoResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AdminGetSpaceInfoResponseDefaultTypeInternal _AdminGetSpaceInfoResponse_default_instance_;
+static ::_pb::Metadata file_level_metadata_service_2eproto[13];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_service_2eproto[5];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_service_2eproto = nullptr;
 
@@ -276,6 +305,23 @@ const uint32_t TableStruct_service_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::AdminLoginResponse, _impl_.result_),
   PROTOBUF_FIELD_OFFSET(::AdminLoginResponse, _impl_.count_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::AdminGetSpaceInfoRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::AdminGetSpaceInfoRequest, _impl_.p_id_),
+  PROTOBUF_FIELD_OFFSET(::AdminGetSpaceInfoRequest, _impl_.s_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::AdminGetSpaceInfoResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::AdminGetSpaceInfoResponse, _impl_.is_use_),
+  PROTOBUF_FIELD_OFFSET(::AdminGetSpaceInfoResponse, _impl_.license_),
+  PROTOBUF_FIELD_OFFSET(::AdminGetSpaceInfoResponse, _impl_.entrytime_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::CarInfo)},
@@ -289,6 +335,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 71, -1, -1, sizeof(::GetUserDataResponse)},
   { 78, -1, -1, sizeof(::AdminLoginRequest)},
   { 86, -1, -1, sizeof(::AdminLoginResponse)},
+  { 94, -1, -1, sizeof(::AdminGetSpaceInfoRequest)},
+  { 102, -1, -1, sizeof(::AdminGetSpaceInfoResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -303,6 +351,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::_GetUserDataResponse_default_instance_._instance,
   &::_AdminLoginRequest_default_instance_._instance,
   &::_AdminLoginResponse_default_instance_._instance,
+  &::_AdminGetSpaceInfoRequest_default_instance_._instance,
+  &::_AdminGetSpaceInfoResponse_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_service_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -325,40 +375,46 @@ const char descriptor_table_protodef_service_2eproto[] PROTOBUF_SECTION_VARIABLE
   "\014car_info_arr\030\001 \003(\0132\010.CarInfo\"3\n\021AdminLo"
   "ginRequest\022\014\n\004p_id\030\001 \001(\005\022\020\n\010password\030\002 \001"
   "(\t\"A\n\022AdminLoginResponse\022\034\n\006result\030\001 \001(\016"
-  "2\014.LoginResult\022\r\n\005count\030\002 \001(\005*L\n\005Alarm\022\014"
-  "\n\010ALARM_NO\020\000\022\016\n\nALARM_FIRE\020\001\022\r\n\tALARM_GA"
-  "S\020\002\022\026\n\022ALARM_FIRE_AND_GAS\020\003*Y\n\013LoginResu"
-  "lt\022\021\n\rLOGIN_SUCCESS\020\000\022\030\n\024LOGIN_FAIL_NOT_"
-  "EXIST\020\001\022\035\n\031LOGIN_FAIL_WRONG_PASSWORD\020\002*S"
-  "\n\022RegistrationResult\022\030\n\024REGISTRATION_SUC"
-  "CESS\020\000\022#\n\037REGISTRATION_FAIL_ALREADY_EXIS"
-  "T\020\001*M\n\014CarOperation\022\021\n\rOPERATION_ADD\020\000\022\024"
-  "\n\020OPERATION_DELETE\020\001\022\024\n\020OPERATION_CHANGE"
-  "\020\002*\234\003\n\022CarOperationResult\022\031\n\025OPERATION_A"
-  "DD_SUCCESS\020\000\022$\n OPERATION_ADD_FAIL_ALREA"
-  "DY_EXIST\020\001\022%\n!OPERATION_ADD_FAIL_USER_NO"
-  "T_EXIST\020\002\022\034\n\030OPERATION_DELETE_SUCCESS\020\003\022"
-  "!\n\035OPERATION_DELETE_FAIL_ENTERED\020\004\022#\n\037OP"
-  "ERATION_DELETE_FAIL_NOT_EXIST\020\005\022(\n$OPERA"
-  "TION_DELETE_FAIL_USER_NOT_EXIST\020\006\022\034\n\030OPE"
-  "RATION_CHANGE_SUCCESS\020\007\022!\n\035OPERATION_CHA"
-  "NGE_FAIL_ENTERED\020\010\022#\n\037OPERATION_CHANGE_F"
-  "AIL_NOT_EXIST\020\t\022(\n$OPERATION_CHANGE_FAIL"
-  "_USER_NOT_EXIST\020\n2\273\002\n\016ProjectService\0222\n\t"
-  "UserLogin\022\021.UserLoginRequest\032\022.UserLogin"
-  "Response\022G\n\020UserRegistration\022\030.UserRegis"
-  "trationRequest\032\031.UserRegistrationRespons"
-  "e\022;\n\014CarOperation\022\024.CarOperationRequest\032"
-  "\025.CarOperationResponse\0228\n\013GetUserData\022\023."
-  "GetUserDataRequest\032\024.GetUserDataResponse"
-  "\0225\n\nAdminLogin\022\022.AdminLoginRequest\032\023.Adm"
-  "inLoginResponseB\014Z\n../pkg/rpcb\006proto3"
+  "2\014.LoginResult\022\r\n\005count\030\002 \001(\005\"6\n\030AdminGe"
+  "tSpaceInfoRequest\022\014\n\004p_id\030\001 \001(\005\022\014\n\004s_id\030"
+  "\002 \001(\005\"O\n\031AdminGetSpaceInfoResponse\022\016\n\006is"
+  "_use\030\001 \001(\010\022\017\n\007license\030\002 \001(\t\022\021\n\tentrytime"
+  "\030\003 \001(\003*L\n\005Alarm\022\014\n\010ALARM_NO\020\000\022\016\n\nALARM_F"
+  "IRE\020\001\022\r\n\tALARM_GAS\020\002\022\026\n\022ALARM_FIRE_AND_G"
+  "AS\020\003*Y\n\013LoginResult\022\021\n\rLOGIN_SUCCESS\020\000\022\030"
+  "\n\024LOGIN_FAIL_NOT_EXIST\020\001\022\035\n\031LOGIN_FAIL_W"
+  "RONG_PASSWORD\020\002*S\n\022RegistrationResult\022\030\n"
+  "\024REGISTRATION_SUCCESS\020\000\022#\n\037REGISTRATION_"
+  "FAIL_ALREADY_EXIST\020\001*M\n\014CarOperation\022\021\n\r"
+  "OPERATION_ADD\020\000\022\024\n\020OPERATION_DELETE\020\001\022\024\n"
+  "\020OPERATION_CHANGE\020\002*\234\003\n\022CarOperationResu"
+  "lt\022\031\n\025OPERATION_ADD_SUCCESS\020\000\022$\n OPERATI"
+  "ON_ADD_FAIL_ALREADY_EXIST\020\001\022%\n!OPERATION"
+  "_ADD_FAIL_USER_NOT_EXIST\020\002\022\034\n\030OPERATION_"
+  "DELETE_SUCCESS\020\003\022!\n\035OPERATION_DELETE_FAI"
+  "L_ENTERED\020\004\022#\n\037OPERATION_DELETE_FAIL_NOT"
+  "_EXIST\020\005\022(\n$OPERATION_DELETE_FAIL_USER_N"
+  "OT_EXIST\020\006\022\034\n\030OPERATION_CHANGE_SUCCESS\020\007"
+  "\022!\n\035OPERATION_CHANGE_FAIL_ENTERED\020\010\022#\n\037O"
+  "PERATION_CHANGE_FAIL_NOT_EXIST\020\t\022(\n$OPER"
+  "ATION_CHANGE_FAIL_USER_NOT_EXIST\020\n2\207\003\n\016P"
+  "rojectService\0222\n\tUserLogin\022\021.UserLoginRe"
+  "quest\032\022.UserLoginResponse\022G\n\020UserRegistr"
+  "ation\022\030.UserRegistrationRequest\032\031.UserRe"
+  "gistrationResponse\022;\n\014CarOperation\022\024.Car"
+  "OperationRequest\032\025.CarOperationResponse\022"
+  "8\n\013GetUserData\022\023.GetUserDataRequest\032\024.Ge"
+  "tUserDataResponse\0225\n\nAdminLogin\022\022.AdminL"
+  "oginRequest\032\023.AdminLoginResponse\022J\n\021Admi"
+  "nGetSpaceInfo\022\031.AdminGetSpaceInfoRequest"
+  "\032\032.AdminGetSpaceInfoResponseB\014Z\n../pkg/r"
+  "pcb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_service_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_service_2eproto = {
-    false, false, 1877, descriptor_table_protodef_service_2eproto,
+    false, false, 2090, descriptor_table_protodef_service_2eproto,
     "service.proto",
-    &descriptor_table_service_2eproto_once, nullptr, 0, 11,
+    &descriptor_table_service_2eproto_once, nullptr, 0, 13,
     schemas, file_default_instances, TableStruct_service_2eproto::offsets,
     file_level_metadata_service_2eproto, file_level_enum_descriptors_service_2eproto,
     file_level_service_descriptors_service_2eproto,
@@ -3033,6 +3089,480 @@ void AdminLoginResponse::InternalSwap(AdminLoginResponse* other) {
       file_level_metadata_service_2eproto[10]);
 }
 
+// ===================================================================
+
+class AdminGetSpaceInfoRequest::_Internal {
+ public:
+};
+
+AdminGetSpaceInfoRequest::AdminGetSpaceInfoRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:AdminGetSpaceInfoRequest)
+}
+AdminGetSpaceInfoRequest::AdminGetSpaceInfoRequest(const AdminGetSpaceInfoRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  AdminGetSpaceInfoRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.p_id_){}
+    , decltype(_impl_.s_id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.p_id_, &from._impl_.p_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.s_id_) -
+    reinterpret_cast<char*>(&_impl_.p_id_)) + sizeof(_impl_.s_id_));
+  // @@protoc_insertion_point(copy_constructor:AdminGetSpaceInfoRequest)
+}
+
+inline void AdminGetSpaceInfoRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.p_id_){0}
+    , decltype(_impl_.s_id_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+AdminGetSpaceInfoRequest::~AdminGetSpaceInfoRequest() {
+  // @@protoc_insertion_point(destructor:AdminGetSpaceInfoRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void AdminGetSpaceInfoRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void AdminGetSpaceInfoRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void AdminGetSpaceInfoRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:AdminGetSpaceInfoRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.p_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.s_id_) -
+      reinterpret_cast<char*>(&_impl_.p_id_)) + sizeof(_impl_.s_id_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* AdminGetSpaceInfoRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 p_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.p_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 s_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.s_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* AdminGetSpaceInfoRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AdminGetSpaceInfoRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 p_id = 1;
+  if (this->_internal_p_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_p_id(), target);
+  }
+
+  // int32 s_id = 2;
+  if (this->_internal_s_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_s_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:AdminGetSpaceInfoRequest)
+  return target;
+}
+
+size_t AdminGetSpaceInfoRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:AdminGetSpaceInfoRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 p_id = 1;
+  if (this->_internal_p_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_p_id());
+  }
+
+  // int32 s_id = 2;
+  if (this->_internal_s_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_s_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AdminGetSpaceInfoRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    AdminGetSpaceInfoRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AdminGetSpaceInfoRequest::GetClassData() const { return &_class_data_; }
+
+
+void AdminGetSpaceInfoRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<AdminGetSpaceInfoRequest*>(&to_msg);
+  auto& from = static_cast<const AdminGetSpaceInfoRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:AdminGetSpaceInfoRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_p_id() != 0) {
+    _this->_internal_set_p_id(from._internal_p_id());
+  }
+  if (from._internal_s_id() != 0) {
+    _this->_internal_set_s_id(from._internal_s_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void AdminGetSpaceInfoRequest::CopyFrom(const AdminGetSpaceInfoRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AdminGetSpaceInfoRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AdminGetSpaceInfoRequest::IsInitialized() const {
+  return true;
+}
+
+void AdminGetSpaceInfoRequest::InternalSwap(AdminGetSpaceInfoRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AdminGetSpaceInfoRequest, _impl_.s_id_)
+      + sizeof(AdminGetSpaceInfoRequest::_impl_.s_id_)
+      - PROTOBUF_FIELD_OFFSET(AdminGetSpaceInfoRequest, _impl_.p_id_)>(
+          reinterpret_cast<char*>(&_impl_.p_id_),
+          reinterpret_cast<char*>(&other->_impl_.p_id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata AdminGetSpaceInfoRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_service_2eproto_getter, &descriptor_table_service_2eproto_once,
+      file_level_metadata_service_2eproto[11]);
+}
+
+// ===================================================================
+
+class AdminGetSpaceInfoResponse::_Internal {
+ public:
+};
+
+AdminGetSpaceInfoResponse::AdminGetSpaceInfoResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:AdminGetSpaceInfoResponse)
+}
+AdminGetSpaceInfoResponse::AdminGetSpaceInfoResponse(const AdminGetSpaceInfoResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  AdminGetSpaceInfoResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.license_){}
+    , decltype(_impl_.entrytime_){}
+    , decltype(_impl_.is_use_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.license_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.license_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_license().empty()) {
+    _this->_impl_.license_.Set(from._internal_license(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.entrytime_, &from._impl_.entrytime_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.is_use_) -
+    reinterpret_cast<char*>(&_impl_.entrytime_)) + sizeof(_impl_.is_use_));
+  // @@protoc_insertion_point(copy_constructor:AdminGetSpaceInfoResponse)
+}
+
+inline void AdminGetSpaceInfoResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.license_){}
+    , decltype(_impl_.entrytime_){int64_t{0}}
+    , decltype(_impl_.is_use_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.license_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.license_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+AdminGetSpaceInfoResponse::~AdminGetSpaceInfoResponse() {
+  // @@protoc_insertion_point(destructor:AdminGetSpaceInfoResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void AdminGetSpaceInfoResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.license_.Destroy();
+}
+
+void AdminGetSpaceInfoResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void AdminGetSpaceInfoResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:AdminGetSpaceInfoResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.license_.ClearToEmpty();
+  ::memset(&_impl_.entrytime_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.is_use_) -
+      reinterpret_cast<char*>(&_impl_.entrytime_)) + sizeof(_impl_.is_use_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* AdminGetSpaceInfoResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool is_use = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.is_use_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string license = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_license();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "AdminGetSpaceInfoResponse.license"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 entrytime = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.entrytime_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* AdminGetSpaceInfoResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AdminGetSpaceInfoResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool is_use = 1;
+  if (this->_internal_is_use() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_is_use(), target);
+  }
+
+  // string license = 2;
+  if (!this->_internal_license().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_license().data(), static_cast<int>(this->_internal_license().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "AdminGetSpaceInfoResponse.license");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_license(), target);
+  }
+
+  // int64 entrytime = 3;
+  if (this->_internal_entrytime() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_entrytime(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:AdminGetSpaceInfoResponse)
+  return target;
+}
+
+size_t AdminGetSpaceInfoResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:AdminGetSpaceInfoResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string license = 2;
+  if (!this->_internal_license().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_license());
+  }
+
+  // int64 entrytime = 3;
+  if (this->_internal_entrytime() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_entrytime());
+  }
+
+  // bool is_use = 1;
+  if (this->_internal_is_use() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AdminGetSpaceInfoResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    AdminGetSpaceInfoResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AdminGetSpaceInfoResponse::GetClassData() const { return &_class_data_; }
+
+
+void AdminGetSpaceInfoResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<AdminGetSpaceInfoResponse*>(&to_msg);
+  auto& from = static_cast<const AdminGetSpaceInfoResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:AdminGetSpaceInfoResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_license().empty()) {
+    _this->_internal_set_license(from._internal_license());
+  }
+  if (from._internal_entrytime() != 0) {
+    _this->_internal_set_entrytime(from._internal_entrytime());
+  }
+  if (from._internal_is_use() != 0) {
+    _this->_internal_set_is_use(from._internal_is_use());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void AdminGetSpaceInfoResponse::CopyFrom(const AdminGetSpaceInfoResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AdminGetSpaceInfoResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AdminGetSpaceInfoResponse::IsInitialized() const {
+  return true;
+}
+
+void AdminGetSpaceInfoResponse::InternalSwap(AdminGetSpaceInfoResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.license_, lhs_arena,
+      &other->_impl_.license_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AdminGetSpaceInfoResponse, _impl_.is_use_)
+      + sizeof(AdminGetSpaceInfoResponse::_impl_.is_use_)
+      - PROTOBUF_FIELD_OFFSET(AdminGetSpaceInfoResponse, _impl_.entrytime_)>(
+          reinterpret_cast<char*>(&_impl_.entrytime_),
+          reinterpret_cast<char*>(&other->_impl_.entrytime_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata AdminGetSpaceInfoResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_service_2eproto_getter, &descriptor_table_service_2eproto_once,
+      file_level_metadata_service_2eproto[12]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::CarInfo*
@@ -3078,6 +3608,14 @@ Arena::CreateMaybeMessage< ::AdminLoginRequest >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::AdminLoginResponse*
 Arena::CreateMaybeMessage< ::AdminLoginResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::AdminLoginResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::AdminGetSpaceInfoRequest*
+Arena::CreateMaybeMessage< ::AdminGetSpaceInfoRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::AdminGetSpaceInfoRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::AdminGetSpaceInfoResponse*
+Arena::CreateMaybeMessage< ::AdminGetSpaceInfoResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::AdminGetSpaceInfoResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

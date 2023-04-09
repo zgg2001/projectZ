@@ -26,6 +26,7 @@ static const char* ProjectService_method_names[] = {
   "/ProjectService/CarOperation",
   "/ProjectService/GetUserData",
   "/ProjectService/AdminLogin",
+  "/ProjectService/AdminGetSpaceInfo",
 };
 
 std::unique_ptr< ProjectService::Stub> ProjectService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -40,6 +41,7 @@ ProjectService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& cha
   , rpcmethod_CarOperation_(ProjectService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_GetUserData_(ProjectService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_AdminLogin_(ProjectService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AdminGetSpaceInfo_(ProjectService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ProjectService::Stub::UserLogin(::grpc::ClientContext* context, const ::UserLoginRequest& request, ::UserLoginResponse* response) {
@@ -157,6 +159,29 @@ void ProjectService::Stub::async::AdminLogin(::grpc::ClientContext* context, con
   return result;
 }
 
+::grpc::Status ProjectService::Stub::AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::AdminGetSpaceInfoResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::AdminGetSpaceInfoRequest, ::AdminGetSpaceInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AdminGetSpaceInfo_, context, request, response);
+}
+
+void ProjectService::Stub::async::AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::AdminGetSpaceInfoRequest, ::AdminGetSpaceInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AdminGetSpaceInfo_, context, request, response, std::move(f));
+}
+
+void ProjectService::Stub::async::AdminGetSpaceInfo(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AdminGetSpaceInfo_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::AdminGetSpaceInfoResponse>* ProjectService::Stub::PrepareAsyncAdminGetSpaceInfoRaw(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::AdminGetSpaceInfoResponse, ::AdminGetSpaceInfoRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AdminGetSpaceInfo_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::AdminGetSpaceInfoResponse>* ProjectService::Stub::AsyncAdminGetSpaceInfoRaw(::grpc::ClientContext* context, const ::AdminGetSpaceInfoRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncAdminGetSpaceInfoRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ProjectService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ProjectService_method_names[0],
@@ -208,6 +233,16 @@ ProjectService::Service::Service() {
              ::AdminLoginResponse* resp) {
                return service->AdminLogin(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ProjectService_method_names[5],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ProjectService::Service, ::AdminGetSpaceInfoRequest, ::AdminGetSpaceInfoResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](ProjectService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::AdminGetSpaceInfoRequest* req,
+             ::AdminGetSpaceInfoResponse* resp) {
+               return service->AdminGetSpaceInfo(ctx, req, resp);
+             }, this)));
 }
 
 ProjectService::Service::~Service() {
@@ -242,6 +277,13 @@ ProjectService::Service::~Service() {
 }
 
 ::grpc::Status ProjectService::Service::AdminLogin(::grpc::ServerContext* context, const ::AdminLoginRequest* request, ::AdminLoginResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ProjectService::Service::AdminGetSpaceInfo(::grpc::ServerContext* context, const ::AdminGetSpaceInfoRequest* request, ::AdminGetSpaceInfoResponse* response) {
   (void) context;
   (void) request;
   (void) response;
