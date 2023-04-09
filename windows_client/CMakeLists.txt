@@ -40,8 +40,10 @@ else()
     dialog.ui
     dialog.h
     dialog.cpp
-    widget.cpp
     widget.h
+    widget.cpp
+    parking_space.h
+    parking_space.cpp
     pbfile/service.pb.h
     pbfile/service.grpc.pb.h
     pbfile/service.pb.cc

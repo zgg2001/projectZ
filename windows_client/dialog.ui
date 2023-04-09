@@ -186,7 +186,7 @@
        </font>
       </property>
       <property name="text">
-       <string>MQTT IP：</string>
+       <string>MQTT IP:</string>
       </property>
      </widget>
     </item>

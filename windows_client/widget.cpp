@@ -1,6 +1,8 @@
 #include "widget.h"
 #include <QDebug>
 
+using namespace std;
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
@@ -41,7 +43,7 @@ Widget::Widget(QWidget *parent)
     count = 0;
     _parking_space_labels.assign(8, nullptr);
     for(auto l : _parking_space_labels) {
-        l = new QLabel(tr("豫A66666"));//文本提示
+        l = new QLabel(tr("-"));//文本提示
         l->setParent(this);
         l->move(x,y);
         l->setFont(font);
@@ -54,10 +56,66 @@ Widget::Widget(QWidget *parent)
             y += y_interval;
         }
     }
+
+    // 车位信息显示
+    QFont font_info("微软雅黑", 10, false, false);
+    x = buttonWidth / 2;
+    y = y_interval + buttonHeight;
+    count = 0;
+    _parking_space_info_labels.assign(8, nullptr);
+    for(auto l : _parking_space_info_labels) {
+        l = new QLabel(tr(""));
+        l->setParent(this);
+        l->move(x,y);
+        l->setFont(font_info);
+        l->setFixedSize(x_interval, y_interval - buttonHeight);
+        ++count;
+        x = x + x_interval;
+        if (count == 4)
+        {
+            x = buttonWidth / 2;
+            y += y_interval;
+        }
+    }
 }
 
 Widget::~Widget()
 {
+}
+
+bool Widget::mqtt_connect(string ip)
+{
+    string addr = ip + MQTT_PORT;
+    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    int rc;
+
+    if ((rc = MQTTClient_create(&_mqtt_client, addr.c_str(), "windows_client",
+            MQTTCLIENT_PERSISTENCE_NONE, nullptr)) != MQTTCLIENT_SUCCESS)
+    {
+        rc = EXIT_FAILURE;
+        return false;
+    }
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+    conn_opts.username = MQTT_USERNAME;
+    conn_opts.password = MQTT_PASSWORD;
+    if ((rc = MQTTClient_connect(_mqtt_client, &conn_opts)) != MQTTCLIENT_SUCCESS)
+    {
+        rc = EXIT_FAILURE;
+        return false;
+    }
+
+    return true;
+}
+
+void Widget::init_parking()
+{
+    _spaces.clear();
+    for (int id = 1; id <= _space_count; ++id) {
+        parking_space temp(id);
+        // todo 获取license & entrytime
+        _spaces.push_back(std::move(temp));
+    }
 }
 
 void Widget::paintEvent(QPaintEvent *)
@@ -84,39 +142,7 @@ void Widget::paintEvent(QPaintEvent *)
     }
 }
 
-void Widget::rpc_test()
-{
-    std::string address("*.zgg2001.com:11110");
-    auto channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
-    _stub = ProjectService::NewStub(channel);
 
-    ClientContext context;
-    AdminLoginRequest request;
-    AdminLoginResponse response;
-
-    request.set_p_id(2);
-    request.set_password("75121");
-
-    Status status = _stub->AdminLogin(&context, request, &response);
-    if(status.ok())
-    {
-        qDebug() << "success" << response.count() << response.result();
-    }
-    else
-    {
-        qDebug()<< status.error_code();
-        qDebug()<< QString::fromStdString(status.error_message());
-    }
-}
-
-std::string Widget::read_file(std::string file_path)
-{
-    std::ifstream f{file_path.c_str(), std::ios::binary};
-    std::stringstream buffer;
-    buffer << f.rdbuf();
-    f.close();
-    return buffer.str();
-}
 
 
 
