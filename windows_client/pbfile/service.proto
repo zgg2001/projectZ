@@ -40,49 +40,13 @@ enum CarOperationResult {
     OPERATION_CHANGE_FAIL_USER_NOT_EXIST = 10;
 }
 
-message ParkingInfo {
-    int32 p_id = 1;
-    int32 temperature = 2;
-    int32 humidity = 3;
-    int32 weather = 4;
-}
-message ParkingSpaceInfo {
-    int32 s_id = 1;
-    int32 temperature = 2;
-    int32 humidity = 3;
-    Alarm alarm = 4;
-}
 message CarInfo {
     int32 p_temperature = 1;
     int32 p_humidity = 2;
     int32 p_weather = 3;
     string p_address = 4;
     int32 s_id = 5;
-    int32 s_temperature = 6;
-    int32 s_humidity = 7;
-    Alarm s_alarm = 8;
-}
-
-// raspbery
-// license plate check
-message LPCheckRequest {
-    int32 model = 1;
-    int32 parking_id = 2;
-    int32 parking_space_id = 3;
-    string license = 4;
-}
-message LPCheckResponse {
-    bool result = 1;
-    int32 balance = 2;
-}
-
-// upload parking info
-message UploadInfoRequest {
-    ParkingInfo p_info = 1;
-    repeated ParkingSpaceInfo s_info_arr = 2;
-}
-message UploadInfoResponse {
-    int32 result = 1;
+    string s_data = 6;
 }
 
 // android client
@@ -126,22 +90,23 @@ message AdminLoginRequest {
 }
 message AdminLoginResponse {
     LoginResult result = 1;
+    int32 count = 2;
 }
-message AdminGetDataRequest {
+message AdminGetSpaceInfoRequest {
     int32 p_id = 1;
+    int32 s_id = 2;
 }
-message AdminGetDataResponse {
-    ParkingInfo p_info = 1;
-    repeated ParkingSpaceInfo s_info_arr = 2;
+message AdminGetSpaceInfoResponse {
+    bool is_use = 1;
+    string license = 2;
+    int64 entrytime = 3;
 }
  
 service ProjectService {
-    rpc LicencePlateCheck(LPCheckRequest) returns (LPCheckResponse);
-    rpc UploadParkingInfo(UploadInfoRequest) returns (UploadInfoResponse);
     rpc UserLogin(UserLoginRequest) returns (UserLoginResponse);
     rpc UserRegistration(UserRegistrationRequest) returns (UserRegistrationResponse);
     rpc CarOperation(CarOperationRequest) returns (CarOperationResponse);
-    rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse);
-    rpc AdminGetData(AdminGetDataRequest) returns (AdminGetDataResponse);
     rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
+    rpc AdminLogin(AdminLoginRequest) returns (AdminLoginResponse);
+    rpc AdminGetSpaceInfo(AdminGetSpaceInfoRequest) returns (AdminGetSpaceInfoResponse);
 }
