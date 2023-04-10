@@ -24,8 +24,17 @@ func getParkingPasswordById(id int32) (bool, int32, string) {
 	if ok {
 		return true, count, password
 	}
-	// Todo add mysql
-	return false, -1, ""
+	ok, count, password = MySqlGetParkingPasswordById(id)
+	return ok, count, password
+}
+
+func ParkingGetSpaceInfo(pid, sid int32) (bool, string, int64) {
+	isUse, license, entryTime := RedisParkingGetSpaceInfo(pid, sid)
+	if isUse {
+		return isUse, license, entryTime
+	}
+	isUse, license, entryTime = MySqlParkingGetSpaceInfo(pid, sid)
+	return isUse, license, entryTime
 }
 
 func GetMD5Hash(text string) string {

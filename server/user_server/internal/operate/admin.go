@@ -13,3 +13,10 @@ func (ss *serverService) AdminLogin(ctx context.Context, request *rpc.AdminLogin
 	count, ret := data.ParkingLoginAuth(pid, password)
 	return &rpc.AdminLoginResponse{Result: ret, Count: count}, nil
 }
+
+func (ss *serverService) AdminGetSpaceInfo(ctx context.Context, request *rpc.AdminGetSpaceInfoRequest) (*rpc.AdminGetSpaceInfoResponse, error) {
+	pid := request.GetPId()
+	sid := request.GetSId()
+	isUse, license, entryTime := data.ParkingGetSpaceInfo(pid, sid)
+	return &rpc.AdminGetSpaceInfoResponse{IsUse: isUse, License: license, Entrytime: entryTime}, nil
+}

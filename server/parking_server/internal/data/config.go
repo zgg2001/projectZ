@@ -70,12 +70,14 @@ const (
 		"`id` int unsigned NOT NULL DEFAULT '0'," +
 		"`checkin_time` bigint unsigned DEFAULT '0', " +
 		"PRIMARY KEY (`license`));"
+	// 驶入记录
 	SqlCreateRecordTbl = "CREATE TABLE `z_record` (" +
 		"`license` varchar(255) NOT NULL DEFAULT '豫A88888'," +
 		"`pid` int unsigned NOT NULL DEFAULT '0'," +
 		"`sid` int unsigned NOT NULL DEFAULT '0'," +
 		"`entry_time` bigint unsigned DEFAULT '0'," +
 		"PRIMARY KEY (`license`));"
+	// 停车场进出记录
 	SqlCreateParkingRecordTbl = "CREATE TABLE `z_parking_record` (" +
 		"`license` varchar(255) NOT NULL DEFAULT '豫A88888'," +
 		"`pid` int unsigned NOT NULL DEFAULT '0'," +
@@ -92,7 +94,7 @@ const (
 
 	SqlUpdateUserBalanceTbl = "UPDATE z_user " +
 		"SET balance=? " +
-		"WHERE id =?;"
+		"WHERE id = ?;"
 
 	SqlDeleteRecordTbl = "DELETE FROM  z_record" +
 		"WHERE license = ?;"
@@ -104,4 +106,8 @@ const (
 	SqlSelectLicenseTbl            = "SELECT * FROM z_license;"
 	SqlSelectRecordTbl             = "SELECT * FROM z_record;"
 	SqlSelectParkingRecordTbl      = "SELECT * FROM z_parking_record;"
+
+	SqlSelectUidByLicense    = "select id from z_license where license = ?;"
+	SqlSelectBalanceByUid    = "select balance from z_user where id = ?;"
+	SqlSelectRecordByLicense = "select * from z_record where license = ?;"
 )

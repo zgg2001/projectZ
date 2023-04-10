@@ -29,7 +29,10 @@ func CheckCarIsEntered(license string) (bool, error) {
 	if ok {
 		return true, nil
 	}
-	// Todo add mysql
+	ok = MySqlCheckCarIsEntered(license)
+	if ok {
+		return true, nil
+	}
 	return false, ErrParkingRecordDuplicateRecord
 }
 
@@ -50,8 +53,8 @@ func getPasswordByUsername(username string) (bool, int32, string) {
 	if ok {
 		return true, uid, password
 	}
-	// Todo add mysql
-	return false, -1, ""
+	ok, uid, password = MySqlGetPasswordByUsername(username)
+	return ok, uid, password
 }
 
 func UserRegistrationAuth(username string) rpc.RegistrationResult {

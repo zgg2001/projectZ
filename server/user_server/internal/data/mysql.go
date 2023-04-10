@@ -22,6 +22,13 @@ type LicenseRow struct {
 	CheckInTime int64
 }
 
+type RecordRow struct {
+	License   string
+	PId       int32
+	SId       int32
+	EntryTime int64
+}
+
 func InitMySql() error {
 
 	err := connectMysql()
@@ -126,4 +133,74 @@ func checkTable() error {
 	}
 
 	return nil
+}
+
+func MySqlGetParkingPasswordById(id int32) (bool, int32, string) {
+	ret, err := MySqlClient.Query(SqlSelectParkingPasswordByPid, id)
+	if err != nil {
+		return false, 0, ""
+	}
+	if ret.Next() {
+		var password string
+		var count int32
+		err := ret.Scan(&password, &count)
+		if err != nil {
+			return false, 0, ""
+		}
+		return true, count, password
+	}
+	return false, 0, ""
+}
+
+func MySqlParkingGetSpaceInfo(pid, sid int32) (bool, string, int64) {
+	ret, err := MySqlClient.Query(SqlSelectParkingSpaceInfo, pid, sid)
+	if err != nil {
+		return false, "", 0
+	}
+	if ret.Next() {
+		var license string
+		var entryTime int64
+		err := ret.Scan(&license, &entryTime)
+		if err != nil || entryTime == 0 {
+			return false, "", 0
+		}
+		return true, license, entryTime
+	}
+	return false, "", 0
+}
+
+func MySqlCheckCarIsEntered(license string) bool {
+	ret, err := MySqlClient.Query(SqlSelectRecordByLicense, license)
+	if err != nil {
+		return false
+	}
+	if ret.Next() {
+		var r RecordRow
+		err := ret.Scan(&r.License, &r.PId, &r.SId, &r.EntryTime)
+		if err != nil {
+			return false
+		}
+		if r.PId >= 0 && r.SId >= 0 && r.EntryTime > 0 {
+			return true
+		}
+		return false
+	}
+	return false
+}
+
+func MySqlGetPasswordByUsername(username string) (bool, int32, string) {
+	ret, err := MySqlClient.Query(SqlSelectUserPasswordByUsername, username)
+	if err != nil {
+		return false, 0, ""
+	}
+	if ret.Next() {
+		var uid int32
+		var password string
+		err := ret.Scan(&uid, &password)
+		if err != nil {
+			return false, 0, ""
+		}
+		return true, uid, password
+	}
+	return false, 0, ""
 }
