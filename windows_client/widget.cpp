@@ -3,6 +3,16 @@
 
 using namespace std;
 
+bool Widget::_mqtt_subscribed = false;
+bool Widget::_mqtt_finished = false;
+
+void connlost(void *context, char *cause);
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTAsync_message *message);
+void onConnect(void* context, MQTTAsync_successData* response);
+void onConnectFailure(void* context, MQTTAsync_failureData* response);
+void onSubscribe(void* context, MQTTAsync_successData* response);
+void onSubscribeFailure(void* context, MQTTAsync_failureData* response);
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
@@ -80,28 +90,46 @@ Widget::Widget(QWidget *parent)
 
 Widget::~Widget()
 {
+    MQTTAsync_disconnectOptions disc_opts = MQTTAsync_disconnectOptions_initializer;
+    MQTTAsync_destroy(&_mqtt_client);
 }
 
 bool Widget::mqtt_connect(string ip)
 {
     string addr = ip + MQTT_PORT;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    MQTTAsync_connectOptions  conn_opts = MQTTAsync_connectOptions_initializer;
     int rc;
-    if ((rc = MQTTClient_create(&_mqtt_client, addr.c_str(), "windows_client",
+
+    _mqtt_subscribed = false;
+    _mqtt_finished = false;
+    if ((rc = MQTTAsync_create(&_mqtt_client, addr.c_str(), "windows_client",
             MQTTCLIENT_PERSISTENCE_NONE, nullptr)) != MQTTCLIENT_SUCCESS)
     {
-        rc = EXIT_FAILURE;
+        Widget::_mqtt_finished = true;
         return false;
     }
+    if ((rc = MQTTAsync_setCallbacks(_mqtt_client, _mqtt_client, connlost, msgarrvd, nullptr)) != MQTTASYNC_SUCCESS)
+    {
+        Widget::_mqtt_finished = true;
+        return false;
+    }
+
     conn_opts.keepAliveInterval = 20;
     conn_opts.cleansession = 1;
+    conn_opts.onSuccess = onConnect;
+    conn_opts.onFailure = onConnectFailure;
     conn_opts.username = MQTT_USERNAME;
     conn_opts.password = MQTT_PASSWORD;
-    if ((rc = MQTTClient_connect(_mqtt_client, &conn_opts)) != MQTTCLIENT_SUCCESS)
+    if ((rc = MQTTAsync_connect(_mqtt_client, &conn_opts)) != MQTTCLIENT_SUCCESS)
     {
-        rc = EXIT_FAILURE;
+        Widget::_mqtt_finished = true;
         return false;
     }
+
+    while(!_mqtt_subscribed && !_mqtt_finished)
+        Sleep(100);
+    if(_mqtt_finished)
+        return false;
     return true;
 }
 
@@ -114,7 +142,7 @@ void Widget::init_parking()
         long long entrytime = 0;
         bool ok = rpc_get_space_info(_pid, id, license, entrytime);
         if(ok)
-            temp.set_license_and_entrytime(license, entrytime);
+            temp.set_license_and_entrytime(true, license, entrytime);
         _spaces.push_back(std::move(temp));
     }
 }
@@ -157,11 +185,68 @@ bool Widget::rpc_get_space_info(int pid, int sid, string& license, long long& en
     {
         license = response.license();
         entrytime = response.entrytime();
+        if(!response.is_use())
+            return false;
         return true;
     }
     return false;
 }
 
+void connlost(void *context, char *cause)
+{
+    MQTTAsync client = static_cast<MQTTAsync>(context);
+    MQTTAsync_connectOptions conn_opts = MQTTAsync_connectOptions_initializer;
+    int rc;
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+    conn_opts.onSuccess = onConnect;
+    conn_opts.onFailure = onConnectFailure;
+    conn_opts.username = Widget::MQTT_USERNAME;
+    conn_opts.password = Widget::MQTT_PASSWORD;
+    if ((rc = MQTTAsync_connect(client, &conn_opts)) != MQTTASYNC_SUCCESS)
+    {
+        Widget::_mqtt_finished = true;
+    }
+}
+
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTAsync_message *message)
+{
+    qDebug() << "Message arrived";
+    qDebug() << "topic: " << topicName;
+    qDebug() << "message:" << message->payloadlen << static_cast<char*>(message->payload);
+    MQTTAsync_freeMessage(&message);
+    MQTTAsync_free(topicName);
+    return 1;
+}
+
+void onConnect(void* context, MQTTAsync_successData* response)
+{
+    MQTTAsync client = static_cast<MQTTAsync>(context);
+    MQTTAsync_responseOptions opts = MQTTAsync_responseOptions_initializer;
+    int rc;
+    opts.onSuccess = onSubscribe;
+    opts.onFailure = onSubscribeFailure;
+    opts.context = client;
+    if ((rc = MQTTAsync_subscribe(client, Widget::SUB_TOPIC, Widget::MQTT_QOS, &opts)) != MQTTASYNC_SUCCESS)
+    {
+        Widget::_mqtt_finished = true;
+    }
+}
+
+void onConnectFailure(void* context, MQTTAsync_failureData* response)
+{
+    Widget::_mqtt_finished = true;
+}
+
+void onSubscribe(void* context, MQTTAsync_successData* response)
+{
+    Widget::_mqtt_subscribed = true;
+}
+
+void onSubscribeFailure(void* context, MQTTAsync_failureData* response)
+{
+    Widget::_mqtt_finished = true;
+}
 
 
 

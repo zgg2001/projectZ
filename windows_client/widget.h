@@ -14,6 +14,7 @@
 #include <utility>
 
 #include <MQTTClient.h>
+#include <MQTTAsync.h>
 
 #include <grpcpp/grpcpp.h>
 #include "pbfile/service.grpc.pb.h"
@@ -28,7 +29,10 @@ class Widget : public QWidget
 {
     Q_OBJECT
 
-private:
+public:
+    static constexpr int MQTT_QOS = 1;
+    static constexpr const char* PUB_TOPIC = "pi/esp32/cmd";
+    static constexpr const char* SUB_TOPIC = "pi/esp32/data";
     static constexpr const char* MQTT_PORT = ":1883";
     static constexpr const char* MQTT_USERNAME = "test0";
     static constexpr const char* MQTT_PASSWORD = "z123456";
@@ -44,6 +48,7 @@ public:
 private:
     // rpc
     bool rpc_get_space_info(int pid, int sid, std::string& license, long long& entrytime);
+    // mqtt
 
 private:
     void paintEvent(QPaintEvent *);//重写函数
@@ -63,6 +68,10 @@ private:
     std::unique_ptr<ProjectService::Stub> _stub;
     // mqtt
     std::string _mqtt_ip;
-    MQTTClient _mqtt_client;
+    MQTTAsync _mqtt_client;
+
+public:
+    static bool _mqtt_subscribed;
+    static bool _mqtt_finished;
 };
 #endif // WIDGET_H

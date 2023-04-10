@@ -10,7 +10,7 @@ public:
 
 public:
     parking_space(int id);
-    void set_license_and_entrytime(std::string license, long long entrytime);
+    void set_license_and_entrytime(bool use, std::string license, long long entrytime);
 
 private:
     bool _use = false;
