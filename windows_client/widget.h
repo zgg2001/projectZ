@@ -14,7 +14,6 @@
 #include <utility>
 
 #include <MQTTClient.h>
-#include <MQTTAsync.h>
 
 #include <grpcpp/grpcpp.h>
 #include "pbfile/service.grpc.pb.h"
@@ -68,10 +67,7 @@ private:
     std::unique_ptr<ProjectService::Stub> _stub;
     // mqtt
     std::string _mqtt_ip;
-    MQTTAsync _mqtt_client;
+    MQTTClient  _mqtt_client;
 
-public:
-    static bool _mqtt_subscribed;
-    static bool _mqtt_finished;
 };
 #endif // WIDGET_H
