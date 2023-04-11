@@ -105,7 +105,7 @@ bool Widget::mqtt_connect(string ip)
         rc = EXIT_FAILURE;
         return false;
     }
-    if ((rc = MQTTClient_setCallbacks(_mqtt_client, nullptr, connlost, msgarrvd, delivered)) != MQTTCLIENT_SUCCESS)
+    if ((rc = MQTTClient_setCallbacks(_mqtt_client, this, connlost, msgarrvd, delivered)) != MQTTCLIENT_SUCCESS)
     {
         printf("Failed to set callbacks, return code %d\n", rc);
         rc = EXIT_FAILURE;
@@ -189,6 +189,30 @@ bool Widget::rpc_get_space_info(int pid, int sid, string& license, long long& en
     return false;
 }
 
+void Widget::update_data(std::string data)
+{
+    char pattern = ':';
+    vector<string> res;
+    if(data == "")
+        return;
+    // split data str
+    data = data + pattern;
+    size_t pos = data.find(pattern);
+    while(pos != data.npos)
+    {
+        res.push_back(data.substr(0, pos));
+        data = data.substr(pos+1, data.size());
+        pos = data.find(pattern);
+    }
+    if(res.size() != 5)
+        return;
+    // update
+    for(auto s : res)
+    {
+        qDebug() << s.c_str();
+    }
+}
+
 void delivered(void *context, MQTTClient_deliveryToken dt)
 {
     printf("Message with token value %d delivery confirmed\n", dt);
@@ -197,9 +221,12 @@ void delivered(void *context, MQTTClient_deliveryToken dt)
 
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
 {
-    qDebug() << "Message arrived";
-    qDebug() << "topic: "<< topicName;
-    qDebug() << "message: " << message->payloadlen << (char*)message->payload;
+    string data = static_cast<char*>(message->payload);
+    Widget* w = static_cast<Widget*>(context);
+    size_t len = topicLen == 0 ? strlen(topicName) : static_cast<size_t>(topicLen);
+    // parking space data
+    if(!strncmp(topicName, Widget::SUB_TOPIC, len))
+        w->update_data(data);
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;
@@ -209,6 +236,7 @@ void connlost(void *context, char *cause)
 {
     qDebug() << "Connection lost";
     qDebug() << "cause: " << cause;
+    // todo 添加重连逻辑
 }
 
 

@@ -43,11 +43,12 @@ public:
     void set_parking_space_count(int count) { _space_count = count; }
     bool mqtt_connect(std::string ip);
     void init_parking();
+    // mqtt
+    void update_data(std::string data);
 
 private:
     // rpc
     bool rpc_get_space_info(int pid, int sid, std::string& license, long long& entrytime);
-    // mqtt
 
 private:
     void paintEvent(QPaintEvent *);//重写函数
