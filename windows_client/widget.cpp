@@ -3,15 +3,9 @@
 
 using namespace std;
 
-bool Widget::_mqtt_subscribed = false;
-bool Widget::_mqtt_finished = false;
-
+void delivered(void *context, MQTTClient_deliveryToken dt);
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message);
 void connlost(void *context, char *cause);
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTAsync_message *message);
-void onConnect(void* context, MQTTAsync_successData* response);
-void onConnectFailure(void* context, MQTTAsync_failureData* response);
-void onSubscribe(void* context, MQTTAsync_successData* response);
-void onSubscribeFailure(void* context, MQTTAsync_failureData* response);
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -90,46 +84,49 @@ Widget::Widget(QWidget *parent)
 
 Widget::~Widget()
 {
-    MQTTAsync_disconnectOptions disc_opts = MQTTAsync_disconnectOptions_initializer;
-    MQTTAsync_destroy(&_mqtt_client);
+    int rc;
+    if ((rc = MQTTClient_disconnect(_mqtt_client, 10000)) != MQTTCLIENT_SUCCESS)
+    {
+        printf("Failed to disconnect, return code %d\n", rc);
+        rc = EXIT_FAILURE;
+    }
+    MQTTClient_destroy(&_mqtt_client);
 }
 
 bool Widget::mqtt_connect(string ip)
 {
     string addr = ip + MQTT_PORT;
-    MQTTAsync_connectOptions  conn_opts = MQTTAsync_connectOptions_initializer;
+    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     int rc;
-
-    _mqtt_subscribed = false;
-    _mqtt_finished = false;
-    if ((rc = MQTTAsync_create(&_mqtt_client, addr.c_str(), "windows_client",
+    if ((rc = MQTTClient_create(&_mqtt_client, addr.c_str(), "windows_client",
             MQTTCLIENT_PERSISTENCE_NONE, nullptr)) != MQTTCLIENT_SUCCESS)
     {
-        Widget::_mqtt_finished = true;
+        printf("Failed to create client, return code %d\n", rc);
+        rc = EXIT_FAILURE;
         return false;
     }
-    if ((rc = MQTTAsync_setCallbacks(_mqtt_client, _mqtt_client, connlost, msgarrvd, nullptr)) != MQTTASYNC_SUCCESS)
+    if ((rc = MQTTClient_setCallbacks(_mqtt_client, this, connlost, msgarrvd, delivered)) != MQTTCLIENT_SUCCESS)
     {
-        Widget::_mqtt_finished = true;
+        printf("Failed to set callbacks, return code %d\n", rc);
+        rc = EXIT_FAILURE;
         return false;
     }
-
     conn_opts.keepAliveInterval = 20;
     conn_opts.cleansession = 1;
-    conn_opts.onSuccess = onConnect;
-    conn_opts.onFailure = onConnectFailure;
     conn_opts.username = MQTT_USERNAME;
     conn_opts.password = MQTT_PASSWORD;
-    if ((rc = MQTTAsync_connect(_mqtt_client, &conn_opts)) != MQTTCLIENT_SUCCESS)
+    if ((rc = MQTTClient_connect(_mqtt_client, &conn_opts)) != MQTTCLIENT_SUCCESS)
     {
-        Widget::_mqtt_finished = true;
+        printf("Failed to connect, return code %d\n", rc);
+        rc = EXIT_FAILURE;
         return false;
     }
-
-    while(!_mqtt_subscribed && !_mqtt_finished)
-        Sleep(100);
-    if(_mqtt_finished)
+    if ((rc = MQTTClient_subscribe(_mqtt_client, Widget::SUB_TOPIC, Widget::MQTT_QOS)) != MQTTCLIENT_SUCCESS)
+    {
+        printf("Failed to subscribe, return code %d\n", rc);
+        rc = EXIT_FAILURE;
         return false;
+    }
     return true;
 }
 
@@ -192,60 +189,54 @@ bool Widget::rpc_get_space_info(int pid, int sid, string& license, long long& en
     return false;
 }
 
-void connlost(void *context, char *cause)
+void Widget::update_data(std::string data)
 {
-    MQTTAsync client = static_cast<MQTTAsync>(context);
-    MQTTAsync_connectOptions conn_opts = MQTTAsync_connectOptions_initializer;
-    int rc;
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-    conn_opts.onSuccess = onConnect;
-    conn_opts.onFailure = onConnectFailure;
-    conn_opts.username = Widget::MQTT_USERNAME;
-    conn_opts.password = Widget::MQTT_PASSWORD;
-    if ((rc = MQTTAsync_connect(client, &conn_opts)) != MQTTASYNC_SUCCESS)
+    char pattern = ':';
+    vector<string> res;
+    if(data == "")
+        return;
+    // split data str
+    data = data + pattern;
+    size_t pos = data.find(pattern);
+    while(pos != data.npos)
     {
-        Widget::_mqtt_finished = true;
+        res.push_back(data.substr(0, pos));
+        data = data.substr(pos+1, data.size());
+        pos = data.find(pattern);
+    }
+    if(res.size() != 5)
+        return;
+    // update
+    for(auto s : res)
+    {
+        qDebug() << s.c_str();
     }
 }
 
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTAsync_message *message)
+void delivered(void *context, MQTTClient_deliveryToken dt)
 {
-    qDebug() << "Message arrived";
-    qDebug() << "topic: " << topicName;
-    qDebug() << "message:" << message->payloadlen << static_cast<char*>(message->payload);
-    MQTTAsync_freeMessage(&message);
-    MQTTAsync_free(topicName);
+    printf("Message with token value %d delivery confirmed\n", dt);
+    //deliveredtoken = dt;
+}
+
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
+{
+    string data = static_cast<char*>(message->payload);
+    Widget* w = static_cast<Widget*>(context);
+    size_t len = topicLen == 0 ? strlen(topicName) : static_cast<size_t>(topicLen);
+    // parking space data
+    if(!strncmp(topicName, Widget::SUB_TOPIC, len))
+        w->update_data(data);
+    MQTTClient_freeMessage(&message);
+    MQTTClient_free(topicName);
     return 1;
 }
 
-void onConnect(void* context, MQTTAsync_successData* response)
+void connlost(void *context, char *cause)
 {
-    MQTTAsync client = static_cast<MQTTAsync>(context);
-    MQTTAsync_responseOptions opts = MQTTAsync_responseOptions_initializer;
-    int rc;
-    opts.onSuccess = onSubscribe;
-    opts.onFailure = onSubscribeFailure;
-    opts.context = client;
-    if ((rc = MQTTAsync_subscribe(client, Widget::SUB_TOPIC, Widget::MQTT_QOS, &opts)) != MQTTASYNC_SUCCESS)
-    {
-        Widget::_mqtt_finished = true;
-    }
-}
-
-void onConnectFailure(void* context, MQTTAsync_failureData* response)
-{
-    Widget::_mqtt_finished = true;
-}
-
-void onSubscribe(void* context, MQTTAsync_successData* response)
-{
-    Widget::_mqtt_subscribed = true;
-}
-
-void onSubscribeFailure(void* context, MQTTAsync_failureData* response)
-{
-    Widget::_mqtt_finished = true;
+    qDebug() << "Connection lost";
+    qDebug() << "cause: " << cause;
+    // todo 添加重连逻辑
 }
 
 

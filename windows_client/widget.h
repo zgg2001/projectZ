@@ -14,7 +14,6 @@
 #include <utility>
 
 #include <MQTTClient.h>
-#include <MQTTAsync.h>
 
 #include <grpcpp/grpcpp.h>
 #include "pbfile/service.grpc.pb.h"
@@ -44,11 +43,12 @@ public:
     void set_parking_space_count(int count) { _space_count = count; }
     bool mqtt_connect(std::string ip);
     void init_parking();
+    // mqtt
+    void update_data(std::string data);
 
 private:
     // rpc
     bool rpc_get_space_info(int pid, int sid, std::string& license, long long& entrytime);
-    // mqtt
 
 private:
     void paintEvent(QPaintEvent *);//重写函数
@@ -68,10 +68,7 @@ private:
     std::unique_ptr<ProjectService::Stub> _stub;
     // mqtt
     std::string _mqtt_ip;
-    MQTTAsync _mqtt_client;
+    MQTTClient  _mqtt_client;
 
-public:
-    static bool _mqtt_subscribed;
-    static bool _mqtt_finished;
 };
 #endif // WIDGET_H
