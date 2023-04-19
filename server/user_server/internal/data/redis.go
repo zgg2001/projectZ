@@ -212,13 +212,23 @@ func RedisGetLicenseInfo(license string) *rpc.CarInfo {
 	pWeather, _ := RedisClient.HGet(keyParking, "weather").Int()
 	pAddress, _ := RedisClient.HGet(keyParking, "address").Result()
 	sdata, _ := RedisClient.HGet(ParkingSpaceDataPrefix+result["pid"], result["psid"]).Result()
+	datas := strings.Split(sdata, "+")
+	if len(datas) != 3 {
+		datas = []string{"0", "0", "0"}
+	}
+	st, _ := strconv.Atoi(datas[0])
+	sh, _ := strconv.Atoi(datas[1])
+	sa, _ := strconv.Atoi(datas[2])
 	return &rpc.CarInfo{
+		License:      license,
 		PTemperature: int32(pTemperature),
 		PHumidity:    int32(pHumidity),
 		PWeather:     int32(pWeather),
 		PAddress:     pAddress,
 		SId:          int32(sid),
-		SData:        sdata,
+		STemperature: int32(st),
+		SHumidity:    int32(sh),
+		SAlarm:       rpc.Alarm(sa),
 	}
 }
 

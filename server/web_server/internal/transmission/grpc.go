@@ -7,14 +7,14 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func CreateRPCClientConn() error {
+func CreateRPCClientConn() (*grpc.ClientConn, error) {
 	log.Println("Create grpc client conn ...")
 	var err error
-	RPCConn, err = RPCNewClient()
+	RPCConn, err := RPCNewClient()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return RPCConn, nil
 }
 
 func RPCNewClient() (*grpc.ClientConn, error) {

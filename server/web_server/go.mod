@@ -3,7 +3,7 @@ module github.com/zgg2001/projectZ/server/web_server
 go 1.19
 
 require (
-	github.com/zgg2001/projectZ/server/user_server v0.0.0-20230410102345-4b4bc74d4bbe
+	github.com/zgg2001/projectZ/server/user_server v0.0.0-20230413122625-766c27b5d9f9
 	google.golang.org/grpc v1.54.0
 )
 

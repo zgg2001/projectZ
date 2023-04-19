@@ -41,15 +41,18 @@ enum CarOperationResult {
 }
 
 message CarInfo {
-    int32 p_temperature = 1;
-    int32 p_humidity = 2;
-    int32 p_weather = 3;
-    string p_address = 4;
-    int32 s_id = 5;
-    string s_data = 6;
+    string license = 1;
+    int32 p_temperature = 2;
+    int32 p_humidity = 3;
+    int32 p_weather = 4;
+    string p_address = 5;
+    int32 s_id = 6;
+    int32 s_temperature = 7;
+    int32 s_humidity = 8;
+    Alarm s_alarm = 9;
 }
 
-// android client
+// android&ios client
 // login & registration
 message UserLoginRequest {
     string username = 1;

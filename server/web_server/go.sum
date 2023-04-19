@@ -3,8 +3,8 @@ github.com/golang/protobuf v1.5.3 h1:KhyjKVUg7Usr/dYsdSqoFveMYd5ko72D+zANwlG1mmg
 github.com/golang/protobuf v1.5.3/go.mod h1:XVQd3VNwM+JqD3oG2Ue2ip4fOMUkwXdXDdiuN0vRsmY=
 github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
-github.com/zgg2001/projectZ/server/user_server v0.0.0-20230410102345-4b4bc74d4bbe h1:LmPt7G9F+RlVEpyOrou7sX3h6CAq7kuIYH9IcRq7UdU=
-github.com/zgg2001/projectZ/server/user_server v0.0.0-20230410102345-4b4bc74d4bbe/go.mod h1:rIpwRxndHjgTugkeMphPH8pIm2/VuK0F0SkInlj/oVU=
+github.com/zgg2001/projectZ/server/user_server v0.0.0-20230413122625-766c27b5d9f9 h1:zaQ3A8bNNM6M4q7bJoRThpG+PLZW9XYgb6Yk2uoNzGw=
+github.com/zgg2001/projectZ/server/user_server v0.0.0-20230413122625-766c27b5d9f9/go.mod h1:rIpwRxndHjgTugkeMphPH8pIm2/VuK0F0SkInlj/oVU=
 golang.org/x/net v0.8.0 h1:Zrh2ngAOFYneWTAIAPethzeaQLuHwhuBkuV6ZiRnUaQ=
 golang.org/x/net v0.8.0/go.mod h1:QVkue5JL9kW//ek3r6jTKnTFis1tRmNAW2P1shuFdJc=
 golang.org/x/sys v0.6.0 h1:MVltZSvRTcU2ljQOhs94SXPftV6DCNnZViHeQps87pQ=

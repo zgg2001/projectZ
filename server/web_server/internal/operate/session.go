@@ -11,6 +11,10 @@ const (
 	sessionDuration = time.Hour * 24
 )
 
+var (
+	sessionMap = map[string]*Session{}
+)
+
 type Session struct {
 	ID        string
 	UserID    int32
@@ -27,6 +31,7 @@ func createSession(w http.ResponseWriter, userID int32) *Session {
 		UserID:    userID,
 		ExpiresAt: expiresAt,
 	}
+	createSessionFromDB(id, session)
 	cookie := &http.Cookie{
 		Name:     "session_id",
 		Value:    id,
@@ -49,12 +54,6 @@ func checkSession(r *http.Request) bool {
 	return true
 }
 
-// 从数据库或缓存中获取session
-func getSessionFromDB(id string) *Session {
-	// TODO: 根据session ID查询数据库或缓存，返回session对象
-	return nil
-}
-
 func destroySession(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil {
@@ -65,7 +64,21 @@ func destroySession(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, cookie)
 }
 
-// 从数据库或缓存中删除session
+func createSessionFromDB(id string, s *Session) {
+	sessionMap[id] = s
+}
+
+func getSessionFromDB(id string) *Session {
+	s, ok := sessionMap[id]
+	if ok {
+		return s
+	}
+	return nil
+}
+
 func deleteSessionFromDB(id string) {
-	// TODO: 根据session ID删除数据库或缓存中的session
+	_, ok := sessionMap[id]
+	if ok {
+		delete(sessionMap, id)
+	}
 }
