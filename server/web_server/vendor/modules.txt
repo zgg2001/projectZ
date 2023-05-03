@@ -6,7 +6,7 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/zgg2001/projectZ/server/user_server v0.0.0-20230413122625-766c27b5d9f9
+# github.com/zgg2001/projectZ/server/user_server v0.0.0-20230419123703-ca50d5c669b4
 ## explicit; go 1.19
 github.com/zgg2001/projectZ/server/user_server/pkg/rpc
 # golang.org/x/net v0.8.0

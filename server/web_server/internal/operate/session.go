@@ -42,16 +42,16 @@ func createSession(w http.ResponseWriter, userID int32) *Session {
 	return session
 }
 
-func checkSession(r *http.Request) bool {
+func checkSession(r *http.Request) (int32, bool) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil {
-		return false
+		return -1, false
 	}
 	session := getSessionFromDB(cookie.Value)
 	if session == nil || session.ExpiresAt.Before(time.Now()) {
-		return false
+		return -1, false
 	}
-	return true
+	return session.UserID, true
 }
 
 func destroySession(w http.ResponseWriter, r *http.Request) {

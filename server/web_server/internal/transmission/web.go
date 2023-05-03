@@ -14,8 +14,12 @@ func StartHttpServer(conn *grpc.ClientConn) error {
 
 	operate.RPCConn = conn
 	operate.RPCClient = rpc.NewProjectServiceClient(conn)
-	http.HandleFunc("/", operate.HandleRootRequest)
+	http.HandleFunc("/register", operate.HandleRegisterRequest)
 	http.HandleFunc("/login", operate.HandleLoginRequest)
+	http.HandleFunc("/logout", operate.HandleLogoutRequest)
+	http.HandleFunc("/info", operate.HandleInfoRequest)
+	http.HandleFunc("/recharge", operate.HandleRechargeRequest)
+	http.HandleFunc("/operator", operate.HandleOperatorRequest)
 
 	err := http.ListenAndServe(":2222", nil)
 	if err != nil {
