@@ -26,6 +26,17 @@ func (ss *serverService) UserRegistration(ctx context.Context, request *rpc.User
 	return &rpc.UserRegistrationResponse{Result: ret}, nil
 }
 
+func (ss *serverService) UserRecharge(ctx context.Context, request *rpc.UserRechargeRequest) (*rpc.UserRechargeResponse, error) {
+	uid := request.GetUId()
+	amount := request.GetAmount()
+	ok := data.UserRechargeAuth(uid)
+	if !ok {
+		return &rpc.UserRechargeResponse{Balance: 0}, nil
+	}
+	balance := ss.SqlUserRecharge(uid, amount)
+	return &rpc.UserRechargeResponse{Balance: balance}, nil
+}
+
 func (ss *serverService) CarOperation(ctx context.Context, request *rpc.CarOperationRequest) (*rpc.CarOperationResponse, error) {
 	var ret rpc.CarOperationResult
 	uid := request.GetUId()

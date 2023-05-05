@@ -64,6 +64,13 @@ func UserRegistrationAuth(username string) rpc.RegistrationResult {
 	return rpc.RegistrationResult_REGISTRATION_SUCCESS
 }
 
+func UserRechargeAuth(uid int32) bool {
+	if exist := UserIsExistsByUid(uid); exist {
+		return true
+	}
+	return false
+}
+
 func UserAddCarAuth(uid int32, license string) rpc.CarOperationResult {
 	if exist := LicenseIsExists(license); exist {
 		return rpc.CarOperationResult_OPERATION_ADD_FAIL_ALREADY_EXIST

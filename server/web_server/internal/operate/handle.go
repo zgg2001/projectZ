@@ -117,7 +117,7 @@ func HandleOperatorRequest(w http.ResponseWriter, r *http.Request) {
 		operation := rpc.CarOperation_OPERATION_ADD
 		license := r.FormValue("license")
 		newLicense := ""
-		switch r.FormValue("amount") {
+		switch r.FormValue("operation") {
 		case "add":
 			operation = rpc.CarOperation_OPERATION_ADD
 		case "delete":
