@@ -43,7 +43,7 @@ Widget::Widget(QWidget *parent)
     count = 0;
     _parking_space_labels.assign(8, nullptr);
     for(auto l : _parking_space_labels) {
-        l = new QLabel(tr("-"));//文本提示
+        l = new QLabel(tr("豫A88888"));//文本提示
         l->setParent(this);
         l->move(x,y);
         l->setFont(font);
@@ -63,7 +63,9 @@ Widget::Widget(QWidget *parent)
     count = 0;
     _parking_space_info_labels.assign(8, nullptr);
     for(auto l : _parking_space_info_labels) {
-        l = new QLabel(tr(""));
+        l = new QLabel(tr("Temperature: 28 \n\n"
+                          "Humidity: 60 \n\n"
+                          "Alarm: 0 \n"));
         l->setParent(this);
         l->move(x,y);
         l->setFont(font_info);
@@ -76,6 +78,35 @@ Widget::Widget(QWidget *parent)
             y += y_interval;
         }
     }
+    // 停车场信息
+    QFont font_info_label("微软雅黑", 12, QFont::DemiBold, false);
+    _parking_info_label = new QLabel(tr("Temperature: 32 \n\n"
+                                        "Humidity: 82 \n\n"
+                                        "Weather: Sunny \n\n"
+                                        "Address: 河南工业大学 \n"));
+    _parking_info_label->setParent(this);
+    _parking_info_label->move(50,50);
+    _parking_info_label->setFont(font_info_label);
+    _parking_info_buttons.assign(2, nullptr);
+    _parking_info_buttons[0] = new QPushButton(tr("Up"));
+    _parking_info_buttons[0]->setParent(this);
+    _parking_info_buttons[0]->move(x_interval,y_interval/6);
+    _parking_info_buttons[0]->setFont(font_info_label);
+    _parking_info_buttons[0]->setFixedSize(buttonWidth, buttonHeight);
+    _parking_info_buttons[0]->setFlat(true);
+    _parking_info_buttons[1] = new QPushButton(tr("Down"));
+    _parking_info_buttons[1]->setParent(this);
+    _parking_info_buttons[1]->move(x_interval,y_interval/6 + buttonHeight);
+    _parking_info_buttons[1]->setFont(font_info_label);
+    _parking_info_buttons[1]->setFixedSize(buttonWidth, buttonHeight);
+    _parking_info_buttons[1]->setFlat(true);
+    _parking_info_text = new QTextEdit;
+    _parking_info_text->setParent(this);
+    _parking_info_text->setReadOnly(TRUE);
+    _parking_info_text->move(x_interval * 2,50);
+    _parking_info_text->setFixedSize(x_interval * 2 - 50,y_interval - 100);
+    _parking_info_text->moveCursor(QTextCursor::End,QTextCursor::MoveAnchor);
+    _parking_info_text->insertPlainText("Initializing...\nInitialization successful\n\n");
     // rpc connect
     std::string address("*.zgg2001.com:11110");
     auto channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());

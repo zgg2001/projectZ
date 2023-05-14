@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QPainter>
+#include <QTextEdit>
 
 #include <string>
 #include <fstream>
@@ -60,6 +61,9 @@ private:
     std::vector<QPushButton*> _parking_space_buttons;
     std::vector<QLabel*> _parking_space_labels;
     std::vector<QLabel*> _parking_space_info_labels;
+    QLabel* _parking_info_label;
+    std::vector<QPushButton*> _parking_info_buttons;
+    QTextEdit* _parking_info_text;
 
     int _pid;
     int _space_count;
