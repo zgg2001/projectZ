@@ -9,6 +9,11 @@ import (
 	"github.com/zgg2001/projectZ/server/web_server/internal/data"
 )
 
+type LoginForm struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 func HandleRegisterRequest(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		username := r.FormValue("username")
@@ -27,8 +32,13 @@ func HandleRegisterRequest(w http.ResponseWriter, r *http.Request) {
 
 func HandleLoginRequest(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		username := r.FormValue("username")
-		password := r.FormValue("password")
+		var loginForm LoginForm
+		if err := json.NewDecoder(r.Body).Decode(&loginForm); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}     
+		username := loginForm.Username
+		password := loginForm.Password
 		uid, result := checkLogin(username, password)
 		p := data.LoginRet{Uid: uid, Ret: result}
 		if result == rpc.LoginResult_LOGIN_SUCCESS {
