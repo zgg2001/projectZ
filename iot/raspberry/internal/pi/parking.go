@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"sync/atomic"
+	"time"
 
 	"github.com/zgg2001/projectZ/iot/raspberry/internal/transmission"
 
@@ -46,12 +47,14 @@ func (p *Parking) Reset(id int) {
 
 func (p *Parking) DriveInto(license string, cli *mqtt.Client) {
 	transmission.MqttPub(*cli, fmt.Sprintf("%d:%d", p.Id, transmission.CmdServoUp))
+	transmission.WinMqttPub(*cli, fmt.Sprintf("%d:%s:%d:%d", p.Id, license, 1, time.Now().Unix()))
 	p.IsUsing = true
 	p.License = license
 }
 
 func (p *Parking) DriveOut(cli *mqtt.Client) {
 	transmission.MqttPub(*cli, fmt.Sprintf("%d:%d", p.Id, transmission.CmdServoDown))
+	transmission.WinMqttPub(*cli, fmt.Sprintf("%d:%s:%d:%d", p.Id, "", 0, time.Now().Unix()))
 	p.IsUsing = false
 	p.License = ""
 }

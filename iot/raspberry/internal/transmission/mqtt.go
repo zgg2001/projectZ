@@ -50,6 +50,14 @@ func MqttPub(client mqtt.Client, msg string) {
 	log.Printf("Mqtt published msg to topic %s\n", topic)
 }
 
+// win发布
+func WinMqttPub(client mqtt.Client, msg string) {
+	topic := MqttWriteWinDataTopic
+	token := client.Publish(topic, 0, false, msg)
+	token.Wait()
+	log.Printf("Mqtt published msg to topic %s\n", topic)
+}
+
 // 订阅
 func MqttSub(client mqtt.Client) {
 	topic := MqttReadDataTopic
