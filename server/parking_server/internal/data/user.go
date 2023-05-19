@@ -69,12 +69,12 @@ func GetBalanceByUid(uid string) int32 {
 }
 
 func CheckCarIsEntered(license string) error {
-	ok := RedisCheckCarIsEntered(license)
-	if ok {
+	in := RedisCheckCarIsEntered(license)
+	if !in {
 		return nil
 	}
-	ok = MySqlCheckCarIsEntered(license)
-	if ok {
+	in = MySqlCheckCarIsEntered(license)
+	if !in {
 		return nil
 	}
 	return ErrParkingRecordDuplicateRecord

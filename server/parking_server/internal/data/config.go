@@ -96,7 +96,7 @@ const (
 		"SET balance=? " +
 		"WHERE id = ?;"
 
-	SqlDeleteRecordTbl = "DELETE FROM  z_record" +
+	SqlDeleteRecordTbl = "DELETE FROM  z_record " +
 		"WHERE license = ?;"
 
 	SqlSelectRecordUsingLicenseTbl = "SELECT * FROM z_record WHERE license = ?"
