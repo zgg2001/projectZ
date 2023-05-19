@@ -7,6 +7,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QPainter>
+#include <QTextEdit>
+#include <QThread>
 
 #include <string>
 #include <fstream>
@@ -24,17 +26,36 @@ using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
 
+class Widget;
+
+class MyThread : public QThread {
+    Q_OBJECT
+public:
+    void run() override;
+    void set_widget(Widget* w) { _w = w; }
+    void stop()
+    {
+        _run = false;
+        wait();
+    }
+private:
+    Widget* _w;
+    bool _run = true;
+};
+
 class Widget : public QWidget
 {
     Q_OBJECT
 
 public:
+    friend class MyThread;
     static constexpr int MQTT_QOS = 1;
     static constexpr const char* PUB_TOPIC = "pi/esp32/cmd";
     static constexpr const char* SUB_TOPIC = "pi/esp32/data";
+    static constexpr const char* SUB2_TOPIC = "pi/win/data";
     static constexpr const char* MQTT_PORT = ":1883";
-    static constexpr const char* MQTT_USERNAME = "test0";
-    static constexpr const char* MQTT_PASSWORD = "z123456";
+    static constexpr const char* MQTT_USERNAME = "test3";
+    static constexpr const char* MQTT_PASSWORD = "c123456";
 
 public:
     Widget(QWidget *parent = nullptr);
@@ -45,6 +66,7 @@ public:
     void init_parking();
     // mqtt
     void update_data(std::string data);
+    void update_license_data(std::string data);
 
 private:
     // rpc
@@ -60,15 +82,22 @@ private:
     std::vector<QPushButton*> _parking_space_buttons;
     std::vector<QLabel*> _parking_space_labels;
     std::vector<QLabel*> _parking_space_info_labels;
+    QLabel* _parking_info_label;
+    std::vector<QPushButton*> _parking_info_buttons;
+    QTextEdit* _parking_info_text;
 
-    int _pid;
-    int _space_count;
+    int _pid = 0;
+    int _space_count = 0;
     std::vector<parking_space> _spaces;
+    int _page = 0;
     // rpc
     std::unique_ptr<ProjectService::Stub> _stub;
     // mqtt
     std::string _mqtt_ip;
     MQTTClient  _mqtt_client;
 
+private:
+    // thread
+    MyThread _show_thread;
 };
 #endif // WIDGET_H
