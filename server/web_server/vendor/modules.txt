@@ -1,3 +1,6 @@
+# github.com/felixge/httpsnoop v1.0.1
+## explicit; go 1.13
+github.com/felixge/httpsnoop
 # github.com/golang/protobuf v1.5.3
 ## explicit; go 1.9
 github.com/golang/protobuf/jsonpb
@@ -6,7 +9,10 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/zgg2001/projectZ/server/user_server v0.0.0-20230413122625-766c27b5d9f9
+# github.com/gorilla/handlers v1.5.1
+## explicit; go 1.14
+github.com/gorilla/handlers
+# github.com/zgg2001/projectZ/server/user_server v0.0.0-20230419123703-ca50d5c669b4
 ## explicit; go 1.19
 github.com/zgg2001/projectZ/server/user_server/pkg/rpc
 # golang.org/x/net v0.8.0

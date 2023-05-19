@@ -3,11 +3,13 @@ module github.com/zgg2001/projectZ/server/web_server
 go 1.19
 
 require (
-	github.com/zgg2001/projectZ/server/user_server v0.0.0-20230413122625-766c27b5d9f9
+	github.com/gorilla/handlers v1.5.1
+	github.com/zgg2001/projectZ/server/user_server v0.0.0-20230419123703-ca50d5c669b4
 	google.golang.org/grpc v1.54.0
 )
 
 require (
+	github.com/felixge/httpsnoop v1.0.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect

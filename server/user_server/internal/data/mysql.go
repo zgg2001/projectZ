@@ -92,6 +92,14 @@ func ChangeLicenseTbl(license, newlicense string, checkInTime int64) error {
 	return nil
 }
 
+func ChangeUserBalanceTbl(uid string, balance int32) error {
+	_, err := MySqlClient.Exec(SqlUpdateUserBalanceTbl, balance, uid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func connectMysql() error {
 
 	var err error

@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type ProjectServiceClient interface {
 	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	UserRegistration(ctx context.Context, in *UserRegistrationRequest, opts ...grpc.CallOption) (*UserRegistrationResponse, error)
+	UserRecharge(ctx context.Context, in *UserRechargeRequest, opts ...grpc.CallOption) (*UserRechargeResponse, error)
 	CarOperation(ctx context.Context, in *CarOperationRequest, opts ...grpc.CallOption) (*CarOperationResponse, error)
 	GetUserData(ctx context.Context, in *GetUserDataRequest, opts ...grpc.CallOption) (*GetUserDataResponse, error)
 	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
@@ -50,6 +51,15 @@ func (c *projectServiceClient) UserLogin(ctx context.Context, in *UserLoginReque
 func (c *projectServiceClient) UserRegistration(ctx context.Context, in *UserRegistrationRequest, opts ...grpc.CallOption) (*UserRegistrationResponse, error) {
 	out := new(UserRegistrationResponse)
 	err := c.cc.Invoke(ctx, "/ProjectService/UserRegistration", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) UserRecharge(ctx context.Context, in *UserRechargeRequest, opts ...grpc.CallOption) (*UserRechargeResponse, error) {
+	out := new(UserRechargeResponse)
+	err := c.cc.Invoke(ctx, "/ProjectService/UserRecharge", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,6 +108,7 @@ func (c *projectServiceClient) AdminGetSpaceInfo(ctx context.Context, in *AdminG
 type ProjectServiceServer interface {
 	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	UserRegistration(context.Context, *UserRegistrationRequest) (*UserRegistrationResponse, error)
+	UserRecharge(context.Context, *UserRechargeRequest) (*UserRechargeResponse, error)
 	CarOperation(context.Context, *CarOperationRequest) (*CarOperationResponse, error)
 	GetUserData(context.Context, *GetUserDataRequest) (*GetUserDataResponse, error)
 	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
@@ -114,6 +125,9 @@ func (UnimplementedProjectServiceServer) UserLogin(context.Context, *UserLoginRe
 }
 func (UnimplementedProjectServiceServer) UserRegistration(context.Context, *UserRegistrationRequest) (*UserRegistrationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserRegistration not implemented")
+}
+func (UnimplementedProjectServiceServer) UserRecharge(context.Context, *UserRechargeRequest) (*UserRechargeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserRecharge not implemented")
 }
 func (UnimplementedProjectServiceServer) CarOperation(context.Context, *CarOperationRequest) (*CarOperationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CarOperation not implemented")
@@ -172,6 +186,24 @@ func _ProjectService_UserRegistration_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ProjectServiceServer).UserRegistration(ctx, req.(*UserRegistrationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_UserRecharge_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRechargeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).UserRecharge(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ProjectService/UserRecharge",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).UserRecharge(ctx, req.(*UserRechargeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -262,6 +294,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserRegistration",
 			Handler:    _ProjectService_UserRegistration_Handler,
+		},
+		{
+			MethodName: "UserRecharge",
+			Handler:    _ProjectService_UserRecharge_Handler,
 		},
 		{
 			MethodName: "CarOperation",

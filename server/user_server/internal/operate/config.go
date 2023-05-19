@@ -2,6 +2,7 @@ package operate
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/zgg2001/projectZ/server/user_server/internal/data"
 	"github.com/zgg2001/projectZ/server/user_server/pkg/rpc"
@@ -52,6 +53,21 @@ func (ss *serverService) SqlRegisterUser(username, paasword string, nowTime int6
 			LastModified: nowTime,
 		})
 	}
+}
+
+func (ss *serverService) SqlUserRecharge(uid, amount int32) int32 {
+	// redis
+	uidStr := strconv.Itoa(int(uid))
+	ok, oldBalance := data.RedisGetBalanceByUid(uidStr)
+	if ok {
+		data.RedisSetBalance(uidStr, oldBalance+amount)
+	}
+	// mysql
+	err := data.ChangeUserBalanceTbl(uidStr, oldBalance+amount)
+	if err != nil {
+		log.Println(err)
+	}
+	return 0
 }
 
 func (ss *serverService) SqlAddCar(uid int32, license string, nowTime int64) {

@@ -65,6 +65,10 @@ const (
 		"SET license=?, checkin_time=? " +
 		"WHERE license=?;"
 
+	SqlUpdateUserBalanceTbl = "UPDATE z_user " +
+		"SET balance=? " +
+		"WHERE id = ?;"
+
 	SqlSelectNextPrimaryId          = "SELECT AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME=?;"
 	SqlSelectParkingPasswordByPid   = "select password,count from z_parking where id = ?;"
 	SqlSelectParkingSpaceInfo       = "select license,entry_time from z_record where pid = ? and sid = ?;"

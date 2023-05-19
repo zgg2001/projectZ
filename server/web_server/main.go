@@ -7,12 +7,12 @@ import (
 )
 
 func main() {
-	err := transmission.CreateRPCClientConn()
+	conn, err := transmission.CreateRPCClientConn()
 	if err != nil {
 		log.Println("RPC clientConn create error:", err)
 		return
 	}
-	err = transmission.StartHttpServer()
+	err = transmission.StartHttpServer(conn)
 	if err != nil {
 		log.Println("Http server start error:", err)
 		return
