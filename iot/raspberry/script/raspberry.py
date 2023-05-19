@@ -21,6 +21,10 @@ Echo_Pin2 = 5
 GPIO.setup(Trig_Pin2, GPIO.OUT, initial = GPIO.LOW)
 GPIO.setup(Echo_Pin2, GPIO.IN)
 
+# 前后摄像开关
+Switch_Pin = 26
+GPIO.setup(Switch_Pin, GPIO.IN)
+
 # 舵机引脚/舵机状态机标识/角度
 servo_pin = 17
 servo_status = 0 # 0-关闭 1-验证 2-待开启 3-已开启
@@ -90,7 +94,11 @@ if __name__ == '__main__':
                         plate = res[0][0]
                         # FrontCamera = 0
                         # RearCamera  = 1
-                        msg = bytes('0:', 'utf-8') + plate.encode() + bytes('\n', 'utf-8')
+                        state = GPIO.input(Switch_Pin)
+                        if state == GPIO.HIGH:
+                            msg = bytes('1:', 'utf-8') + plate.encode() + bytes('\n', 'utf-8')
+                        else:
+                            msg = bytes('0:', 'utf-8') + plate.encode() + bytes('\n', 'utf-8')
                         os.write(wf, msg)
                         servo_status = 1
                     last_time = time.time()

@@ -1,12 +1,13 @@
 package transmission
 
 const (
-	MqttServerIp      = "192.168.36.133"
-	MqttServerPort    = 1883
-	MqttUsername      = "test0"
-	MqttPassword      = "z123456"
-	MqttReadDataTopic = "pi/esp32/data"
-	MqttWriteCmdTopic = "pi/esp32/cmd"
+	MqttServerIp          = "192.168.90.133"
+	MqttServerPort        = 1883
+	MqttUsername          = "test0"
+	MqttPassword          = "z123456"
+	MqttReadDataTopic     = "pi/esp32/data"
+	MqttWriteCmdTopic     = "pi/esp32/cmd"
+	MqttWriteWinDataTopic = "pi/win/data"
 
 	RPCServerIddr = "xxx.xxx.xxx.xxx:8888"
 	ClientPemPath = "./auth/client.pem"
