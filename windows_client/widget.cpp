@@ -1,5 +1,6 @@
 #include "widget.h"
 #include <QDebug>
+#include <QDateTime>
 
 using namespace std;
 
@@ -120,6 +121,7 @@ Widget::~Widget()
         rc = EXIT_FAILURE;
     }
     MQTTClient_destroy(&_mqtt_client);
+    _show_thread.stop();
 }
 
 bool Widget::mqtt_connect(string ip)
@@ -152,7 +154,13 @@ bool Widget::mqtt_connect(string ip)
     }
     if ((rc = MQTTClient_subscribe(_mqtt_client, Widget::SUB_TOPIC, Widget::MQTT_QOS)) != MQTTCLIENT_SUCCESS)
     {
-        printf("Failed to subscribe, return code %d\n", rc);
+        printf("Failed to subscribe sub1, return code %d\n", rc);
+        rc = EXIT_FAILURE;
+        return false;
+    }
+    if ((rc = MQTTClient_subscribe(_mqtt_client, Widget::SUB2_TOPIC, Widget::MQTT_QOS)) != MQTTCLIENT_SUCCESS)
+    {
+        printf("Failed to subscribe sub2, return code %d\n", rc);
         rc = EXIT_FAILURE;
         return false;
     }
@@ -168,7 +176,12 @@ void Widget::init_parking()
         long long entrytime = 0;
         bool ok = rpc_get_space_info(_pid, id, license, entrytime);
         if(ok)
-            temp.set_license_and_entrytime(true, license, entrytime);
+        {
+            QDateTime dateTime;
+            dateTime.setSecsSinceEpoch(entrytime);
+            QString formattedDateTime = dateTime.toString("yyyy-MM-dd hh:mm");
+            temp.set_license_and_entrytime(true, license, formattedDateTime);
+        }
         _spaces.push_back(std::move(temp));
     }
     _show_thread.set_widget(this);
@@ -249,6 +262,46 @@ void Widget::update_data(std::string data)
     _spaces[id-1].set_data(temperature, humidity, static_cast<parking_space::Alarm>(alarm));
 }
 
+void Widget::update_license_data(std::string data)
+{
+    qDebug() << QString::fromStdString(data);
+    char pattern = ':';
+    vector<string> res;
+    if(data == "")
+        return;
+    // split data str
+    data = data + pattern;
+    size_t pos = data.find(pattern);
+    while(pos != data.npos)
+    {
+        res.push_back(data.substr(0, pos));
+        data = data.substr(pos+1, data.size());
+        pos = data.find(pattern);
+    }
+    if(res.size() != 4)
+        return;
+    // update
+    int id = std::stoi(res[0]);
+    string license = res[1];
+    int mode = std::stoi(res[2]);
+    long long time = std::stoll(res[3]);
+    QDateTime dateTime;
+    dateTime.setSecsSinceEpoch(time);
+    QString formattedDateTime = dateTime.toString("yyyy-MM-dd hh:mm");
+    if(mode == 1)
+    {
+        QString license_str = QString("%1 license(%2) in \n").arg(formattedDateTime).arg(QString::fromStdString(license));
+        _parking_info_text->insertPlainText(license_str);
+        _spaces[id-1].set_license_and_entrytime(true, license, formattedDateTime);
+    }
+    else
+    {
+        QString license_str = QString("%1 license(%2) out \n").arg(formattedDateTime).arg(QString::fromStdString(_spaces[id-1].get_license()));
+        _parking_info_text->insertPlainText(license_str);
+        _spaces[id-1].set_license_and_entrytime(false, "", "");
+    }
+}
+
 void delivered(void *context, MQTTClient_deliveryToken dt)
 {
     printf("Message with token value %d delivery confirmed\n", dt);
@@ -263,6 +316,8 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     // parking space data
     if(!strncmp(topicName, Widget::SUB_TOPIC, len))
         w->update_data(data);
+    if(!strncmp(topicName, Widget::SUB2_TOPIC, len))
+        w->update_license_data(data);
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;
@@ -278,19 +333,23 @@ void connlost(void *context, char *cause)
 void MyThread::run()
 {
     QThread::sleep(2);
-    while(1)
+    while(_run)
     {
         // show
         //if(id / 8 != _w->_page)
         //    return;
         for (auto space : _w->_spaces) {
-            QString data_str = QString("Temperature: %1 \n\n"
-                                       "Humidity: %2 \n\n"
-                                       "Alarm: %3 \n").arg(space.get_temp()).arg(space.get_humi()).arg(space.get_alarm());
+            int id = space.get_id();
+            QString data_str = QString("ID: %1 \n\n"
+                                       "Temperature: %2 \n\n"
+                                       "Humidity: %3 \n\n"
+                                       "Alarm: %4 \n").arg(id).arg(space.get_temp()).arg(space.get_humi()).arg(space.get_alarm());
             if(_w->_parking_space_info_labels.size() > 0)
-            {
-                _w->_parking_space_info_labels[space.get_id()-1]->setText(data_str);
-            }
+                _w->_parking_space_info_labels[id-1]->setText(data_str);
+            if(space.is_use())
+                _w->_parking_space_labels[id-1]->setText(QString::fromStdString(space.get_license()));
+            else
+                _w->_parking_space_labels[id-1]->setText("-");
         }
         QThread::sleep(2);
     }

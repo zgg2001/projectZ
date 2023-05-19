@@ -5,7 +5,7 @@ parking_space::parking_space(int id):
 {
 }
 
-void parking_space::set_license_and_entrytime(bool use, std::string license, long long entrytime)
+void parking_space::set_license_and_entrytime(bool use, std::string license, QString entrytime)
 {
     _use = use;
     _license = license;
@@ -18,3 +18,4 @@ void parking_space::set_data(int t, int h, Alarm a)
     _humidity = h;
     _alarm = a;
 }
+

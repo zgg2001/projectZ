@@ -7,7 +7,7 @@
 #define WLAN_PASS "12345678"
 #define INS my_module::get_instance()
 
-constexpr char MQTT_SERVER[] = "192.168.90.133";
+constexpr char MQTT_SERVER[] = "192.168.116.133";
 constexpr uint16_t MQTT_SERVERPORT = 1883;
 constexpr char MQTT_USERNAME[] = "test1";
 constexpr char MQTT_PASSWORD[] = "a123456";

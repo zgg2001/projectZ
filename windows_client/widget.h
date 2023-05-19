@@ -33,8 +33,14 @@ class MyThread : public QThread {
 public:
     void run() override;
     void set_widget(Widget* w) { _w = w; }
+    void stop()
+    {
+        _run = false;
+        wait();
+    }
 private:
     Widget* _w;
+    bool _run = true;
 };
 
 class Widget : public QWidget
@@ -46,9 +52,10 @@ public:
     static constexpr int MQTT_QOS = 1;
     static constexpr const char* PUB_TOPIC = "pi/esp32/cmd";
     static constexpr const char* SUB_TOPIC = "pi/esp32/data";
+    static constexpr const char* SUB2_TOPIC = "pi/win/data";
     static constexpr const char* MQTT_PORT = ":1883";
-    static constexpr const char* MQTT_USERNAME = "test0";
-    static constexpr const char* MQTT_PASSWORD = "z123456";
+    static constexpr const char* MQTT_USERNAME = "test3";
+    static constexpr const char* MQTT_PASSWORD = "c123456";
 
 public:
     Widget(QWidget *parent = nullptr);
@@ -59,6 +66,7 @@ public:
     void init_parking();
     // mqtt
     void update_data(std::string data);
+    void update_license_data(std::string data);
 
 private:
     // rpc
