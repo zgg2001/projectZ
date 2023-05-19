@@ -57,11 +57,11 @@ void my_module::module_run_once() {
     _Humidity = (int)humidity + 8;
   }
   //火焰数据
-  _Is_Flame = digitalRead(PIN_FLAME);
+  _Is_Flame = !digitalRead(PIN_FLAME);
   //可燃气体数据
-  _Is_Flammable = digitalRead(PIN_GAS);
+  _Is_Flammable = !digitalRead(PIN_GAS);
   //报警
-  if (_Is_Flame == 0 || _Is_Flammable == 0) {
+  if (_Is_Flame == 1 || _Is_Flammable == 1) {
     if (_Is_Warn == 0) {
       tone(PIN_BUZZER, 330);
       _Is_Warn = 1;

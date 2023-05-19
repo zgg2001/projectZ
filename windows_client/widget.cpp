@@ -22,7 +22,7 @@ Widget::Widget(QWidget *parent)
     int x_interval = _WIDTH / 4, y_interval = _HEIGHT / 3;
     int x = 0, y = y_interval, count = 0;
     _parking_space_buttons.assign(8, nullptr);
-    for(auto b : _parking_space_buttons) {
+    for(auto& b : _parking_space_buttons) {
         b = new QPushButton(tr("出库"));
         b->setParent(this);
         b->move(x,y);
@@ -42,8 +42,8 @@ Widget::Widget(QWidget *parent)
     y = y_interval;
     count = 0;
     _parking_space_labels.assign(8, nullptr);
-    for(auto l : _parking_space_labels) {
-        l = new QLabel(tr("豫A88888"));//文本提示
+    for(auto& l : _parking_space_labels) {
+        l = new QLabel(tr("-"));//文本提示
         l->setParent(this);
         l->move(x,y);
         l->setFont(font);
@@ -62,10 +62,8 @@ Widget::Widget(QWidget *parent)
     y = y_interval + buttonHeight;
     count = 0;
     _parking_space_info_labels.assign(8, nullptr);
-    for(auto l : _parking_space_info_labels) {
-        l = new QLabel(tr("Temperature: 28 \n\n"
-                          "Humidity: 60 \n\n"
-                          "Alarm: 0 \n"));
+    for(auto& l : _parking_space_info_labels) {
+        l = new QLabel(tr(""));
         l->setParent(this);
         l->move(x,y);
         l->setFont(font_info);
@@ -173,6 +171,8 @@ void Widget::init_parking()
             temp.set_license_and_entrytime(true, license, entrytime);
         _spaces.push_back(std::move(temp));
     }
+    _show_thread.set_widget(this);
+    _show_thread.start();
 }
 
 void Widget::paintEvent(QPaintEvent *)
@@ -238,10 +238,15 @@ void Widget::update_data(std::string data)
     if(res.size() != 5)
         return;
     // update
-    for(auto s : res)
-    {
-        qDebug() << s.c_str();
-    }
+    int id = std::stoi(res[0]);
+    int temperature = std::stoi(res[1]);
+    int humidity = std::stoi(res[2]);
+    int alarm = 0;
+    if(std::stoi(res[3]) == 1)
+        alarm += parking_space::Alarm::ALARM_FIRE;
+    if(std::stoi(res[4]) == 1)
+        alarm += parking_space::Alarm::ALARM_GAS;
+    _spaces[id-1].set_data(temperature, humidity, static_cast<parking_space::Alarm>(alarm));
 }
 
 void delivered(void *context, MQTTClient_deliveryToken dt)
@@ -270,5 +275,24 @@ void connlost(void *context, char *cause)
     // todo 添加重连逻辑
 }
 
-
+void MyThread::run()
+{
+    QThread::sleep(2);
+    while(1)
+    {
+        // show
+        //if(id / 8 != _w->_page)
+        //    return;
+        for (auto space : _w->_spaces) {
+            QString data_str = QString("Temperature: %1 \n\n"
+                                       "Humidity: %2 \n\n"
+                                       "Alarm: %3 \n").arg(space.get_temp()).arg(space.get_humi()).arg(space.get_alarm());
+            if(_w->_parking_space_info_labels.size() > 0)
+            {
+                _w->_parking_space_info_labels[space.get_id()-1]->setText(data_str);
+            }
+        }
+        QThread::sleep(2);
+    }
+}
 

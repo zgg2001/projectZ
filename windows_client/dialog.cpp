@@ -53,12 +53,12 @@ void Dialog::on_pushButton_2_clicked()
     }
 
     // mqtt connect
-    /*ok = _w.mqtt_connect(mqtt_ip);
+    ok = _w.mqtt_connect(mqtt_ip);
     if(!ok)
     {
         QMessageBox::information(nullptr, "Error", "Please check if the mqtt IP is correct!", QMessageBox::Yes, QMessageBox::Yes);
         return;
-    }*/
+    }
 
     _w.init_parking();
     this->hide();

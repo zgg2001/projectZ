@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QPainter>
 #include <QTextEdit>
+#include <QThread>
 
 #include <string>
 #include <fstream>
@@ -25,11 +26,23 @@ using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
 
+class Widget;
+
+class MyThread : public QThread {
+    Q_OBJECT
+public:
+    void run() override;
+    void set_widget(Widget* w) { _w = w; }
+private:
+    Widget* _w;
+};
+
 class Widget : public QWidget
 {
     Q_OBJECT
 
 public:
+    friend class MyThread;
     static constexpr int MQTT_QOS = 1;
     static constexpr const char* PUB_TOPIC = "pi/esp32/cmd";
     static constexpr const char* SUB_TOPIC = "pi/esp32/data";
@@ -65,14 +78,18 @@ private:
     std::vector<QPushButton*> _parking_info_buttons;
     QTextEdit* _parking_info_text;
 
-    int _pid;
-    int _space_count;
+    int _pid = 0;
+    int _space_count = 0;
     std::vector<parking_space> _spaces;
+    int _page = 0;
     // rpc
     std::unique_ptr<ProjectService::Stub> _stub;
     // mqtt
     std::string _mqtt_ip;
     MQTTClient  _mqtt_client;
 
+private:
+    // thread
+    MyThread _show_thread;
 };
 #endif // WIDGET_H
